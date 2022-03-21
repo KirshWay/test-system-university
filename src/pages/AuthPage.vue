@@ -2,11 +2,31 @@
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {
-  NButton, NCard, NSpace, NInput,
+  NButton,
+  NCard,
+  NSpace,
+  NInput,
+  NSelect,
 } from 'naive-ui';
+
+const POSTS = [
+  {
+    label: 'Преподаватель',
+    value: 'Educator',
+  },
+  {
+    label: 'Декан',
+    value: 'Dean',
+  },
+  {
+    label: 'Ученик',
+    value: 'Student',
+  },
+];
 
 const router= useRouter();
 
+if (!localStorage.getItem('urlAccess')) router.push('/code-access');
 if (localStorage.getItem('authorized')) router.push('/');
 
 const submit = () => {
@@ -20,17 +40,19 @@ const password = ref('');
 
 <template>
   <div class="authPage">
-    <n-card title="ГМУ Ушакова">
+    <n-card title="Система тестирования ГМУ Ушакова">
       <form @submit.prevent="submit">
         <n-space vertical>
           Почта
           <n-input placeholder="Введите почту" name="email" v-model:value="email" />
           Пароль
           <n-input placeholder="Введите пароль" type="password" name="password" v-model:value="password" />
+          <!-- Тип пользователя
+          <n-select :default-value="POSTS[2].label" :options="POSTS" size="medium" /> -->
           <n-button type="primary" attr-type="submit" class="authPage__button">Войти</n-button>
-          <router-link to="/sign-up">
+          <!-- <router-link to="/sign-up">
             <n-button attr-type="submit" class="authPage__button">Зарегестрироваться</n-button>
-          </router-link>
+          </router-link> -->
         </n-space>
       </form>
     </n-card>

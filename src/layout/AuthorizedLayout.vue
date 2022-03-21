@@ -8,9 +8,13 @@ import {
   NLayout,
   NLayoutHeader,
   NScrollbar,
+  NDropdown,
   NButton,
+  NButtonGroup,
+  NIcon,
   NSpace,
 } from 'naive-ui';
+import {UserCircle} from '@vicons/fa';
 
 const router = useRouter();
 const route = useRoute();
@@ -21,11 +25,13 @@ if (!localStorage.getItem('authorized')) {
 
 const BUTTONS_OPTIONS = [
   {
-    label: 'Main',
+    label: 'Главная',
     key: 'main',
-    color: 'primary',
     to: '/',
   },
+];
+
+const OPTIONS = [
   {
     label: 'Выйти',
     key: 'logout',
@@ -34,35 +40,42 @@ const BUTTONS_OPTIONS = [
   },
 ];
 
-const filteredButtons = computed(() => BUTTONS_OPTIONS.filter((button : any) => route.path !== '/' || button.key !== 'main'));
-
-const navigation = (url: string, key: string) => {
-  if (key === 'logout') {
+const onSelectDropdownOption = (key: string) => {
+  switch (key) {
+  case 'logout':
     localStorage.removeItem('authorized');
+    router.push('/auth');
+    break;
   }
 };
+
+
+const filteredButtons = computed(() => BUTTONS_OPTIONS.filter((button : any) => route.path !== '/' || button.key !== 'main'));
 </script>
 
 <template>
   <n-layout class="authorizedLayout">
     <n-layout-header v-if="route.name !== 'NotFound'" position="absolute" bordered>
       <n-space justify="space-between" align="center">
-        <h1>Testing System University</h1>
-        <div>
+        <n-button-group>
           <router-link
-              v-for="button in filteredButtons"
-              :to="button.to"
-              :key="button.key"
-              @click="navigation(button.to, button.key)"
+            v-for="button in filteredButtons"
+            :to="button.to"
+            :key="button.key"
           >
             <n-button
-                class="authorizedLayout__button"
-                :type="button.color"
+              class="authorizedLayout__button"
+              size="medium"
             >
               {{ button.label }}
             </n-button>
           </router-link>
-        </div>
+        </n-button-group>
+        <n-dropdown trigger="hover" :options="OPTIONS" @select="onSelectDropdownOption">
+          <n-icon size="30">
+            <user-circle />
+          </n-icon>
+        </n-dropdown>
       </n-space>
     </n-layout-header>
 

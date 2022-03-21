@@ -1,9 +1,18 @@
 <script setup lang="ts">
+import {provide, ref, computed} from 'vue';
 import {
   NConfigProvider,
   NLayout,
   darkTheme,
 } from 'naive-ui';
+
+const screenWidth = ref(window.innerWidth);
+
+provide('screenWidth', computed(() => screenWidth.value));
+
+window.addEventListener('resize', () => {
+  screenWidth.value = window.innerWidth;
+});
 </script>
 
 <template>

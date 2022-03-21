@@ -7,10 +7,11 @@ import {
 
 const router= useRouter();
 
+if (!localStorage.getItem('urlAccess')) router.push('/code-access');
 if (localStorage.getItem('authorized')) router.push('/');
 
 const submit = () => {
-  localStorage.setItem('authorized', 'fasdasdasd');
+  localStorage.setItem('authorized', email.value);
   router.push('/');
 };
 
