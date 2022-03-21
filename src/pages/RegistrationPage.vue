@@ -1,24 +1,44 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+import {ref, watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {
-  NButton, NCard, NSpace, NInput,
+  NButton,
+  NCard,
+  NSpace,
+  NInput,
+  NSelect,
 } from 'naive-ui';
 
-const router= useRouter();
+const OPTIONS = [
+  {
+    label: 'Преподаватель',
+    value: 'teacher',
+  },
+  {
+    label: 'Студент',
+    value: 'student',
+  },
+  {
+    label: 'Ректор',
+    value: 'rector',
+  },
+];
 
-if (!localStorage.getItem('urlAccess')) router.push('/code-access');
+const router = useRouter();
+
 if (localStorage.getItem('authorized')) router.push('/');
-
-const submit = () => {
-  localStorage.setItem('authorized', email.value);
-  router.push('/');
-};
 
 const name = ref('');
 const email = ref('');
 const password = ref('');
 const repeatPassword = ref('');
+const role = ref(null);
+const accessCode = ref('');
+
+const submit = () => {
+  localStorage.setItem('authorized', email.value);
+  router.push('/');
+};
 </script>
 
 <template>
@@ -34,6 +54,12 @@ const repeatPassword = ref('');
           <n-input placeholder="Введите пароль" type="password" name="password" v-model:value="password" />
           Повторите пароль
           <n-input placeholder="Повторите пароль" type="password" name="password" v-model:value="repeatPassword" />
+          Выберите роль
+          <n-select placeholder="Выберите роль" v-model:value="role" :options="OPTIONS" />
+          <template v-if="role === 'rector'">
+            Введите код доступа
+            <n-input placeholder="Введите код доступа" type="password" name="access_code" v-model:value="accessCode" />
+          </template>
           <n-button type="primary" attr-type="submit" class="authPage__button" :disabled="password !== repeatPassword || password.length < 8">Зарегистрироваться</n-button>
         </n-space>
       </form>

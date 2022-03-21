@@ -49,7 +49,6 @@ const onSelectDropdownOption = (key: string) => {
   }
 };
 
-
 const filteredButtons = computed(() => BUTTONS_OPTIONS.filter((button : any) => route.path !== '/' || button.key !== 'main'));
 </script>
 

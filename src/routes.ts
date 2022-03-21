@@ -5,15 +5,9 @@ import AuthorizedLayout from './layout/AuthorizedLayout.vue';
 import MainPage from './pages/MainPage.vue';
 import TestConstructor from './pages/TestConstructorPage.vue';
 import StatisticPage from './pages/StatisticPage.vue';
-import CodePage from './pages/CodePage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
 
 const routes = [
-  {
-    path: '/code-access',
-    name: 'Code-Access',
-    component: CodePage,
-  },
   {
     path: '/auth',
     name: 'Auth',
