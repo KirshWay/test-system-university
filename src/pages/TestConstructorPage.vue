@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {
   NH2,
+  NSpace,
   NButton,
   NIcon,
 } from 'naive-ui';
-import {Plus} from '@vicons/fa';
+import {Plus, Table} from '@vicons/fa';
 import TestConstructor from '../components/TestConstructor/TestConstructor.vue';
 </script>
 
@@ -20,6 +21,16 @@ import TestConstructor from '../components/TestConstructor/TestConstructor.vue';
       </template>
       Создать тест
     </n-button>
+    <n-space align="center">
+      <n-button type="success">
+        <template #icon>
+          <n-icon>
+            <Table />
+          </n-icon>
+        </template>
+        Загрузить excel таблицу
+      </n-button>
+    </n-space>
   </div>
 </template>
 
@@ -27,7 +38,7 @@ import TestConstructor from '../components/TestConstructor/TestConstructor.vue';
 .constructorPage {
   &__button {
     width: 100%;
-    margin-top: 2%;
+    margin: 2% 0;
   }
 }
 </style>

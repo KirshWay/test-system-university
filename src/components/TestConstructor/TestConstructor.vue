@@ -9,6 +9,8 @@ import {
   NSwitch,
   NRadio,
   NRadioGroup,
+  NCheckbox,
+  NCheckboxGroup,
   NIcon,
   NButton,
 } from 'naive-ui';
@@ -31,13 +33,18 @@ const active = ref(false);
     <n-divider />
     <n-card>
       <n-space vertical>
-        <n-radio-group v-model:value="value" name="radiogroup">
+        <n-radio-group v-if="!active" v-model:value="value" name="radiogroup">
           <n-space vertical>
             <n-radio v-for="option in OPTIONS" :key="option.value" :value="option.value">
               {{ option.label }}
             </n-radio>
           </n-space>
         </n-radio-group>
+        <n-checkbox-group v-if="active" v-model:value="value">
+          <n-space vertical>
+            <n-checkbox v-for="option in OPTIONS" :key="option.label" :value="option.value" :label="option.label" />
+          </n-space>
+        </n-checkbox-group>
         <n-button dashed class="constructor__button" style="justify-content: flex-start;">
           <template #icon>
             <n-icon>
