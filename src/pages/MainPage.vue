@@ -41,7 +41,7 @@ const onCreateTest = () => {
       <n-button @click="showModal = true" type="success" secondary>
         <template v-if="screenWidth > 640">Создать тест</template>
         <n-icon v-else>
-          <plus />
+          <Plus />
         </n-icon>
       </n-button>
     </n-h1>
@@ -52,10 +52,10 @@ const onCreateTest = () => {
     </n-card>
     <CardTest />
     <n-modal
-        v-model:show="showModal"
-        preset="card"
-        title="Создание теста"
-        style="max-width: 500px"
+      v-model:show="showModal"
+      preset="card"
+      title="Создание теста"
+      style="max-width: 500px"
     >
       <n-input placeholder="Название теста" v-model:value="nameTest" @keydown.enter="onCreateTest" />
       <template #footer>

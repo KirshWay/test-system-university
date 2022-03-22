@@ -1,9 +1,11 @@
 import {createWebHistory, createRouter} from 'vue-router';
+import AuthorizedLayout from './layout/AuthorizedLayout.vue';
 import AuthPage from './pages/AuthPage.vue';
 import RegistrationPage from './pages/RegistrationPage.vue';
-import AuthorizedLayout from './layout/AuthorizedLayout.vue';
 import MainPage from './pages/MainPage.vue';
-import TestConstructor from './pages/TestConstructorPage.vue';
+import TestPage from './pages/TestPage.vue';
+import TestConstructorPage from './pages/TestConstructorPage.vue';
+import ConstructorUsersPage from './pages/ConstructorUsersPage.vue';
 import StatisticPage from './pages/StatisticPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
 
@@ -29,14 +31,19 @@ const routes = [
         component: MainPage,
       },
       {
+        path: '/constructor-users',
+        name: 'constructor-users',
+        component: ConstructorUsersPage,
+      },
+      {
         path: '/test-constructor/:id',
         name: 'test-constructor',
-        component: TestConstructor,
+        component: TestConstructorPage,
       },
       {
         path: '/tests/:id',
         name: 'Tests',
-        component: TestConstructor,
+        component: TestPage,
       },
       {
         path: '/statistic/:id',

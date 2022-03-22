@@ -29,6 +29,11 @@ const BUTTONS_OPTIONS = [
     key: 'main',
     to: '/',
   },
+  {
+    label: 'Конструктор пользователей',
+    key: 'constructor-users',
+    to: '/constructor-users',
+  },
 ];
 
 const OPTIONS = [
