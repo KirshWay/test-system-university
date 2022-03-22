@@ -1,57 +1,45 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+import {ComputedRef, inject, ref} from 'vue';
 import {
-  NRadioGroup,
-  NRadio,
-  NSpace,
-  NCheckboxGroup,
-  NCheckbox,
+  NH2,
+  NButton,
+  NButtonGroup,
+  NIcon,
+  NTooltip,
 } from 'naive-ui';
+import {Plus} from '@vicons/fa';
 import TestConstructor from '../components/TestConstructor/TestConstructor.vue';
 
-const typeTest = ref(false);
-
-const TESTS_INFO = [
-  {
-    id: 1,
-    label: 'test1',
-  },
-  {
-    id: 2,
-    label: 'test2',
-  },
-  {
-    id: 3,
-    label: 'test3',
-  },
-  {
-    id: 4,
-    label: 'test4',
-  },
-];
-
-const chooseRadioAnswer = ref('');
-const chooseCheckBoxAnswer = ref(null);
+const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 </script>
 
 <template>
   <div>
-<!--    <template v-if="!typeTest">-->
-<!--      <n-radio-group v-model:value="chooseRadioAnswer" name="radiogroup">-->
-<!--        <n-space vertical>-->
-<!--          <n-radio v-for="test in TESTS_INFO" :key="test.id" :value="test.label">-->
-<!--            {{ test.label }}-->
-<!--          </n-radio>-->
-<!--        </n-space>-->
-<!--      </n-radio-group>-->
-<!--    </template>-->
-<!--    <template v-if="typeTest">-->
-<!--      <n-checkbox-group v-model:value="chooseCheckBoxAnswer">-->
-<!--        <n-space vertical item-style="display: flex;">-->
-<!--          <n-checkbox v-for="test in TESTS_INFO" :key="test.id" :value="test.label" :label="test.label" />-->
-<!--        </n-space>-->
-<!--      </n-checkbox-group>-->
-<!--    </template>-->
+    <n-h2>Конструктор тестов</n-h2>
+    <n-button-group style="margin-bottom: 2%">
+      <n-button type="success" secondary>
+        <template v-if="screenWidth > 640">Создать тест с одним вариантом ответа</template>
+        <n-tooltip v-else trigger="hover">
+          <template #trigger>
+            <n-icon>
+              <Plus />
+            </n-icon>
+          </template>
+          Создать тест с одним вариантом ответа
+        </n-tooltip>
+      </n-button>
+      <n-button type="info" secondary>
+        <template v-if="screenWidth > 640">Создать тест с несколькими вариантами ответа</template>
+        <n-tooltip v-else placement="right-start" trigger="hover">
+          <template #trigger>
+            <n-icon>
+              <Plus />
+            </n-icon>
+          </template>
+          Создать тест с <br/> несколькими <br/> вариантами ответа
+        </n-tooltip>
+      </n-button>
+    </n-button-group>
     <TestConstructor/>
   </div>
 </template>

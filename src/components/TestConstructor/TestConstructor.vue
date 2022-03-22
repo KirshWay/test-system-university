@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import {NH2} from 'naive-ui';
+import {
+  NCard,
+  NInput,
+  NIcon,
+} from 'naive-ui';
 </script>
 
 <template>
-  <n-h2>Создание тестов</n-h2>
+  <n-card></n-card>
 </template>
