@@ -13,6 +13,7 @@ import {
   NCheckboxGroup,
   NIcon,
   NButton,
+  NAlert,
 } from 'naive-ui';
 import {Question, Plus} from '@vicons/fa';
 
@@ -23,7 +24,7 @@ const OPTIONS = [
   },
 ];
 
-const value = ref(null);
+const valueChoose = ref(null);
 const active = ref(false);
 </script>
 
@@ -33,14 +34,14 @@ const active = ref(false);
     <n-divider />
     <n-card>
       <n-space vertical>
-        <n-radio-group v-if="!active" v-model:value="value" name="radiogroup">
+        <n-radio-group v-if="!active" v-model:value="valueChoose" name="radiogroup">
           <n-space vertical>
             <n-radio v-for="option in OPTIONS" :key="option.value" :value="option.value">
               {{ option.label }}
             </n-radio>
           </n-space>
         </n-radio-group>
-        <n-checkbox-group v-if="active" v-model:value="value">
+        <n-checkbox-group v-if="active" v-model:value="valueChoose">
           <n-space vertical>
             <n-checkbox v-for="option in OPTIONS" :key="option.label" :value="option.value" :label="option.label" />
           </n-space>
@@ -53,10 +54,11 @@ const active = ref(false);
           </template>
           Добавить ответ
         </n-button>
-        <n-space style="margin-top: 2%" align="center">
+        <n-space style="margin: 1% 0" align="center">
           <n-switch v-model:value="active" />
           <n-p>Несколько правильных ответов</n-p>
         </n-space>
+        <n-alert v-if="valueChoose === null" title=" Вы не выбрали правильный ответ" type="warning" />
       </n-space>
     </n-card>
     <n-button dashed class="constructor__button">
