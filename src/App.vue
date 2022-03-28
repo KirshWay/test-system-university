@@ -2,6 +2,10 @@
 import {provide, ref, computed} from 'vue';
 import {
   NConfigProvider,
+  NLoadingBarProvider,
+  NMessageProvider,
+  NDialogProvider,
+  NNotificationProvider,
   NLayout,
   darkTheme,
 } from 'naive-ui';
@@ -17,13 +21,21 @@ window.addEventListener('resize', () => {
 
 <template>
   <n-config-provider :theme="darkTheme">
-    <n-layout>
-      <router-view v-slot="{ Component }">
-        <transition name="scale" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </n-layout>
+    <n-loading-bar-provider>
+      <n-dialog-provider>
+        <n-notification-provider>
+          <n-message-provider placement="bottom">
+            <n-layout>
+              <router-view v-slot="{ Component }">
+                <transition name="scale" mode="out-in">
+                  <component :is="Component" />
+                </transition>
+              </router-view>
+            </n-layout>
+          </n-message-provider>
+        </n-notification-provider>
+      </n-dialog-provider>
+    </n-loading-bar-provider>
   </n-config-provider>
 </template>
 
