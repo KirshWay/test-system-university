@@ -6,31 +6,20 @@ import {
   NCard,
   NSpace,
   NInput,
-  NSelect,
 } from 'naive-ui';
-
-const POSTS = [
-  {
-    label: 'Преподаватель',
-    value: 'Educator',
-  },
-  {
-    label: 'Декан',
-    value: 'Dean',
-  },
-  {
-    label: 'Ученик',
-    value: 'Student',
-  },
-];
+import {signIn} from '../api/users';
 
 const router= useRouter();
 
-if (localStorage.getItem('authorized')) router.push('/');
+if (localStorage.getItem('Authorization')) router.push('/');
 
 const submit = () => {
-  localStorage.setItem('authorized', 'fasdasdasd');
-  router.push('/');
+  signIn({login: email.value, password: password.value})
+    .then((res) => {
+      // @ts-ignore
+      localStorage.setItem('Authorization', res.data.token);
+      router.push('/');
+    }).catch(loader.error).finally(loader.finish);
 };
 
 const email = ref('');

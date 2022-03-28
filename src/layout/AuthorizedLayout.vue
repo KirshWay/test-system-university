@@ -19,7 +19,7 @@ import {UserCircle} from '@vicons/fa';
 const router = useRouter();
 const route = useRoute();
 
-if (!localStorage.getItem('authorized')) {
+if (!localStorage.getItem('Authorization')) {
   router.push('/auth');
 }
 
