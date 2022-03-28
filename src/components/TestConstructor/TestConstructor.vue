@@ -50,9 +50,8 @@ const active = ref(false);
         <n-checkbox-group v-if="active && testStore.answers.length !== 0" v-model:value="valueChoose">
           <n-space vertical>
             <n-checkbox
-              @click="testStore.correct_answer = !testStore.correct_answer"
               class="constructor__marker" v-for="test in testStore.answers"
-              :key="test.id" :checked="test.correct_answer"
+              :key="test.uuid_answer" :checked="test.correct_answer"
               :label="test.text"
             >
               <n-input @keydown.enter="testStore.updateAnswerText(test.uuid_answer, test.text)" v-model:value="test.text" />
