@@ -9,27 +9,12 @@ import {
   NSelect,
   useLoadingBar,
 } from 'naive-ui';
-import {signUp, signUpDean} from '../api/users';
-
-const OPTIONS = [
-  {
-    label: 'Преподаватель',
-    value: 'TEACHER',
-  },
-  {
-    label: 'Студент',
-    value: 'STUDENT',
-  },
-  {
-    label: 'Декан',
-    value: 'DEAN',
-  },
-];
+import {signUpDean} from '../api/users';
 
 const loader = useLoadingBar();
 const router = useRouter();
 
-// if (document.cookie.includes('')) router.push('/');
+if (localStorage.getItem('Authorization')) router.push('/');
 
 const username = ref('');
 const email = ref('');
@@ -40,13 +25,7 @@ const accessCode = ref('');
 
 const submit = () => {
   loader.start();
-  if (role.value === 'DEAN') {
-    signUpDean({email: email.value, username: username.value, password: password.value, code: accessCode.value}).
-      then(() => {
-        router.push('/');
-      }).catch(loader.error).finally(loader.finish);
-  }
-  signUp({username: username.value, password: password.value, status: role.value}).
+  signUpDean({email: email.value, username: username.value, password: password.value, code: accessCode.value}).
     then(() => {
       router.push('/');
     }).catch(loader.error).finally(loader.finish);
@@ -66,12 +45,8 @@ const submit = () => {
           <n-input placeholder="Введите пароль" type="password" name="password" v-model:value="password" />
           Повторите пароль
           <n-input placeholder="Повторите пароль" type="password" name="password" v-model:value="repeatPassword" />
-          Выберите роль
-          <n-select placeholder="Выберите роль" v-model:value="role" :options="OPTIONS" />
-          <template v-if="role === 'DEAN'">
-            Введите код доступа
-            <n-input placeholder="Введите код доступа" type="password" name="access_code" v-model:value="accessCode" />
-          </template>
+          Введите код доступа
+          <n-input placeholder="Введите код доступа" type="password" name="access_code" v-model:value="accessCode" />
           <n-button type="primary" attr-type="submit" class="authPage__button" :disabled="password !== repeatPassword || password.length < 8">Зарегистрироваться</n-button>
         </n-space>
       </form>

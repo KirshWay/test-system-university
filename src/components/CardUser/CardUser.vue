@@ -83,7 +83,7 @@ const role = ref(null);
       <template #footer>
         <n-space justify="end">
           <n-button @click="showModal = false">Отменить</n-button>
-          <n-button type="success" @click="onEditUser">Изменить</n-button>
+          <n-button type="success">Изменить</n-button>
         </n-space>
       </template>
     </n-modal>
