@@ -17,7 +17,7 @@ jobs:
       - name: Install SSH key
         run: |
           mkdir -p ~/.ssh/
-          ssh-keyscan -t rsa @${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 400 ~/.ssh/id_rsa
       - name: Deploy 🚀
