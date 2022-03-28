@@ -46,12 +46,10 @@ const password = ref('');
           <n-input placeholder="Введите почту" name="email" v-model:value="email" />
           Пароль
           <n-input placeholder="Введите пароль" type="password" name="password" v-model:value="password" />
-          <!-- Тип пользователя
-          <n-select :default-value="POSTS[2].label" :options="POSTS" size="medium" /> -->
           <n-button type="primary" attr-type="submit" class="authPage__button">Войти</n-button>
-          <!-- <router-link to="/sign-up">
+          <router-link to="/sign-up">
             <n-button attr-type="submit" class="authPage__button">Зарегестрироваться</n-button>
-          </router-link> -->
+          </router-link>
         </n-space>
       </form>
     </n-card>

@@ -11,8 +11,8 @@ const router = useRouter();
 <template>
   <div class="notFoundPage">
     <n-result
-        status="404"
-        title="404 Not Found Page"
+      status="404"
+      title="404 Not Found Page"
     />
     <n-button @click="router.push('/')" type="info">Back to main page</n-button>
   </div>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {
   NH2,
-  NSpace,
   NButton,
   NIcon,
 } from 'naive-ui';
@@ -21,16 +20,14 @@ import TestConstructor from '../components/TestConstructor/TestConstructor.vue';
       </template>
       Создать тест
     </n-button>
-    <n-space align="center">
-      <n-button type="success">
-        <template #icon>
-          <n-icon>
-            <Table />
-          </n-icon>
-        </template>
-        Загрузить excel таблицу
-      </n-button>
-    </n-space>
+    <n-button dashed class="constructorPage__button">
+      <template #icon>
+        <n-icon>
+          <Table />
+        </n-icon>
+      </template>
+      Загрузить excel таблицу
+    </n-button>
   </div>
 </template>
 

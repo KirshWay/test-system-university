@@ -15,38 +15,58 @@ import {
   NButton,
   NAlert,
 } from 'naive-ui';
-import {Question, Plus} from '@vicons/fa';
+import {Question, Plus, Trash} from '@vicons/fa';
+import {useTestStore} from '../../store/tests';
 
-const OPTIONS = [
-  {
-    label: 'Преподаватель',
-    value: 'Преподаватель',
-  },
-];
+const testStore = useTestStore();
 
+const titleTest = ref('');
+const questionTitle = ref('');
 const valueChoose = ref(null);
 const active = ref(false);
 </script>
 
 <template>
   <n-card>
-    <n-p>Заголовок теста</n-p>
+    <n-input placeholder="Заголовок теста" v-model:value="titleTest" />
     <n-divider />
     <n-card>
       <n-space vertical>
-        <n-radio-group v-if="!active" v-model:value="valueChoose" name="radiogroup">
+        <n-input placeholder="Заголовок вопроса" v-model:value="questionTitle" style="margin-bottom: 2%" />
+        <n-radio-group v-if="!active && testStore.answers.length !== 0" v-model:value="valueChoose" name="radiogroup" style="width: 100%;">
           <n-space vertical>
-            <n-radio v-for="option in OPTIONS" :key="option.value" :value="option.value">
-              {{ option.label }}
+            <n-radio class="constructor__marker" v-for="test in testStore.answers" :key="test.uuid_answer" :value="test.text">
+              <n-input @keydown.enter="testStore.updateAnswerText(test.uuid_answer, test.text)" v-model:value="test.text" />
+              <n-button style="width: 100%" @click="testStore.deleteAnswer(test.uuid_answer)" type="error" size="small" secondary>
+                <template #icon>
+                  <n-icon>
+                    <Trash />
+                  </n-icon>
+                </template>
+              </n-button>
             </n-radio>
           </n-space>
         </n-radio-group>
-        <n-checkbox-group v-if="active" v-model:value="valueChoose">
+        <n-checkbox-group v-if="active && testStore.answers.length !== 0" v-model:value="valueChoose">
           <n-space vertical>
-            <n-checkbox v-for="option in OPTIONS" :key="option.label" :value="option.value" :label="option.label" />
+            <n-checkbox
+              @click="testStore.correct_answer = !testStore.correct_answer"
+              class="constructor__marker" v-for="test in testStore.answers"
+              :key="test.id" :checked="test.correct_answer"
+              :label="test.text"
+            >
+              <n-input @keydown.enter="testStore.updateAnswerText(test.uuid_answer, test.text)" v-model:value="test.text" />
+              <n-button style="width: 100%" @click="testStore.deleteAnswer(test.uuid_answer)" type="error" size="small" secondary>
+                <template #icon>
+                  <n-icon>
+                    <Trash />
+                  </n-icon>
+                </template>
+              </n-button>
+            </n-checkbox>
           </n-space>
         </n-checkbox-group>
-        <n-button dashed class="constructor__button" style="justify-content: flex-start;">
+        <n-button @click="testStore.addAnswer" dashed class="constructor__button" style="justify-content: flex-start;">
           <template #icon>
             <n-icon>
               <Plus />
@@ -77,6 +97,11 @@ const active = ref(false);
   &__button {
     width: 100%;
     margin-top: 2%;
+  }
+
+  &__marker {
+    display: flex;
+    align-items: center;
   }
 }
 </style>
