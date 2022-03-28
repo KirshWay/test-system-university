@@ -55,7 +55,7 @@ const submit = () => {
 
 <template>
   <div class="authPage">
-    <n-card title="ГМУ Ушакова">
+    <n-card title="ГМУ Ушакова система тестирования">
       <form @submit.prevent="submit">
         <n-space vertical>
           Имя
