@@ -32,7 +32,7 @@ export const caseTransfer = (o: any, type: 'Camel' | 'Snake'): any => {
 };
 
 const $axios = axios.create({
-  baseURL: `${import.meta.env.VITE_SERVER}`,
+  baseURL: `https://testing-backend.admire.social`,
 });
 
 $axios.interceptors.response.use((response) => {
