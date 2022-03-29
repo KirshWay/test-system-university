@@ -23,7 +23,7 @@ const accessCode = ref('');
 
 const submit = () => {
   loader.start();
-  signUpDean({email: email.value, username: username.value, password: password.value, code: accessCode.value}).
+  signUpDean(email.value, username.value, password.value, accessCode.value).
     then(() => {
       router.push('/');
     }).catch(loader.error).finally(loader.finish);
