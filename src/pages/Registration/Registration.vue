@@ -8,7 +8,7 @@ import {
   NInput,
   useLoadingBar,
 } from 'naive-ui';
-import {signUpDean} from '../api/users';
+import {signUpDean} from '../../api/users';
 
 const loader = useLoadingBar();
 const router = useRouter();

@@ -7,7 +7,7 @@ import {
   NSpace,
   NInput,
 } from 'naive-ui';
-import {signIn} from '../api/users';
+import {signIn} from '../../api/users';
 
 const router= useRouter();
 

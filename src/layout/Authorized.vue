@@ -13,6 +13,7 @@ import {
   NButtonGroup,
   NIcon,
   NSpace,
+  NAvatar,
 } from 'naive-ui';
 import {UserCircle} from '@vicons/fa';
 
@@ -30,9 +31,14 @@ const BUTTONS_OPTIONS = [
     to: '/',
   },
   {
-    label: 'Конструктор пользователей',
-    key: 'constructor-users',
-    to: '/constructor-users',
+    label: 'Пользователи',
+    key: 'users',
+    to: '/users',
+  },
+  {
+    label: 'Создать тест',
+    key: 'test-constructor',
+    to: '/test-constructor',
   },
 ];
 
@@ -48,7 +54,7 @@ const OPTIONS = [
 const onSelectDropdownOption = (key: string) => {
   switch (key) {
   case 'logout':
-    localStorage.removeItem('authorized');
+    localStorage.removeItem('Authorization');
     router.push('/auth');
     break;
   }
@@ -61,22 +67,29 @@ const filteredButtons = computed(() => BUTTONS_OPTIONS.filter((button : any) => 
   <n-layout class="authorizedLayout">
     <n-layout-header v-if="route.name !== 'NotFound'" position="absolute" bordered>
       <n-space justify="space-between" align="center">
-        <n-button-group>
-          <router-link
-            v-for="button in filteredButtons"
-            :to="button.to"
-            :key="button.key"
-          >
-            <n-button
-              class="authorizedLayout__button"
-              size="medium"
+        <div style="display: flex; align-items: center">
+          <n-avatar
+            round
+            size="medium"
+            src="/logo.jpg"
+          />
+          <n-button-group style="margin-left: 10px">
+            <router-link
+              v-for="button in filteredButtons"
+              :to="button.to"
+              :key="button.key"
             >
-              {{ button.label }}
-            </n-button>
-          </router-link>
-        </n-button-group>
+              <n-button
+                class="authorizedLayout__button"
+                size="medium"
+              >
+                {{ button.label }}
+              </n-button>
+            </router-link>
+          </n-button-group>
+        </div>
         <n-dropdown trigger="hover" :options="OPTIONS" @select="onSelectDropdownOption">
-          <n-icon size="30">
+          <n-icon style="padding-top: 10px" size="30">
             <user-circle />
           </n-icon>
         </n-dropdown>

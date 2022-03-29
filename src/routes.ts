@@ -1,13 +1,13 @@
 import {createWebHistory, createRouter} from 'vue-router';
-import AuthorizedLayout from './layout/AuthorizedLayout.vue';
-import AuthPage from './pages/AuthPage.vue';
-import RegistrationPage from './pages/RegistrationPage.vue';
-import MainPage from './pages/MainPage.vue';
-import TestPage from './pages/TestPage.vue';
-import TestConstructorPage from './pages/TestConstructorPage.vue';
-import ConstructorUsersPage from './pages/ConstructorUsersPage.vue';
-import StatisticPage from './pages/StatisticPage.vue';
-import NotFoundPage from './pages/NotFoundPage.vue';
+import AuthorizedLayout from './layout/Authorized.vue';
+import AuthPage from './pages/Auth/Auth.vue';
+import RegistrationPage from './pages/Registration/Registration.vue';
+import MainPage from './pages/Main/Main.vue';
+import TestPage from './pages/TestConstructor/Test.vue';
+import TestConstructorPage from './pages/Test/TestConstructor.vue';
+import UsersPage from './pages/Users/Users.vue';
+import StatisticPage from './pages/Statistic/Statistic.vue';
+import NotFoundPage from './pages/NotFound/NotFound.vue';
 
 const routes = [
   {
@@ -31,12 +31,12 @@ const routes = [
         component: MainPage,
       },
       {
-        path: '/constructor-users',
-        name: 'constructor-users',
-        component: ConstructorUsersPage,
+        path: '/users',
+        name: 'users',
+        component: UsersPage,
       },
       {
-        path: '/test-constructor/:id',
+        path: '/test-constructor',
         name: 'test-constructor',
         component: TestConstructorPage,
       },

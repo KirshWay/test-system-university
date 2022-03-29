@@ -5,7 +5,7 @@ import {
   NIcon,
 } from 'naive-ui';
 import {Plus, Table} from '@vicons/fa';
-import TestConstructor from '../components/TestConstructor/TestConstructor.vue';
+import TestConstructor from '../../components/TestConstructor/TestConstructor.vue';
 </script>
 
 <template>

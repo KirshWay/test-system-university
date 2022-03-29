@@ -7,8 +7,8 @@ import {
   NButton,
   useLoadingBar,
 } from 'naive-ui';
-import CardUser from '../components/CardUser/CardUser.vue';
-import {createUser} from '../api/users';
+import CardUser from '../../components/CardUser/CardUser.vue';
+import {createUser} from '../../api/users';
 
 const loader = useLoadingBar();
 
