@@ -8,18 +8,26 @@ export type UserModelType = {
 };
 
 /*
-* Стандартная модель пользователя
-* */
-export type CreateUserType = {
-    status: string
-} & Omit<UserModelType, 'email'>;
-
-/*
 * Тип для декана
 * */
 export type CreateDeanType = {
     code: string;
 } & UserModelType;
+
+/*
+* Авторизация пользователя
+* */
+export type CreateUser = {
+    status: string;
+} & UserModelType;
+
+/*
+* Авторизация пользователя
+* */
+export type AuthDeanType = {
+    login: string,
+    password: string,
+}
 
 /*
 * Тип для взаимодействия с тестами

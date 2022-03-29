@@ -1,54 +1,48 @@
 <script setup lang="ts">
-import {
-  ref,
-  inject,
-  ComputedRef,
-} from 'vue';
+import {ref} from 'vue';
 import {
   NH1,
   NSpace,
   NCard,
   NInput,
+  NSelect,
   NButton,
-  NInputGroup,
-  NIcon,
   NModal,
 } from 'naive-ui';
-import {Plus} from '@vicons/fa';
-import {useRouter} from 'vue-router';
-import CardTest from '../components/CardTest/CardTest.vue';
+import CardTest from '../../components/CardTest/CardTest.vue';
 
-const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
-const router = useRouter();
+const options = [
+  {
+    label: 'Drive My Car',
+    value: 'song1',
+  },
+  {
+    label: 'Norwegian Wood',
+    value: 'song2',
+  },
+  {
+    label: 'You Won\'t See',
+    value: 'song3',
+  },
+];
 
 const showModal = ref(false);
 
 const search = ref('');
+const selectedValue = ref('');
 const nameTest = ref('');
-
-const onCreateTest = () => {
-  if (nameTest.value) {
-    // TODO: API write for create
-    router.push(`/test-constructor/${nameTest.value}`);
-  }
-};
 </script>
 
 <template>
   <div>
-    <n-h1 style="display: flex; align-items: center; justify-content: space-between">
+    <n-h1>
       Тесты
-      <n-button @click="showModal = true" type="success" secondary>
-        <template v-if="screenWidth > 640">Создать тест</template>
-        <n-icon v-else>
-          <Plus />
-        </n-icon>
-      </n-button>
     </n-h1>
     <n-card style="margin-bottom: 24px">
-      <n-input-group>
+      <n-space vertical>
         <n-input v-model:value="search" placeholder="Поиск теста" />
-      </n-input-group>
+        <n-select v-model:value="selectedValue" :options="options" placeholder="Выберите тег" />
+      </n-space>
     </n-card>
     <CardTest />
     <n-modal

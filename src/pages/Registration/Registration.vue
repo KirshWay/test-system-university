@@ -6,10 +6,9 @@ import {
   NCard,
   NSpace,
   NInput,
-  NSelect,
   useLoadingBar,
 } from 'naive-ui';
-import {signUpDean} from '../api/users';
+import {signUpDean} from '../../api/users';
 
 const loader = useLoadingBar();
 const router = useRouter();
@@ -20,7 +19,6 @@ const username = ref('');
 const email = ref('');
 const password = ref('');
 const repeatPassword = ref('');
-const role = ref('');
 const accessCode = ref('');
 
 const submit = () => {
@@ -48,6 +46,9 @@ const submit = () => {
           Введите код доступа
           <n-input placeholder="Введите код доступа" type="password" name="access_code" v-model:value="accessCode" />
           <n-button type="primary" attr-type="submit" class="authPage__button" :disabled="password !== repeatPassword || password.length < 8">Зарегистрироваться</n-button>
+          <router-link to="/auth">
+            <n-button attr-type="submit" class="authPage__button">Авторизоваться</n-button>
+          </router-link>
         </n-space>
       </form>
     </n-card>
