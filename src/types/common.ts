@@ -1,37 +1,13 @@
-/*
-* Стандартная модель пользователя
-* */
 export type UserModelType = {
     email: string,
     username: string,
     password: string,
 };
 
-/*
-* Тип для декана
-* */
-export type CreateDeanType = {
-    code: string;
-} & UserModelType;
-
-/*
-* Авторизация пользователя
-* */
-export type CreateUser = {
-    status: string;
-} & UserModelType;
-
-/*
-* Авторизация пользователя
-* */
-export type AuthDeanType = {
-    login: string,
-    password: string,
+export type SignIn = {
+    token: string
 }
 
-/*
-* Тип для взаимодействия с тестами
-* */
 export type TestType = {
     title: string,
     subtitle: string,

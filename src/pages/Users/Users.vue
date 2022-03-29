@@ -29,12 +29,12 @@ const email = ref('');
 const password = ref('');
 
 const submit = () => {
-  createUser({
-    email: email.value,
-    username: username.value,
-    password: password.value,
-    status: status.value,
-  })
+  createUser(
+    email.value,
+    username.value,
+    password.value,
+    status.value,
+  )
     .catch(loader.error)
     .finally(loader.finish);
 };

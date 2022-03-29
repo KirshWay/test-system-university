@@ -6,20 +6,27 @@ import {
   NCard,
   NSpace,
   NInput,
+  useLoadingBar,
+  useMessage,
 } from 'naive-ui';
 import {signIn} from '../../api/users';
 
+const loader = useLoadingBar();
 const router= useRouter();
 
 if (localStorage.getItem('Authorization')) router.push('/');
 
+const message = useMessage();
+
 const submit = () => {
-  signIn({login: email.value, password: password.value})
-    .then((res) => {
-      // @ts-ignore
-      localStorage.setItem('Authorization', res.data.token);
+  signIn(email.value, password.value)
+    .then(({data}) => {
+      localStorage.setItem('Authorization', data.token);
       router.push('/');
-    }).catch(loader.error).finally(loader.finish);
+    }).catch(() => {
+      message.error('Введён неправильный логин или пароль');
+      loader.error;
+    }).finally(loader.finish);
 };
 
 const email = ref('');

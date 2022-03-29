@@ -6,8 +6,6 @@ import {
   NCard,
   NInput,
   NSelect,
-  NButton,
-  NModal,
 } from 'naive-ui';
 import CardTest from '../../components/CardTest/CardTest.vue';
 
@@ -26,11 +24,8 @@ const options = [
   },
 ];
 
-const showModal = ref(false);
-
 const search = ref('');
 const selectedValue = ref('');
-const nameTest = ref('');
 </script>
 
 <template>
@@ -45,20 +40,6 @@ const nameTest = ref('');
       </n-space>
     </n-card>
     <CardTest />
-    <n-modal
-      v-model:show="showModal"
-      preset="card"
-      title="Создание теста"
-      style="max-width: 500px"
-    >
-      <n-input placeholder="Название теста" v-model:value="nameTest" @keydown.enter="onCreateTest" />
-      <template #footer>
-        <n-space justify="end">
-          <n-button @click="nameTest = ''; showModal = false">Отменить</n-button>
-          <n-button type="success" @click="onCreateTest">Создать</n-button>
-        </n-space>
-      </template>
-    </n-modal>
   </div>
 </template>
 

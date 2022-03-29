@@ -1,8 +1,17 @@
 import $axios from './index';
-import {AuthDeanType, CreateDeanType, CreateUser} from '../types/common';
+import {SignIn} from '../types/common';
 
-export const signUpDean = (userDean: CreateDeanType) => $axios.post<CreateDeanType>(`${import.meta.env.VITE_SERVER}/user/create_dekan/`, userDean);
+export const signUpDean = (email: string, username: string, password: string, code: string) => $axios.post(`${import.meta.env.VITE_SERVER}/user/create_dekan/`, {
+  email,
+  username,
+  password,
+  code,
+});
 
-export const signIn = (user: AuthDeanType) => $axios.post<AuthDeanType>(`${import.meta.env.VITE_SERVER}/user/obtain_token/`, user);
+export const signIn = (login: string, password: string) => $axios.post<SignIn>(`${import.meta.env.VITE_SERVER}/user/obtain_token/`, {login, password});
 
-export const createUser = (user: CreateUser) => $axios.post<CreateUser>(`${import.meta.env.VITE_SERVER}/user/create_user/`, user);
+export const createUser = (email: string, username: string, password: string, status: string) => $axios.post(`${import.meta.env.VITE_SERVER}/user/create_user/`, {email,
+  username,
+  password,
+  status,
+});
