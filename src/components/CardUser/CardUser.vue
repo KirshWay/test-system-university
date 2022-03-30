@@ -9,11 +9,37 @@ import {
   NP,
 } from 'naive-ui';
 import {Trash} from '@vicons/fa';
+
+const {email, firstName, lastName, patronymic} = defineProps<{
+  email: string
+  firstName: string
+  lastName: string
+  patronymic: string
+  status: string
+}>();
+
+const generateStatus = (str: string) => {
+  switch (str) {
+  case 'TEACHER':
+    return 'Преподаватель';
+  case 'STUDENT':
+    return 'Студент';
+  default:
+    return 'Неопределённая роль';
+  }
+};
+
+const checkedInfoName = (firstName: string, lastName: string, patronymic: string) => {
+  if (firstName || lastName || patronymic) {
+    return `${firstName} ${lastName} ${patronymic}`;
+  }
+  return `Известно неполное ФИО`;
+};
 </script>
 
 <template>
   <div>
-    <n-card title="Имя пользователя">
+    <n-card :title="`ФИО пользователя: ${checkedInfoName(firstName, lastName, patronymic)}`">
       <template #header-extra>
         <n-button-group align="center">
           <n-tooltip trigger="hover">
@@ -31,9 +57,8 @@ import {Trash} from '@vicons/fa';
         </n-button-group>
       </template>
       <n-space vertical>
-        <n-p><strong>ФИО пользователя:</strong></n-p>
-        <n-p><strong>Почта пользователя:</strong></n-p>
-        <n-p><strong>Роль:</strong></n-p>
+        <n-p><strong>Почта пользователя: </strong>{{ email }}</n-p>
+        <n-p><strong>Роль: </strong>{{ generateStatus(status) }}</n-p>
       </n-space>
     </n-card>
   </div>
