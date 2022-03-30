@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, watch} from 'vue';
+import {ref} from 'vue';
 import {
   NCard,
   NSelect,
@@ -54,17 +54,16 @@ const submit = () => {
     });
 };
 
-const getAllUsers = async () => {
+const getAllUsers = () => {
   loader.start();
   const students = Users.getAllStudents().then(({data}) => data);
   const teachers = Users.getAllTeachers().then(({data}) => data);
-  return Promise.all([students, teachers]).then((users) => allUsers.value.concat(...users))
+  return Promise.all([students, teachers]).then((users) => allUsers.value = allUsers.value.concat(...users))
     .catch(loader.error)
     .finally(loader.finish);
 };
 
-console.log(getAllUsers());
-console.log(allUsers.value);
+getAllUsers();
 </script>
 
 <template>
@@ -98,6 +97,16 @@ console.log(allUsers.value);
         />
       </n-space>
     </n-card>
-    <CardUser />
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <CardUser
+        v-for="user in allUsers"
+        :key="user.uuid"
+        :email="user.email"
+        :firstName="user.firstName"
+        :lastName="user.lastName"
+        :patronymic="user.patronymic"
+        :status="user.status"
+      />
+    </div>
   </form>
 </template>
