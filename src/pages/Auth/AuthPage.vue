@@ -9,7 +9,7 @@ import {
   useLoadingBar,
   useMessage,
 } from 'naive-ui';
-import {signIn} from '../../api/users';
+import Users from '../../api/users';
 
 const loader = useLoadingBar();
 const router= useRouter();
@@ -19,7 +19,7 @@ if (localStorage.getItem('Authorization')) router.push('/');
 const message = useMessage();
 
 const submit = () => {
-  signIn(email.value, password.value)
+  Users.signIn(email.value, password.value)
     .then(({data}) => {
       localStorage.setItem('Authorization', data.token);
       router.push('/');
@@ -38,13 +38,13 @@ const password = ref('');
     <n-card title="Система тестирования ГМУ Ушакова">
       <form @submit.prevent="submit">
         <n-space vertical>
-          Почта
-          <n-input placeholder="Введите почту" name="email" v-model:value="email" />
-          Пароль
-          <n-input placeholder="Введите пароль" type="password" name="password" v-model:value="password" />
+          Введите почту
+          <n-input placeholder="Почта" name="email" v-model:value="email" />
+          Введите пароль
+          <n-input placeholder="Пароль" type="password" name="password" v-model:value="password" />
           <n-button type="primary" attr-type="submit" class="authPage__button">Войти</n-button>
           <router-link to="/sign-up">
-            <n-button attr-type="submit" class="authPage__button">Зарегестрироваться</n-button>
+            <n-button attr-type="submit" class="authPage__button">Зарегистрироваться</n-button>
           </router-link>
         </n-space>
       </form>

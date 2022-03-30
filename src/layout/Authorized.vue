@@ -17,7 +17,6 @@ import {
   NButton,
   NButtonGroup,
   NIcon,
-  NSpace,
   NMenu,
   NAvatar,
   NDrawerContent,
@@ -26,9 +25,12 @@ import {
   NP,
 } from 'naive-ui';
 import {Bars} from '@vicons/fa';
+import Users from '../api/users';
+import {useStore} from '../store';
 
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
@@ -58,14 +60,12 @@ const links = [
 
 const OPTIONS = [
   {
-    label: 'Изменить аватар',
-    key: 'change-avatar',
-    to: '/',
+    label: 'Настройки профиля',
+    key: 'settings',
   },
   {
     label: 'Выйти',
     key: 'logout',
-    to: '/auth',
   },
 ];
 
@@ -73,8 +73,11 @@ const onSelectDropdownOption = (key: string) => {
   showSidebar.value = false;
   switch (key) {
   case 'logout':
-    localStorage.removeItem('Authorization');
+    store.logout();
     router.push('/auth');
+    break;
+  case 'settings':
+    router.push('/settings');
     break;
   default:
     const item = links.find((el) => el.key === key);
@@ -84,6 +87,8 @@ const onSelectDropdownOption = (key: string) => {
 };
 
 const filteredButtons = computed(() => links.filter((button : any) => route.path !== '/' || button.key !== 'main'));
+
+Users.getProfile().then(({data}) => store.setUser(data));
 </script>
 
 <template>
@@ -103,10 +108,10 @@ const filteredButtons = computed(() => links.filter((button : any) => route.path
               src="/logo.jpg"
             />
             <n-h2>
-              NAME
+              {{ store.user.firstName }} {{ store.user.lastName }} {{ store.user.patronymic }}
             </n-h2>
             <n-p depth="3">
-              EMAIL
+              {{ store.user.email }}
             </n-p>
           </div>
         </template>
@@ -145,7 +150,7 @@ const filteredButtons = computed(() => links.filter((button : any) => route.path
           >
             <n-button :bordered="false">
               <span style="margin-right: 16px">
-                NAME
+                {{ store.user.firstName }} {{ store.user.lastName }}
               </span>
               <n-avatar
                 round

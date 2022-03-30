@@ -9,23 +9,27 @@ import {
 } from 'naive-ui';
 import CardTest from '../../components/CardTest/CardTest.vue';
 
-const options = [
+const options = ref([
   {
-    label: 'Drive My Car',
-    value: 'song1',
+    label: 'Все',
+    value: 'all',
   },
   {
-    label: 'Norwegian Wood',
-    value: 'song2',
+    label: 'КП-1',
+    value: 'KP-1',
   },
   {
-    label: 'You Won\'t See',
-    value: 'song3',
+    label: 'КП-2',
+    value: 'KP-2',
   },
-];
+  {
+    label: 'КП-3',
+    value: 'KP-3',
+  },
+]);
 
 const search = ref('');
-const selectedValue = ref('');
+const selectedValue = ref<string>();
 </script>
 
 <template>
@@ -33,10 +37,15 @@ const selectedValue = ref('');
     <n-h1>
       Тесты
     </n-h1>
-    <n-card style="margin-bottom: 24px">
+    <n-card title="Поиск теста" style="margin-bottom: 24px">
       <n-space vertical>
         <n-input v-model:value="search" placeholder="Поиск теста" />
-        <n-select v-model:value="selectedValue" :options="options" placeholder="Выберите тег" />
+        <n-select
+          placeholder="Выберите тег"
+          filterable
+          v-model:value="selectedValue"
+          :options="options"
+        />
       </n-space>
     </n-card>
     <CardTest />
