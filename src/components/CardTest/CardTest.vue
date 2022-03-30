@@ -12,7 +12,6 @@ import {Table, Trash} from '@vicons/fa';
 </script>
 
 <template>
-  <!-- TODO: переход по id теста  -->
   <router-link :to="`/tests/${Date.now()}`" style="display: block">
     <n-card hoverable>
       <n-space align="center" justify="space-between">

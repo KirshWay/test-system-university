@@ -1,7 +1,11 @@
-export type UserModelType = {
+export type UsersModel = {
+    avatar: string,
     email: string,
-    username: string,
-    password: string,
+    firstName: string,
+    lastName: string,
+    patronymic: string,
+    status: string,
+    uuid: string
 };
 
 export type SignIn = {
@@ -16,8 +20,8 @@ export type TestType = {
 
 export type QuestionType = {
     text: string,
-    type_answer_question: string
-    uuid_question: string
+    type_answer_question: string,
+    uuid_question: string,
     answers: AnswersType[]
 }
 
