@@ -8,7 +8,7 @@ import {
   NInput,
   useLoadingBar,
 } from 'naive-ui';
-import Users from '../../api/users';
+import Users from '~/api/users';
 
 const loader = useLoadingBar();
 const router = useRouter();

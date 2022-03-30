@@ -16,7 +16,7 @@ import {
   NAlert,
 } from 'naive-ui';
 import {Question, Plus, Trash} from '@vicons/fa';
-import {useTestStore} from '../../store/tests';
+import {useTestStore} from '~/store/tests';
 
 const testStore = useTestStore();
 

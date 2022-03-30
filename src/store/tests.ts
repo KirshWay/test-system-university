@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia';
-import {TestType, QuestionType, AnswersType} from '../types/common';
+import {TestType, QuestionType, AnswersType} from '~/types/common';
 
 export const useTestStore = defineStore('tests', {
   state: () => ({

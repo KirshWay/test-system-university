@@ -7,7 +7,7 @@ import {
   NInput,
   NSelect,
 } from 'naive-ui';
-import CardTest from '../../components/CardTest/CardTest.vue';
+import CardTest from '~/components/CardTest/CardTest.vue';
 
 const options = ref([
   {
