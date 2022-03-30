@@ -1,5 +1,5 @@
 import $axios from './index';
-import {SignIn, UsersModel} from '../types/common';
+import {SignIn, UsersModel} from '~/types/common';
 
 const Users = {
   signUpDean: (email: string, username: string, password: string, code: string) => $axios.post(`/user/create_dekan/`, {email, username, password, code}),

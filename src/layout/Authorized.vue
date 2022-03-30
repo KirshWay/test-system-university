@@ -25,8 +25,8 @@ import {
   NP,
 } from 'naive-ui';
 import {Bars} from '@vicons/fa';
-import Users from '../api/users';
-import {useStore} from '../store';
+import Users from '~/api/users';
+import {useStore} from '~/store';
 
 const router = useRouter();
 const route = useRoute();
@@ -105,7 +105,7 @@ Users.getProfile().then(({data}) => store.setUser(data));
             <n-avatar
               round
               :size="88"
-              src="/logo.jpg"
+              :src="store.user.avatar || '/logo.jpg'"
             />
             <n-h2>
               {{ store.user.firstName }} {{ store.user.lastName }} {{ store.user.patronymic }}
@@ -155,7 +155,7 @@ Users.getProfile().then(({data}) => store.setUser(data));
               <n-avatar
                 round
                 size="medium"
-                src="/logo.jpg"
+                :src="store.user.avatar || '/logo.jpg'"
               />
             </n-button>
           </n-dropdown>

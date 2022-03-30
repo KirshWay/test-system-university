@@ -1,20 +1,26 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+import {ComputedRef, inject, ref} from 'vue';
 import {
   NCard,
   NSelect,
   NSpace,
   NInput,
   NButton,
+  NModal,
+  NIcon,
+  NTooltip,
   useLoadingBar,
   useMessage,
 } from 'naive-ui';
-import CardUser from '../../components/CardUser/CardUser.vue';
-import Users from '../../api/users';
-import {UsersModel} from '../../types/common';
+import {PlusCircle} from '@vicons/fa';
+import CardUser from '~/components/CardUser/CardUser.vue';
+import Users from '~/api/users';
+import {UsersModel} from '~/types/common';
 
 const message = useMessage();
 const loader = useLoadingBar();
+
+const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
 const options = ref([
   {
@@ -30,6 +36,8 @@ const options = ref([
     value: 'STUDENT',
   },
 ]);
+
+const showModal = ref(false);
 
 const selectedValue = ref<string>();
 const statusSearch = ref<string>();
@@ -67,25 +75,22 @@ getAllUsers();
 </script>
 
 <template>
-  <form @submit.prevent="submit">
-    <n-card style="margin-bottom: 3%" title="Создание новых пользователей">
-      <n-space vertical>
-        Выберите тип создаваемого пользователя
-        <n-select
-          placeholder="Тип пользователя"
-          filterable
-          v-model:value="selectedValue"
-          :options="options"
-        />
-        Имя пользователя
-        <n-input placeholder="Имя" name="name" v-model:value="username" />
-        Почта пользователя
-        <n-input placeholder="Почту" name="email" v-model:value="email" />
-        Пароль пользователя
-        <n-input style="margin-bottom: 2%" placeholder="Пароль" type="password" name="password" v-model:value="password" />
-        <n-button type="success" attr-type="submit" secondary>Создать</n-button>
-      </n-space>
-    </n-card>
+  <div>
+    <n-space style="margin-bottom: 2%" justify="end">
+      <n-button type="success" @click="showModal = true" secondary>
+        <template v-if="screenWidth > 640">
+          Создать пользователя
+        </template>
+        <n-tooltip v-else placement="bottom-start" trigger="hover">
+          <template #trigger>
+            <n-icon>
+              <plus-circle />
+            </n-icon>
+          </template>
+          Создать пользователя
+        </n-tooltip>
+      </n-button>
+    </n-space>
     <n-card title="Поиск пользователя" style="margin-bottom: 3%">
       <n-space vertical>
         <n-input v-model:value="search" placeholder="Пользователь" />
@@ -108,5 +113,30 @@ getAllUsers();
         :status="user.status"
       />
     </div>
-  </form>
+    <n-modal
+      v-model:show="showModal"
+      preset="card"
+      title="Создание пользователя"
+      style="max-width: 500px"
+    >
+      <form @submit.prevent="submit">
+        <n-space vertical>
+          Выберите тип создаваемого пользователя
+          <n-select
+            placeholder="Тип пользователя"
+            filterable
+            v-model:value="selectedValue"
+            :options="options"
+          />
+          Имя пользователя
+          <n-input placeholder="Имя" name="name" v-model:value="username" />
+          Почта пользователя
+          <n-input placeholder="Почту" name="email" v-model:value="email" />
+          Пароль пользователя
+          <n-input style="margin-bottom: 2%" placeholder="Пароль" type="password" name="password" v-model:value="password" />
+          <n-button type="success" attr-type="submit" secondary>Создать</n-button>
+        </n-space>
+      </form>
+    </n-modal>
+  </div>
 </template>

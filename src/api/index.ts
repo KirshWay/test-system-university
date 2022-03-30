@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Router from '../routes';
+import Router from '~/routes';
 
 export const toFormData = (data: Record<string, string | File>) => Object.entries(data).reduce((acc, el) => {
   acc.set(el[0], el[1]);

@@ -9,6 +9,7 @@ import {
   NP,
 } from 'naive-ui';
 import {Trash} from '@vicons/fa';
+import {generateStatus} from '~/scripts/common';
 
 const {email, firstName, lastName, patronymic} = defineProps<{
   email: string
@@ -17,17 +18,6 @@ const {email, firstName, lastName, patronymic} = defineProps<{
   patronymic: string
   status: string
 }>();
-
-const generateStatus = (str: string) => {
-  switch (str) {
-  case 'TEACHER':
-    return 'Преподаватель';
-  case 'STUDENT':
-    return 'Студент';
-  default:
-    return 'Неопределённая роль';
-  }
-};
 
 const checkedInfoName = (firstName: string, lastName: string, patronymic: string) => {
   if (firstName || lastName || patronymic) {
@@ -39,7 +29,7 @@ const checkedInfoName = (firstName: string, lastName: string, patronymic: string
 
 <template>
   <div>
-    <n-card :title="`ФИО пользователя: ${checkedInfoName(firstName, lastName, patronymic)}`">
+    <n-card :title="checkedInfoName(firstName, lastName, patronymic)">
       <template #header-extra>
         <n-button-group align="center">
           <n-tooltip trigger="hover">
