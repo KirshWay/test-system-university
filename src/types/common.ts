@@ -1,11 +1,11 @@
 export type UsersModel = {
-    avatar: string,
+    avatar?: string,
     email: string,
     firstName: string,
     lastName: string,
     patronymic: string,
     status: string,
-    uuid: string
+    uuid?: string
 };
 
 export type SignIn = {

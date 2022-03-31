@@ -105,7 +105,7 @@ Users.getProfile().then(({data}) => store.setUser(data));
             <n-avatar
               round
               :size="88"
-              :src="store.user.avatar || '/logo.jpg'"
+              :src="store.user.avatar === null ? '/logo.jpg' : `https://testing-backend.admire.social/${store.user.avatar}`"
             />
             <n-h2>
               {{ store.user.firstName }} {{ store.user.lastName }} {{ store.user.patronymic }}
@@ -155,7 +155,7 @@ Users.getProfile().then(({data}) => store.setUser(data));
               <n-avatar
                 round
                 size="medium"
-                :src="store.user.avatar || '/logo.jpg'"
+                :src="store.user.avatar === null ? '/logo.jpg' : `https://testing-backend.admire.social/${store.user.avatar}`"
               />
             </n-button>
           </n-dropdown>

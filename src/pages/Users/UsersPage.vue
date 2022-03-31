@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import {ComputedRef, inject, ref} from 'vue';
+import {
+  computed,
+  ComputedRef,
+  inject,
+  ref,
+} from 'vue';
 import {
   NCard,
   NSelect,
   NSpace,
   NInput,
+  NInputGroup,
   NButton,
   NModal,
   NIcon,
@@ -22,7 +28,7 @@ const loader = useLoadingBar();
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
-const options = ref([
+const TYPES_USERS = [
   {
     label: 'Все',
     value: 'all',
@@ -35,32 +41,21 @@ const options = ref([
     label: 'Студент',
     value: 'STUDENT',
   },
-]);
+];
 
 const showModal = ref(false);
 
-const selectedValue = ref<string>();
-const statusSearch = ref<string>();
+const searchType = ref('all');
 const search = ref('');
-const username = ref('');
+
+const selectedType = ref<string>();
+const firstName = ref('');
+const lastName = ref('');
+const patronymic = ref('');
 const email = ref('');
 const password = ref('');
 
 const allUsers = ref<UsersModel[]>([]);
-
-const submit = () => {
-  Users.createUser(
-    email.value,
-    username.value,
-    password.value,
-    selectedValue.value!,
-  )
-    .catch(loader.error)
-    .finally(() => {
-      loader.finish;
-      message.success('Пользователь создан');
-    });
-};
 
 const getAllUsers = () => {
   loader.start();
@@ -72,6 +67,32 @@ const getAllUsers = () => {
 };
 
 getAllUsers();
+
+const filteredListUsers = computed(() =>
+  allUsers.value.filter((el) =>
+    (searchType.value === 'all' || el.status === searchType.value) &&
+        (el.email?.toLowerCase().includes(search.value.toLowerCase()) ||
+            el.lastName?.toLowerCase().includes(search.value.toLowerCase()))));
+
+const submit = () => {
+  Users.createUser(
+    email.value,
+    firstName.value,
+    lastName.value,
+    patronymic.value,
+    password.value,
+    selectedType.value!,
+  )
+    .then(() => {
+      showModal.value = false;
+      getAllUsers();
+    })
+    .catch(loader.error)
+    .finally(() => {
+      loader.finish;
+      message.success('Пользователь создан');
+    });
+};
 </script>
 
 <template>
@@ -92,19 +113,14 @@ getAllUsers();
       </n-button>
     </n-space>
     <n-card title="Поиск пользователя" style="margin-bottom: 3%">
-      <n-space vertical>
+      <n-input-group>
         <n-input v-model:value="search" placeholder="Пользователь" />
-        <n-select
-          placeholder="Тип пользователь"
-          filterable
-          v-model:value="statusSearch"
-          :options="options"
-        />
-      </n-space>
+        <n-select v-model:value="searchType" :options="TYPES_USERS" style="width: 200px"/>
+      </n-input-group>
     </n-card>
     <div style="display: flex; flex-direction: column; gap: 10px">
       <CardUser
-        v-for="user in allUsers"
+        v-for="user in filteredListUsers"
         :key="user.uuid"
         :email="user.email"
         :firstName="user.firstName"
@@ -125,11 +141,15 @@ getAllUsers();
           <n-select
             placeholder="Тип пользователя"
             filterable
-            v-model:value="selectedValue"
-            :options="options"
+            v-model:value="selectedType"
+            :options="TYPES_USERS"
           />
-          Имя пользователя
-          <n-input placeholder="Имя" name="name" v-model:value="username" />
+          Редактирование имени
+          <n-input v-model:value="firstName" placeholder="Имя" />
+          Редактирование фамилии
+          <n-input v-model:value="lastName" placeholder="Фамилия" />
+          Редактирование отчества
+          <n-input v-model:value="patronymic" placeholder="Отчество" />
           Почта пользователя
           <n-input placeholder="Почту" name="email" v-model:value="email" />
           Пароль пользователя
