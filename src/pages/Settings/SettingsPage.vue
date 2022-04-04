@@ -24,27 +24,32 @@ const message = useMessage();
 const store = useStore();
 
 const password = ref('');
-const avatar = ref<any>({});
+const avatar = ref<{
+  file?: File,
+  data?: string
+}>({});
 
-const saveAvatar = (e: any) => {
-  for (const file of e.target.files) {
-    avatar.value = {
-      file,
-      data: URL.createObjectURL(file),
-    };
+const saveAvatar = (e: Event) => {
+  const input = e.target as HTMLInputElement;
+  if (!(input.files && input.files[0])) {
+    return;
   }
+  avatar.value = {
+    file: input.files[0],
+    data: URL.createObjectURL(input.files[0]),
+  };
 };
 
 const submit = () => {
   const result = createFormData({
-    'firstName': store.user.firstName,
-    'lastName': store.user.lastName,
+    'first_name': store.user.firstName,
+    'last_name': store.user.lastName,
     'patronymic': store.user.patronymic,
-    'avatar': avatar.value.file,
+    'Avatar': avatar.value.file,
   });
   return Users.updateUser(result)
     .then(({data}) => {
-      store.user.avatar = data.avatar;
+      store.user = data;
     })
     .catch(() => message.error('Не получилось изменить данные профиля'))
     .finally(() => message.success('Данные изменены'));
@@ -57,8 +62,9 @@ const submit = () => {
       <div class="setting__avatarContainer">
         <n-avatar
           round
+          object-fit="cover"
           :size="160"
-          :src="store.user.avatar === null ? '/logo.jpg' : `https://testing-backend.admire.social/${store.user.avatar}`"
+          :src="avatar.data || store.avatar"
         />
         <n-button
           style="position: relative;"
@@ -87,7 +93,7 @@ const submit = () => {
           <n-input v-model:value="store.user.email" />
           Редактирование пароля
           <n-input v-model:value="password" type="password" placeholder="Пароль" />
-          <n-button style="margin-top: 10px" type="success" attr-type="submit" secondary>Редактировать</n-button>
+          <n-button style="margin-top: 10px" type="success" attr-type="submit" secondary>Сохранить</n-button>
         </form>
       </div>
     </div>

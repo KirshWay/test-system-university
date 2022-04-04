@@ -23,6 +23,7 @@ import {
   NDrawer,
   NH2,
   NP,
+  useMessage,
 } from 'naive-ui';
 import {Bars} from '@vicons/fa';
 import Users from '~/api/users';
@@ -34,6 +35,7 @@ const store = useStore();
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
+const message = useMessage();
 const showSidebar = ref(false);
 
 if (!localStorage.getItem('Authorization')) {
@@ -86,7 +88,15 @@ const onSelectDropdownOption = (key: string) => {
   }
 };
 
-const filteredButtons = computed(() => links.filter((button : any) => route.path !== '/' || button.key !== 'main'));
+const filteredButtons = computed(() =>
+  store.user.status === 'DEAN' ?
+    links.filter((button) => route.path !== '/' || button.key !== 'main') :
+    store.user.status === 'TEACHER' ?
+      links.filter((button) => (route.path !== '/' || button.key !== 'main') && button.key === 'test-constructor') :
+      store.user.status === 'STUDENT' ?
+        links.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users', 'test-constructor'].includes(button.key))) :
+        null,
+);
 
 Users.getProfile().then(({data}) => store.setUser(data));
 </script>
@@ -104,8 +114,9 @@ Users.getProfile().then(({data}) => store.setUser(data));
           <div style="padding: 8px 0">
             <n-avatar
               round
+              object-fit="cover"
               :size="88"
-              :src="store.user.avatar === null ? '/logo.jpg' : `https://testing-backend.admire.social/${store.user.avatar}`"
+              :src="store.avatar"
             />
             <n-h2>
               {{ store.user.firstName }} {{ store.user.lastName }} {{ store.user.patronymic }}
@@ -154,8 +165,9 @@ Users.getProfile().then(({data}) => store.setUser(data));
               </span>
               <n-avatar
                 round
+                object-fit="cover"
                 size="medium"
-                :src="store.user.avatar === null ? '/logo.jpg' : `https://testing-backend.admire.social/${store.user.avatar}`"
+                :src="store.avatar"
               />
             </n-button>
           </n-dropdown>

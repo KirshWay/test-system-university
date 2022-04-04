@@ -16,4 +16,9 @@ export const useStore = defineStore('main', {
       localStorage.removeItem('Authorization');
     },
   },
+  getters: {
+    avatar(state) {
+      return state.user.avatar ? `https://testing-backend.admire.social/${state.user.avatar}` : '/logo.jpg';
+    },
+  },
 });
