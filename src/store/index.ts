@@ -11,10 +11,6 @@ export const useStore = defineStore('main', {
     setUser(value: UsersModel) {
       this.user = value;
     },
-    logout() {
-      this.user = {} as UsersModel;
-      localStorage.removeItem('Authorization');
-    },
   },
   getters: {
     avatar(state) {
