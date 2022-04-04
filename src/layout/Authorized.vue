@@ -23,24 +23,10 @@ import {
   NDrawer,
   NH2,
   NP,
-  useMessage,
 } from 'naive-ui';
 import {Bars} from '@vicons/fa';
 import Users from '~/api/users';
 import {useStore} from '~/store';
-
-const router = useRouter();
-const route = useRoute();
-const store = useStore();
-
-const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
-
-const message = useMessage();
-const showSidebar = ref(false);
-
-if (!localStorage.getItem('Authorization')) {
-  router.push('/auth');
-}
 
 const links = [
   {
@@ -71,11 +57,27 @@ const OPTIONS = [
   },
 ];
 
+const router = useRouter();
+const route = useRoute();
+const store = useStore();
+
+const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
+
+const showSidebar = ref(false);
+
+if (!localStorage.getItem('Authorization')) {
+  router.push('/auth');
+}
+
+if (localStorage.getItem('Authorization')) {
+  Users.getProfile().then(({data}) => store.setUser(data));
+}
+
 const onSelectDropdownOption = (key: string) => {
   showSidebar.value = false;
   switch (key) {
   case 'logout':
-    store.logout();
+    localStorage.removeItem('Authorization');
     router.push('/auth');
     break;
   case 'settings':
@@ -95,10 +97,8 @@ const filteredButtons = computed(() =>
       links.filter((button) => (route.path !== '/' || button.key !== 'main') && button.key === 'test-constructor') :
       store.user.status === 'STUDENT' ?
         links.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users', 'test-constructor'].includes(button.key))) :
-        null,
+        null!,
 );
-
-Users.getProfile().then(({data}) => store.setUser(data));
 </script>
 
 <template>
@@ -128,8 +128,9 @@ Users.getProfile().then(({data}) => store.setUser(data));
         </template>
         <n-menu
           :on-update:value="onSelectDropdownOption"
-          :options="links"
+          :options="filteredButtons"
         />
+        <!-- TODO: FIX выход из системы       -->
         <n-menu
           :on-update:value="onSelectDropdownOption"
           :options="OPTIONS"
