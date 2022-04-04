@@ -18,6 +18,8 @@ import {
   useLoadingBar,
   useMessage,
 } from 'naive-ui';
+import {useRouter} from 'vue-router';
+import {useStore} from '~/store';
 import {PlusCircle} from '@vicons/fa';
 import CardUser from '~/components/CardUser/CardUser.vue';
 import Users from '~/api/users';
@@ -25,6 +27,13 @@ import {UsersModel} from '~/types/common';
 
 const message = useMessage();
 const loader = useLoadingBar();
+
+const router = useRouter();
+const store = useStore();
+
+if (store.user.status === 'STUDENT') {
+  router.push('/');
+}
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 

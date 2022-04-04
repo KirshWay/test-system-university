@@ -6,6 +6,15 @@ import {
 } from 'naive-ui';
 import {Plus, Table} from '@vicons/fa';
 import TestConstructor from '~/components/TestConstructor/TestConstructor.vue';
+import {useRouter} from 'vue-router';
+import {useStore} from '~/store';
+
+const router = useRouter();
+const store = useStore();
+
+if (store.user.status === 'STUDENT') {
+  router.push('/');
+}
 </script>
 
 <template>
