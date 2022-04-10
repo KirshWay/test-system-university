@@ -22,5 +22,6 @@ module.exports = {
     'vue/no-multiple-template-root': 'off',
     'max-len': ['error', {'code': 180}],
     'indent': ['error', 2],
+    'camelcase': 'off',
   },
 };

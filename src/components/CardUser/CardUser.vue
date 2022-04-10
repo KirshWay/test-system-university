@@ -18,18 +18,14 @@ const {email, firstName, lastName, patronymic} = defineProps<{
   patronymic: string
   status: string
 }>();
-
-const checkedInfoName = (firstName: string, lastName: string, patronymic: string) => {
-  if (firstName || lastName || patronymic) {
-    return `${firstName} ${lastName} ${patronymic}`;
-  }
-  return `Известно неполное ФИО`;
-};
 </script>
 
 <template>
   <div>
-    <n-card :title="checkedInfoName(firstName, lastName, patronymic)">
+    <n-card :title="firstName && lastName ?
+     `${firstName} ${lastName} ${!patronymic ? '' : patronymic}`
+      : `Неизвестно полное ФИО`"
+    >
       <template #header-extra>
         <n-button-group align="center">
           <n-tooltip trigger="hover">

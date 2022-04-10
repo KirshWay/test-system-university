@@ -3,7 +3,7 @@ import $axios from './index';
 const Tests = {
   getAllTest: () => $axios.get(`/test/list_test/`),
   // getTest: (title: string) => $axios.get(`/test/get_test/`, {title}),
-  createTest: (title: string) => $axios.post(`/test/create_test/`, {title}),
+  createTest: (title: string, subtitle: string, answer_time: number) => $axios.post(`/test/create_test/`, {title, subtitle, answer_time}),
   updateTest: (title: string, testId: string) => $axios.post(`/test/update_test/`, {title, testId}),
   deleteTest: (testId: string) => $axios.post(`/test/delete_test/`, {testId}),
   createQuestion: (text: string, testId: string, typeTest: string) => $axios.post(`/test/create_question/`, {text, testId, typeTest}),
