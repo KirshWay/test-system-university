@@ -7,6 +7,7 @@ import {
   NInput,
   NSelect,
 } from 'naive-ui';
+import Tests from '~/api/tests';
 import CardTest from '~/components/CardTest/CardTest.vue';
 import {useStore} from '~/store';
 
@@ -34,6 +35,8 @@ const store = useStore();
 
 const search = ref('');
 const selectedValue = ref<string>();
+
+Tests.getAllTest();
 </script>
 
 <template>
