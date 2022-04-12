@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import Router from '~/routes';
 
 export const toFormData = (data: Record<string, string | File>) => Object.entries(data).reduce((acc, el) => {
@@ -31,9 +32,8 @@ export const caseTransfer = (o: any, type: 'Camel' | 'Snake'): any => {
   return o;
 };
 
-const $axios = axios.create({
-  baseURL: `https://testing-backend.admire.social`,
-});
+const $axios = axios.create({baseURL: `https://testing-backend.admire.social`});
+
 
 $axios.interceptors.response.use((response) => {
   if (['', 'json'].includes(response.request.responseType)) response.data = caseTransfer(response.data, 'Camel');

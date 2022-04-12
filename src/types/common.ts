@@ -1,5 +1,6 @@
 export type UsersModel = {
     avatar?: string,
+    username: string,
     email: string,
     firstName: string,
     lastName: string,
@@ -14,15 +15,17 @@ export type SignIn = {
 
 export type TestType = {
     title: string,
-    subtitle: string,
-    uuid_testing: string
-};
+    subtitle?: string,
+    answer_time: number,
+    uuidTesting?: string,
+    questions?: QuestionType[]
+}
 
 export type QuestionType = {
     text: string,
-    type_answer_question: string,
+    type_answer_question: boolean,
     uuid_question: string,
-    answers: AnswersType[]
+    answers?: AnswersType[]
 }
 
 export type AnswersType = {

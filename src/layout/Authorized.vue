@@ -1,32 +1,36 @@
 <script setup lang="ts">
+import {Bars} from '@vicons/fa';
 import {
-  ref,
+  NAvatar,
+  NButton,
+  NButtonGroup,
+  NDrawer,
+  NDrawerContent,
+  NDropdown,
+  NH2,
+  NIcon,
+  NLayout,
+  NLayoutHeader,
+  NMenu,
+  NP,
+  NScrollbar,
+  useLoadingBar,
+  useMessage,
+} from 'naive-ui';
+import {
   computed,
   ComputedRef,
   inject,
+  ref,
 } from 'vue';
 import {
-  useRouter,
   useRoute,
+  useRouter,
 } from 'vue-router';
-import {
-  NLayout,
-  NLayoutHeader,
-  NScrollbar,
-  NDropdown,
-  NButton,
-  NButtonGroup,
-  NIcon,
-  NMenu,
-  NAvatar,
-  NDrawerContent,
-  NDrawer,
-  NH2,
-  NP,
-} from 'naive-ui';
-import {Bars} from '@vicons/fa';
+
 import Users from '~/api/users';
 import {useStore} from '~/store';
+import {useTestStore} from '~/store/test';
 
 const links = [
   {
@@ -38,11 +42,6 @@ const links = [
     label: 'Пользователи',
     key: 'users',
     to: '/users',
-  },
-  {
-    label: 'Создать тест',
-    key: 'test-constructor',
-    to: '/test-constructor',
   },
 ];
 
@@ -60,6 +59,10 @@ const OPTIONS = [
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
+const testStore = useTestStore();
+
+store.message = useMessage();
+store.loader = useLoadingBar();
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
@@ -71,6 +74,10 @@ if (!localStorage.getItem('Authorization')) {
 
 if (localStorage.getItem('Authorization')) {
   Users.getProfile().then(({data}) => store.setUser(data));
+}
+
+if (route.path === '/constructor-test' && Object.keys(testStore.test).length === 0) {
+  router.push('/');
 }
 
 const onSelectDropdownOption = (key: string) => {

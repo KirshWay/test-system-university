@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import {ref} from 'vue';
-import {useRouter} from 'vue-router';
 import {
   NButton,
   NCard,
-  NSpace,
   NInput,
+  NSpace,
   useLoadingBar,
 } from 'naive-ui';
+import {ref} from 'vue';
+import {useRouter} from 'vue-router';
+
 import Users from '~/api/users';
 
 const loader = useLoadingBar();
@@ -40,11 +41,26 @@ const submit = () => {
           Почта
           <n-input placeholder="Почта" name="email" v-model:value="email" />
           Пароль
-          <n-input placeholder="Пароль" type="password" name="password" v-model:value="password" />
+          <n-input
+            placeholder="Пароль"
+            type="password"
+            name="password"
+            v-model:value="password"
+          />
           Повторите пароль
-          <n-input placeholder="Повторите пароль" type="password" name="password" v-model:value="repeatPassword" />
+          <n-input
+            placeholder="Повторите пароль"
+            type="password"
+            name="password"
+            v-model:value="repeatPassword"
+          />
           Введите код доступа
-          <n-input placeholder="Код доступа" type="password" name="access_code" v-model:value="accessCode" />
+          <n-input
+            placeholder="Код доступа"
+            type="password"
+            name="access_code"
+            v-model:value="accessCode"
+          />
           <n-button
             type="primary"
             attr-type="submit"
@@ -54,7 +70,9 @@ const submit = () => {
             Зарегистрироваться
           </n-button>
           <router-link to="/auth">
-            <n-button attr-type="submit" class="authPage__button">Авторизоваться</n-button>
+            <n-button attr-type="submit" class="authPage__button">
+              Авторизоваться
+            </n-button>
           </router-link>
         </n-space>
       </form>
