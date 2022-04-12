@@ -1,36 +1,36 @@
 <script setup lang="ts">
+import {Trash} from '@vicons/fa';
 import {
-  NCard,
-  NTooltip,
   NButton,
   NButtonGroup,
+  NCard,
   NIcon,
-  NSpace,
   NP,
+  NSpace,
+  NTooltip,
 } from 'naive-ui';
-import {Trash} from '@vicons/fa';
-import {generateStatus} from '~/scripts/common';
 
-const {email, firstName, lastName, patronymic} = defineProps<{
-  email: string
-  firstName: string
-  lastName: string
-  patronymic: string
-  status: string
-}>();
+import {generateStatus} from '~/scripts/common';
+import {useStore} from '~/store';
+import {UsersModel} from '~/types/common';
+
+const store = useStore();
+
+const {user} = defineProps<{ user: UsersModel }>();
 </script>
 
 <template>
   <div>
-    <n-card :title="firstName && lastName ?
-     `${firstName} ${lastName} ${!patronymic ? '' : patronymic}`
-      : `Неизвестно полное ФИО`"
+    <n-card
+      :title="user.firstName && user.lastName ?
+        `${user.firstName} ${user.lastName} ${!user.patronymic ? '' : user.patronymic}`
+        : `Неизвестно полное ФИО`"
     >
       <template #header-extra>
         <n-button-group align="center">
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button type="error">
+              <n-button @click="store.deleteUser(user.uuid)" type="error">
                 <template #icon>
                   <n-icon>
                     <Trash />
@@ -43,8 +43,9 @@ const {email, firstName, lastName, patronymic} = defineProps<{
         </n-button-group>
       </template>
       <n-space vertical>
-        <n-p><strong>Почта пользователя: </strong>{{ email }}</n-p>
-        <n-p><strong>Роль: </strong>{{ generateStatus(status) }}</n-p>
+        <n-p><strong>Никнейм пользователя: </strong>{{ user.username }}</n-p>
+        <n-p><strong>Почта пользователя: </strong>{{ user.email }}</n-p>
+        <n-p><strong>Роль: </strong>{{ generateStatus(user.status) }}</n-p>
       </n-space>
     </n-card>
   </div>

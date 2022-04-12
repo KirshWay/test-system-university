@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import {ref} from 'vue';
-import {useRouter} from 'vue-router';
 import {
   NButton,
   NCard,
-  NSpace,
   NInput,
+  NSpace,
   useLoadingBar,
   useMessage,
 } from 'naive-ui';
+import {ref} from 'vue';
+import {useRouter} from 'vue-router';
+
 import Users from '~/api/users';
 
 const loader = useLoadingBar();
@@ -41,10 +42,19 @@ const password = ref('');
           Введите почту
           <n-input placeholder="Почта" name="email" v-model:value="email" />
           Введите пароль
-          <n-input placeholder="Пароль" type="password" name="password" v-model:value="password" />
-          <n-button type="primary" attr-type="submit" class="authPage__button">Войти</n-button>
+          <n-input
+            placeholder="Пароль"
+            type="password"
+            name="password"
+            v-model:value="password"
+          />
+          <n-button type="primary" attr-type="submit" class="authPage__button">
+            Войти
+          </n-button>
           <router-link to="/sign-up">
-            <n-button attr-type="submit" class="authPage__button">Зарегистрироваться</n-button>
+            <n-button attr-type="submit" class="authPage__button">
+              Зарегистрироваться
+            </n-button>
           </router-link>
         </n-space>
       </form>

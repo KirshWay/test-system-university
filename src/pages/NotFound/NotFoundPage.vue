@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
-  NResult,
   NButton,
+  NResult,
 } from 'naive-ui';
 import {useRouter} from 'vue-router';
 
@@ -14,7 +14,9 @@ const router = useRouter();
       status="404"
       title="404 Страница не найдена"
     />
-    <n-button @click="router.push('/')" type="info">Вернуться на домашнюю страницу</n-button>
+    <n-button @click="router.push('/')" type="info">
+      Вернуться на домашнюю страницу
+    </n-button>
   </div>
 </template>
 

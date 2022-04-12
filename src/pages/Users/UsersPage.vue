@@ -1,28 +1,29 @@
 <script setup lang="ts">
+import {PlusCircle} from '@vicons/fa';
+import {
+  NButton,
+  NCard,
+  NIcon,
+  NInput,
+  NInputGroup,
+  NModal,
+  NSelect,
+  NSpace,
+  NTooltip,
+  useLoadingBar,
+  useMessage,
+} from 'naive-ui';
 import {
   computed,
   ComputedRef,
   inject,
   ref,
 } from 'vue';
-import {
-  NCard,
-  NSelect,
-  NSpace,
-  NInput,
-  NInputGroup,
-  NButton,
-  NModal,
-  NIcon,
-  NTooltip,
-  useLoadingBar,
-  useMessage,
-} from 'naive-ui';
 import {useRouter} from 'vue-router';
-import {useStore} from '~/store';
-import {PlusCircle} from '@vicons/fa';
-import CardUser from '~/components/CardUser/CardUser.vue';
+
 import Users from '~/api/users';
+import CardUser from '~/components/CardUser/CardUser.vue';
+import {useStore} from '~/store';
 import {UsersModel} from '~/types/common';
 
 const message = useMessage();
@@ -58,33 +59,16 @@ const searchType = ref('all');
 const search = ref('');
 
 const selectedType = ref<string>();
+const username = ref('');
 const firstName = ref('');
 const lastName = ref('');
 const patronymic = ref('');
 const email = ref('');
 const password = ref('');
 
-const allUsers = ref<UsersModel[]>([]);
-
-const getAllUsers = () => {
-  loader.start();
-  const students = Users.getAllStudents().then(({data}) => data);
-  const teachers = Users.getAllTeachers().then(({data}) => data);
-  return Promise.all([students, teachers]).then((users) => allUsers.value = allUsers.value.concat(...users))
-    .catch(loader.error)
-    .finally(loader.finish);
-};
-
-getAllUsers();
-
-const filteredListUsers = computed(() =>
-  allUsers.value.filter((el) =>
-    (searchType.value === 'all' || el.status === searchType.value) &&
-        (el.email?.toLowerCase().includes(search.value.toLowerCase()) ||
-            el.lastName?.toLowerCase().includes(search.value.toLowerCase()))));
-
 const submit = () => {
   Users.createUser(
+    username.value,
     email.value,
     firstName.value,
     lastName.value,
@@ -94,7 +78,7 @@ const submit = () => {
   )
     .then(() => {
       showModal.value = false;
-      getAllUsers();
+      store.getAllUsers();
     })
     .catch(loader.error)
     .finally(() => {
@@ -102,6 +86,15 @@ const submit = () => {
       message.success('Пользователь создан');
     });
 };
+
+store.getAllUsers();
+
+const filteredListUsers = computed(() =>
+  store.users.filter((el) =>
+    (searchType.value === 'all' || el.status === searchType.value) &&
+        (el.email?.toLowerCase().includes(search.value.toLowerCase()) ||
+            el.lastName?.toLowerCase().includes(search.value.toLowerCase()) ||
+            el.username?.toLowerCase().includes(search.value.toLowerCase()))));
 </script>
 
 <template>
@@ -124,18 +117,14 @@ const submit = () => {
     <n-card title="Поиск пользователя" style="margin-bottom: 3%">
       <n-input-group>
         <n-input v-model:value="search" placeholder="Пользователь" />
-        <n-select v-model:value="searchType" :options="TYPES_USERS" style="width: 200px"/>
+        <n-select v-model:value="searchType" :options="TYPES_USERS" style="width: 200px" />
       </n-input-group>
     </n-card>
     <div style="display: flex; flex-direction: column; gap: 10px">
       <CardUser
         v-for="user in filteredListUsers"
         :key="user.uuid"
-        :email="user.email"
-        :firstName="user.firstName"
-        :lastName="user.lastName"
-        :patronymic="user.patronymic"
-        :status="user.status"
+        :user="user"
       />
     </div>
     <n-modal
@@ -154,6 +143,8 @@ const submit = () => {
             :options="TYPES_USERS"
           />
           Редактирование имени
+          <n-input v-model:value="username" placeholder="Никнейм" />
+          Редактирование имени
           <n-input v-model:value="firstName" placeholder="Имя" />
           Редактирование фамилии
           <n-input v-model:value="lastName" placeholder="Фамилия" />
@@ -162,8 +153,16 @@ const submit = () => {
           Почта пользователя
           <n-input placeholder="Почту" name="email" v-model:value="email" />
           Пароль пользователя
-          <n-input style="margin-bottom: 2%" placeholder="Пароль" type="password" name="password" v-model:value="password" />
-          <n-button type="success" attr-type="submit" secondary>Создать</n-button>
+          <n-input
+            style="margin-bottom: 2%"
+            placeholder="Пароль"
+            type="password"
+            name="password"
+            v-model:value="password"
+          />
+          <n-button type="success" attr-type="submit" secondary>
+            Создать
+          </n-button>
         </n-space>
       </form>
     </n-modal>

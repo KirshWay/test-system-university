@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import {
+  NAvatar,
+  NButton,
+  NCard,
+  NH3,
+  NInput,
+  useMessage,
+} from 'naive-ui';
+import {
   ComputedRef,
   inject,
   ref,
 } from 'vue';
-import {
-  NCard,
-  NH3,
-  NButton,
-  NAvatar,
-  NInput,
-  useMessage,
-} from 'naive-ui';
-import {useStore} from '~/store';
-import {generateStatus} from '~/scripts/common';
+
 import Users from '~/api/users';
+import {generateStatus} from '~/scripts/common';
 import {createFormData} from '~/scripts/common';
+import {useStore} from '~/store';
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
@@ -93,7 +94,14 @@ const submit = () => {
           <n-input v-model:value="store.user.email" />
           Редактирование пароля
           <n-input v-model:value="password" type="password" placeholder="Пароль" />
-          <n-button style="margin-top: 10px" type="success" attr-type="submit" secondary>Сохранить</n-button>
+          <n-button
+            style="margin-top: 10px"
+            type="success"
+            attr-type="submit"
+            secondary
+          >
+            Сохранить
+          </n-button>
         </form>
       </div>
     </div>

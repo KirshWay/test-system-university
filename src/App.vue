@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import {provide, ref, computed} from 'vue';
 import {
+  darkTheme,
   NConfigProvider,
+  NDialogProvider,
+  NLayout,
   NLoadingBarProvider,
   NMessageProvider,
-  NDialogProvider,
   NNotificationProvider,
-  NLayout,
-  darkTheme,
 } from 'naive-ui';
+import {
+  computed, provide, ref,
+} from 'vue';
 
 const screenWidth = ref(window.innerWidth);
 

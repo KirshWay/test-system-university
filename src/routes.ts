@@ -1,14 +1,15 @@
-import {createWebHistory, createRouter} from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
+
 import AuthorizedLayout from './layout/Authorized.vue';
 import AuthPage from './pages/Auth/AuthPage.vue';
-import RegistrationPage from './pages/Registration/RegistrationPage.vue';
+import ConstructorTestPage from './pages/ConstructorTest/ConstructorTestPage.vue';
 import MainPage from './pages/Main/MainPage.vue';
-import TestPage from './pages/Test/TestPage.vue';
-import TestConstructorPage from './pages/TestConstructor/TestConstructorPage.vue';
-import UsersPage from './pages/Users/UsersPage.vue';
+import NotFoundPage from './pages/NotFound/NotFoundPage.vue';
+import RegistrationPage from './pages/Registration/RegistrationPage.vue';
 import SettingsPage from './pages/Settings/SettingsPage.vue';
 import StatisticPage from './pages/Statistic/StatisticPage.vue';
-import NotFoundPage from './pages/NotFound/NotFoundPage.vue';
+import TestPage from './pages/Test/TestPage.vue';
+import UsersPage from './pages/Users/UsersPage.vue';
 
 const routes = [
   {
@@ -42,14 +43,19 @@ const routes = [
         component: SettingsPage,
       },
       {
-        path: '/test-constructor',
-        name: 'test-constructor',
-        component: TestConstructorPage,
-      },
-      {
         path: '/tests/:id',
         name: 'Tests',
         component: TestPage,
+      },
+      {
+        path: '/constructor-test',
+        name: 'ConstructorTest',
+        component: ConstructorTestPage,
+      },
+      {
+        path: '/constructor-test/:id',
+        name: 'ConstructorTestOnce',
+        component: ConstructorTestPage,
       },
       {
         path: '/statistic/:id',
