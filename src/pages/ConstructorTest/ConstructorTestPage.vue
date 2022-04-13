@@ -26,7 +26,7 @@ const testStore = useTestStore();
       <n-divider />
       <n-card
         v-for="question in testStore.test.questions"
-        :key="question.uuid_question"
+        :key="question.uuidQuestion"
         style="margin-bottom: 2%"
       >
         <n-space vertical>
@@ -46,22 +46,14 @@ const testStore = useTestStore();
         Добавить вопрос
       </n-button>
     </n-card>
-    <n-space justify="end">
-      <n-button>
-        <template #icon>
-          <n-icon>
-            <Table />
-          </n-icon>
-        </template>
-        Загрузить excel таблицу
-      </n-button>
-      <n-button type="error">
-        Удалить
-      </n-button>
-      <n-button type="success">
-        Создать
-      </n-button>
-    </n-space>
+    <n-button class="constructor__button" dashed>
+      <template #icon>
+        <n-icon>
+          <Table />
+        </n-icon>
+      </template>
+      Загрузить excel таблицу
+    </n-button>
   </div>
 </template>
 

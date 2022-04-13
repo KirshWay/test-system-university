@@ -21,6 +21,7 @@ export const useTestStore = defineStore('tests', {
       };
 
       Tests.createTest(this.test.title, this.test.subtitle!, this.test.answer_time)
+        .then(({data}) => this.test.uuidTesting = data.uuid)
         .catch(() => store.message.error('Нет полного доступа для создания'));
     },
 
@@ -42,7 +43,6 @@ export const useTestStore = defineStore('tests', {
 
     updateTitleTest() {
       const store = useStore();
-
       Tests.updateTest(this.test.title, this.test.uuidTesting!)
         .then(({data}) => {
           this.test.title = data.title;
@@ -51,33 +51,55 @@ export const useTestStore = defineStore('tests', {
         }).catch(() => store.message.error('Не найден id теста'));
     },
 
-    addAnswer(idQuestion: string) {
-      this.test.questions!.filter((el) => el.uuid_question === idQuestion).map((el) => el.answers!.push({
+    addQuestion(uuidTesting: string) {
+      const store = useStore();
+
+      this.test.questions!.push({
         text: '',
-        uuid_answer: `${Date.now()}`,
-        correct_answer: false,
-      }));
+        type_answer_question: false,
+        answers: [],
+      });
+
+      Tests.createQuestion('', uuidTesting, false)
+        .then(({data}) => this.test.questions![this.test.questions!.length - 1] = data.question)
+        .catch(() => store.message.error('Не получилось создать вопрос'));
+    },
+
+    updateQuestion(text: string, updateQuestion: string) {
+      const store = useStore();
+
+      Tests.updateQuestion(text, updateQuestion)
+        .catch(() => store.message.error('Не получилось обновить заголовок вопроса'));
+    },
+
+    addAnswer(uuidQuestion: string) {
+      this.test.questions!.filter((el) => el.uuidQuestion === uuidQuestion).map((el) => {
+        el.answers!.push({
+          text: '',
+          correct_answer: false,
+        });
+        return Tests.createAnswer('', uuidQuestion, false)
+          .then(({data}) => el.answers![el.answers!.length - 1] = data.answer);
+      });
+    },
+
+    updateAnswer(text: string, uuidAnswer: string) {
+      const store = useStore();
+
+      Tests.updateAnswerText(text, uuidAnswer)
+        .catch(() => store.message.error('Не получилось обновить ответ'));
     },
 
     deleteAnswer(idAnswer: string, idQuestion: string) {
       this.test.questions!.map((el) => {
-        if (el.uuid_question === idQuestion) {
-          return el.answers!.filter((el) => el.uuid_answer !== idAnswer);
+        if (el.uuidQuestion === idQuestion) {
+          return el.answers!.filter((el) => el.uuidAnswer !== idAnswer);
         }
       });
     },
 
-    addQuestion(uuid_testing: string) {
-      this.test.questions!.push({
-        text: '',
-        type_answer_question: false,
-        uuid_question: `${Date.now()}`,
-        answers: [],
-      });
-    },
-
     changeTypeTest(v: boolean, idQuestion: string) {
-      return this.test.questions!.filter((el) => el.uuid_question === idQuestion).map((el) => el.type_answer_question = v);
+      return this.test.questions!.filter((el) => el.uuidQuestion === idQuestion).map((el) => el.type_answer_question = v);
     },
   },
 });

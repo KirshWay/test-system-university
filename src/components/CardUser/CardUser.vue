@@ -22,8 +22,8 @@ const {user} = defineProps<{ user: UsersModel }>();
 <template>
   <div>
     <n-card
-      :title="user.firstName && user.lastName ?
-        `${user.firstName} ${user.lastName} ${!user.patronymic ? '' : user.patronymic}`
+      :title="user.lastName && user.firstName ?
+        `${user.lastName} ${user.firstName} ${!user.patronymic ? '' : user.patronymic}`
         : `Неизвестно полное ФИО`"
     >
       <template #header-extra>
