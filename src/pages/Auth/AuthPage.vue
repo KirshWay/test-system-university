@@ -51,11 +51,6 @@ const password = ref('');
           <n-button type="primary" attr-type="submit" class="authPage__button">
             Войти
           </n-button>
-          <router-link to="/sign-up">
-            <n-button attr-type="submit" class="authPage__button">
-              Зарегистрироваться
-            </n-button>
-          </router-link>
         </n-space>
       </form>
     </n-card>

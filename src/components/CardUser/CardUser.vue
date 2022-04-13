@@ -43,7 +43,6 @@ const {user} = defineProps<{ user: UsersModel }>();
         </n-button-group>
       </template>
       <n-space vertical>
-        <n-p><strong>Никнейм пользователя: </strong>{{ user.username }}</n-p>
         <n-p><strong>Почта пользователя: </strong>{{ user.email }}</n-p>
         <n-p><strong>Роль: </strong>{{ generateStatus(user.status) }}</n-p>
       </n-space>

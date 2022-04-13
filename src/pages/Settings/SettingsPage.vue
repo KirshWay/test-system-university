@@ -42,7 +42,11 @@ const saveAvatar = (e: Event) => {
 };
 
 const submit = () => {
-  const result = createFormData({
+  const result = createFormData(!avatar.value.file ? {
+    'first_name': store.user.firstName,
+    'last_name': store.user.lastName,
+    'patronymic': store.user.patronymic,
+  } : {
     'first_name': store.user.firstName,
     'last_name': store.user.lastName,
     'patronymic': store.user.patronymic,

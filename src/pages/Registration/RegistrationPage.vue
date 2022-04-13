@@ -16,7 +16,10 @@ const router = useRouter();
 
 if (localStorage.getItem('Authorization')) router.push('/');
 
-const username = ref('');
+const firstName = ref('');
+const lastName = ref('');
+const patronymiс = ref('');
+
 const email = ref('');
 const password = ref('');
 const repeatPassword = ref('');
@@ -24,7 +27,7 @@ const accessCode = ref('');
 
 const submit = () => {
   loader.start();
-  Users.signUpDean(email.value, username.value, password.value, accessCode.value).
+  Users.signUpDean(email.value, firstName.value, lastName.value, patronymiс.value, password.value, accessCode.value).
     then(() => {
       router.push('/');
     }).catch(loader.error).finally(loader.finish);
@@ -37,7 +40,11 @@ const submit = () => {
       <form @submit.prevent="submit">
         <n-space vertical>
           Имя
-          <n-input placeholder="Имя" name="name" v-model:value="username" />
+          <n-input placeholder="Имя" name="name" v-model:value="firstName" />
+          Фамилия
+          <n-input placeholder="Имя" name="name" v-model:value="lastName" />
+          Отчество
+          <n-input placeholder="Имя" name="name" v-model:value="patronymiс" />
           Почта
           <n-input placeholder="Почта" name="email" v-model:value="email" />
           Пароль

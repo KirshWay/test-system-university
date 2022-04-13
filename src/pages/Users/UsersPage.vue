@@ -141,8 +141,6 @@ const filteredListUsers = computed(() =>
             v-model:value="selectedType"
             :options="TYPES_USERS"
           />
-          Редактирование никнейма
-          <n-input v-model:value="username" placeholder="Никнейм" />
           Редактирование имени
           <n-input v-model:value="firstName" placeholder="Имя" />
           Редактирование фамилии
