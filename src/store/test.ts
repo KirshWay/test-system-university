@@ -2,7 +2,7 @@ import {defineStore} from 'pinia';
 
 import Tests from '~/api/tests';
 import {useStore} from '~/store/index';
-import {TestType} from '~/types/common';
+import {AnswersType, TestType} from '~/types/common';
 
 export const useTestStore = defineStore('tests', {
   state: () => ({
@@ -21,7 +21,10 @@ export const useTestStore = defineStore('tests', {
       };
 
       Tests.createTest(this.test.title, this.test.subtitle!, this.test.answer_time)
-        .then(({data}) => this.test.uuidTesting = data.uuid)
+        .then(({data}) => {
+          this.test.uuidTesting = data.uuid;
+          store.router.push(`/constructor-test/${this.test.uuidTesting}`);
+        })
         .catch(() => store.message.error('Нет полного доступа для создания'));
     },
 
@@ -56,7 +59,7 @@ export const useTestStore = defineStore('tests', {
 
       this.test.questions!.push({
         text: '',
-        type_answer_question: false,
+        typeAnswerQuestion: false,
         answers: [],
       });
 
@@ -70,6 +73,14 @@ export const useTestStore = defineStore('tests', {
 
       Tests.updateQuestion(text, updateQuestion)
         .catch(() => store.message.error('Не получилось обновить заголовок вопроса'));
+    },
+
+    deleteQuestion(uuidQuestion: string) {
+      const store = useStore();
+
+      Tests.deleteQuestion(uuidQuestion)
+        .then(() => this.test.questions = this.test.questions!.filter((el) => el.uuidQuestion !== uuidQuestion))
+        .catch(() => store.message.error('Возникла ошибка при удалении вопроса'));
     },
 
     addAnswer(uuidQuestion: string) {
@@ -90,16 +101,20 @@ export const useTestStore = defineStore('tests', {
         .catch(() => store.message.error('Не получилось обновить ответ'));
     },
 
-    deleteAnswer(idAnswer: string, idQuestion: string) {
-      this.test.questions!.map((el) => {
-        if (el.uuidQuestion === idQuestion) {
-          return el.answers!.filter((el) => el.uuidAnswer !== idAnswer);
-        }
-      });
+    deleteAnswer(uuidAnswer: string, answers: AnswersType[]) {
+      const store = useStore();
+      Tests.deleteAnswer(uuidAnswer)
+        .then(() => this.test.questions!.forEach((el) =>
+          el.answers = answers.filter((el) => el.uuidAnswer !== uuidAnswer)))
+        .catch(() => store.message.error('Не получилось удалить ответ'));
     },
 
-    changeTypeTest(v: boolean, idQuestion: string) {
-      return this.test.questions!.filter((el) => el.uuidQuestion === idQuestion).map((el) => el.type_answer_question = v);
+    changeTypeAnswer(v: boolean, idQuestion: string) {
+      return this.test.questions!.filter((el) => el.uuidQuestion === idQuestion).map((el) => el.typeAnswerQuestion = v);
+    },
+
+    chooseRightAnswer() {
+
     },
   },
 });

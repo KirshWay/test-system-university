@@ -27,10 +27,7 @@ const testStore = useTestStore();
         <strong>Название: </strong> {{ test.title }}
       </n-p>
       <n-button-group align="center">
-        <router-link
-          @click="testStore.getTest(test.uuidTesting)"
-          :to="`/constructor-test/${test.uuidTesting}`"
-        >
+        <router-link :to="`/constructor-test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>
               <n-button type="warning">

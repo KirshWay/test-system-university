@@ -16,6 +16,7 @@ const {
   answer, uuidQuestion, typeAnswerQuestion,
 } = defineProps<{
   answer?: AnswersType,
+  answers?: AnswersType[],
   uuidQuestion?: string,
   typeAnswerQuestion?: boolean
 }>();
@@ -38,7 +39,7 @@ const testStore = useTestStore();
           :on-blur="() => testStore.updateAnswer(answer.text, answer.uuidAnswer)"
         />
         <n-button
-          @click="testStore.deleteAnswer(answer.uuidAnswer, uuidQuestion)"
+          @click="testStore.deleteAnswer(answer.uuidAnswer, answers)"
           type="error"
           size="small"
           secondary
@@ -64,7 +65,7 @@ const testStore = useTestStore();
           :on-blur="() => testStore.updateAnswer(answer.text, answer.uuidAnswer)"
         />
         <n-button
-          @click="testStore.deleteAnswer(answer.uuidAnswer, uuidQuestion)"
+          @click="testStore.deleteAnswer(answer.uuidAnswer, answers)"
           type="error"
           size="small"
           secondary

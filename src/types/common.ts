@@ -23,7 +23,7 @@ export type TestType = {
 
 export type QuestionType = {
     text: string,
-    type_answer_question: boolean,
+    typeAnswerQuestion: boolean,
     uuidQuestion?: string,
     answers?: AnswersType[]
 }

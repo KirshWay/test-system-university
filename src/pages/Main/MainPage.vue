@@ -55,25 +55,24 @@ Tests.getAllTest().then(({data}) => testStore.tests = data);
       <n-h1>
         Тесты
       </n-h1>
-      <router-link
+      <n-button
         v-if="['TEACHER', 'DEAN'].includes(store.user.status)"
         @click="testStore.createTest"
-        to="/constructor-test"
+        type="success"
+        secondary
       >
-        <n-button type="success" secondary>
-          <template v-if="screenWidth > 640">
-            Создать тест
+        <template v-if="screenWidth > 640">
+          Создать тест
+        </template>
+        <n-tooltip v-else placement="bottom-start" trigger="hover">
+          <template #trigger>
+            <n-icon>
+              <plus-circle />
+            </n-icon>
           </template>
-          <n-tooltip v-else placement="bottom-start" trigger="hover">
-            <template #trigger>
-              <n-icon>
-                <plus-circle />
-              </n-icon>
-            </template>
-            Создать тест
-          </n-tooltip>
-        </n-button>
-      </router-link>
+          Создать тест
+        </n-tooltip>
+      </n-button>
     </n-space>
     <template v-if="['TEACHER', 'DEAN'].includes(store.user.status)">
       <n-card title="Поиск теста" style="margin-bottom: 24px">
