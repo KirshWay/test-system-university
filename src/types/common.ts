@@ -24,12 +24,12 @@ export type TestType = {
 export type QuestionType = {
     text: string,
     type_answer_question: boolean,
-    uuid_question: string,
+    uuidQuestion?: string,
     answers?: AnswersType[]
 }
 
 export type AnswersType = {
     text: string,
-    uuid_answer: string,
+    uuidAnswer?: string,
     correct_answer: boolean
 }

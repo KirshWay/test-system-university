@@ -24,7 +24,6 @@ import {useRouter} from 'vue-router';
 import Users from '~/api/users';
 import CardUser from '~/components/CardUser/CardUser.vue';
 import {useStore} from '~/store';
-import {UsersModel} from '~/types/common';
 
 const message = useMessage();
 const loader = useLoadingBar();
@@ -142,7 +141,7 @@ const filteredListUsers = computed(() =>
             v-model:value="selectedType"
             :options="TYPES_USERS"
           />
-          Редактирование имени
+          Редактирование никнейма
           <n-input v-model:value="username" placeholder="Никнейм" />
           Редактирование имени
           <n-input v-model:value="firstName" placeholder="Имя" />

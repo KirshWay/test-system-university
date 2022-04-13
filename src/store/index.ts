@@ -22,7 +22,7 @@ export const useStore = defineStore('main', {
       const students = Users.getAllStudents().then(({data}) => data);
       const teachers = Users.getAllTeachers().then(({data}) => data);
       return Promise.all([students, teachers])
-        .then((users) => this.users = this.users.concat(...users))
+        .then((users) => this.users = ([] as UsersModel[]).concat(...users))
         .catch(this.loader.error)
         .finally(this.loader.finish);
     },

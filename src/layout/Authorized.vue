@@ -59,7 +59,6 @@ const OPTIONS = [
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
-const testStore = useTestStore();
 
 store.message = useMessage();
 store.loader = useLoadingBar();
@@ -74,10 +73,6 @@ if (!localStorage.getItem('Authorization')) {
 
 if (localStorage.getItem('Authorization')) {
   Users.getProfile().then(({data}) => store.setUser(data));
-}
-
-if (route.path === '/constructor-test' && Object.keys(testStore.test).length === 0) {
-  router.push('/');
 }
 
 const onSelectDropdownOption = (key: string) => {
@@ -137,7 +132,6 @@ const filteredButtons = computed(() =>
           :on-update:value="onSelectDropdownOption"
           :options="filteredButtons"
         />
-        <!-- TODO: FIX выход из системы       -->
         <n-menu
           :on-update:value="onSelectDropdownOption"
           :options="OPTIONS"

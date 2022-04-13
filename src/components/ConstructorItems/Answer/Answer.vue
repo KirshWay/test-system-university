@@ -12,7 +12,9 @@ import {
 import {useTestStore} from '~/store/test';
 import {AnswersType} from '~/types/common';
 
-const {answer, typeAnswerQuestion} = defineProps<{
+const {
+  answer, uuidQuestion, typeAnswerQuestion,
+} = defineProps<{
   answer: AnswersType,
   uuidQuestion: string,
   typeAnswerQuestion: boolean
@@ -29,9 +31,14 @@ const testStore = useTestStore();
     >
       <div class="answer__wrapper">
         <n-checkbox :checked="answer.correct_answer" />
-        <n-input style="max-width: 85%" placeholder="Введите вариант ответа" v-model:value="answer.text" />
+        <n-input
+          style="max-width: 80%"
+          placeholder="Введите вариант ответа"
+          v-model:value="answer.text"
+          :on-blur="() => testStore.updateAnswer(answer.text, answer.uuidAnswer)"
+        />
         <n-button
-          @click="testStore.deleteAnswer(answer.uuid_answer, uuidQuestion)"
+          @click="testStore.deleteAnswer(answer.uuidAnswer, uuidQuestion)"
           type="error"
           size="small"
           secondary
@@ -50,9 +57,14 @@ const testStore = useTestStore();
     >
       <div class="answer__wrapper">
         <n-radio :checked="answer.correct_answer" />
-        <n-input style="max-width: 85%" placeholder="Введите вариант ответа" v-model:value="answer.text" />
+        <n-input
+          style="max-width: 80%"
+          placeholder="Введите вариант ответа"
+          v-model:value="answer.text"
+          :on-blur="() => testStore.updateAnswer(answer.text, answer.uuidAnswer)"
+        />
         <n-button
-          @click="testStore.deleteAnswer(answer.uuid_answer, uuidQuestion)"
+          @click="testStore.deleteAnswer(answer.uuidAnswer, uuidQuestion)"
           type="error"
           size="small"
           secondary
