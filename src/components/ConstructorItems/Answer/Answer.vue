@@ -15,9 +15,9 @@ import {AnswersType} from '~/types/common';
 const {
   answer, uuidQuestion, typeAnswerQuestion,
 } = defineProps<{
-  answer: AnswersType,
-  uuidQuestion: string,
-  typeAnswerQuestion: boolean
+  answer?: AnswersType,
+  uuidQuestion?: string,
+  typeAnswerQuestion?: boolean
 }>();
 
 const testStore = useTestStore();
