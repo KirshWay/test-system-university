@@ -1,5 +1,6 @@
 import {LoadingBarApi, MessageApi} from 'naive-ui';
 import {defineStore} from 'pinia';
+import {RouteLocationNormalizedLoaded, Router} from 'vue-router';
 
 import Users from '~/api/users';
 import {UsersModel} from '~/types/common';
@@ -11,6 +12,8 @@ export const useStore = defineStore('main', {
       users: [] as UsersModel[],
       loader: {} as LoadingBarApi,
       message: {} as MessageApi,
+      route: {} as RouteLocationNormalizedLoaded,
+      router: {} as Omit<Router, 'currentRoute'>,
     };
   },
   actions: {

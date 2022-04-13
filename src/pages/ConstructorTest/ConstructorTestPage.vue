@@ -8,11 +8,16 @@ import {
   NInput,
   NSpace,
 } from 'naive-ui';
+import {useRoute} from 'vue-router';
 
 import QuestionConstructor from '~/components/ConstructorItems/Question/Question.vue';
 import {useTestStore} from '~/store/test';
 
 const testStore = useTestStore();
+const route = useRoute();
+
+
+testStore.getTest(route.params.id as string);
 </script>
 
 <template>

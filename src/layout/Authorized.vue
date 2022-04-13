@@ -62,6 +62,8 @@ const store = useStore();
 
 store.message = useMessage();
 store.loader = useLoadingBar();
+store.router = router;
+store.route = route;
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
