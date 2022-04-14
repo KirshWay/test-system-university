@@ -5,7 +5,7 @@ export const generateStatus = (str: string) => {
   case 'STUDENT':
     return 'Студент';
   case 'DEAN':
-    return 'Админ';
+    return 'Администратор';
   default:
     return 'Неопределённая роль';
   }
