@@ -7,6 +7,7 @@ import {
   NIcon,
   NInput,
   NP,
+  NSelect,
   NSpace,
   NSwitch,
 } from 'naive-ui';
@@ -18,16 +19,19 @@ import {QuestionType} from '~/types/common';
 const testStore = useTestStore();
 
 const {question} = defineProps<{ question: QuestionType }>();
-
-// const checkAnswerStatus = () => null;
 </script>
 
 <template>
   <div>
+    <n-select
+      style="margin-bottom: 2%"
+      placeholder="Выберите компетенцию"
+      filterable
+    />
     <n-input
       placeholder="Заголовок вопроса"
       v-model:value="question.text"
-      :on-blur="() => testStore.updateQuestion(question.text, question.uuidQuestion)"
+      :on-blur="() => testStore.updateQuestion(question.text, question.uuidQuestion, question.typeAnswerQuestion)"
       style="max-width: 100%; margin-bottom: 2%"
     />
     <AnswerConstructor
@@ -36,7 +40,7 @@ const {question} = defineProps<{ question: QuestionType }>();
       :type-answer-question="question.typeAnswerQuestion"
       :answer="answer"
       :answers="question.answers"
-      :uuid-question="question.uuidQuestion"
+      :question="question"
     />
     <n-button
       @click="testStore.addAnswer(question.uuidQuestion)"
@@ -54,7 +58,7 @@ const {question} = defineProps<{ question: QuestionType }>();
     <n-space style="margin: 1% 0" align="center">
       <n-switch
         v-model:value="question.typeAnswerQuestion"
-        :on-update:value="(v) => testStore.changeTypeAnswer(v, question.uuidQuestion)"
+        :on-update:value="(v) => testStore.changeTypeAnswer(v, question)"
       />
       <n-p>Несколько правильных ответов</n-p>
     </n-space>

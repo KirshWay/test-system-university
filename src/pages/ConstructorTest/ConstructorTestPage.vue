@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Question, Table} from '@vicons/fa';
+import {Question} from '@vicons/fa';
 import {
   NButton,
   NCard,
@@ -51,14 +51,6 @@ testStore.getTest(route.params.id as string);
         Добавить вопрос
       </n-button>
     </n-card>
-    <n-button class="constructor__button" dashed>
-      <template #icon>
-        <n-icon>
-          <Table />
-        </n-icon>
-      </template>
-      Загрузить excel таблицу
-    </n-button>
   </div>
 </template>
 

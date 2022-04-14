@@ -30,13 +30,17 @@ import {
 
 import Users from '~/api/users';
 import {useStore} from '~/store';
-import {useTestStore} from '~/store/test';
 
 const links = [
   {
     label: 'Главная',
     key: 'main',
     to: '/',
+  },
+  {
+    label: 'Справочник',
+    key: 'features',
+    to: '/features',
   },
   {
     label: 'Пользователи',
@@ -100,7 +104,7 @@ const filteredButtons = computed(() =>
     store.user.status === 'TEACHER' ?
       links.filter((button) => (route.path !== '/' || button.key !== 'main') && button.key === 'test-constructor') :
       store.user.status === 'STUDENT' ?
-        links.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users', 'test-constructor'].includes(button.key))) :
+        links.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users', 'test-constructor', 'features'].includes(button.key))) :
         null!,
 );
 </script>

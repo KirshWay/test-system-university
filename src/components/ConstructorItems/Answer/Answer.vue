@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Plus, Trash} from '@vicons/fa';
+import {Trash} from '@vicons/fa';
 import {
   NButton,
   NCheckbox,
@@ -10,14 +10,14 @@ import {
 } from 'naive-ui';
 
 import {useTestStore} from '~/store/test';
-import {AnswersType} from '~/types/common';
+import {AnswersType, QuestionType} from '~/types/common';
 
 const {
-  answer, uuidQuestion, typeAnswerQuestion,
+  answer, typeAnswerQuestion, question,
 } = defineProps<{
-  answer?: AnswersType,
+  answer: AnswersType,
   answers?: AnswersType[],
-  uuidQuestion?: string,
+  question: QuestionType,
   typeAnswerQuestion?: boolean
 }>();
 
@@ -31,12 +31,15 @@ const testStore = useTestStore();
       vertical
     >
       <div class="answer__wrapper">
-        <n-checkbox :checked="answer.correct_answer" />
+        <n-checkbox
+          :checked="answer.correctAnswer"
+          @click="testStore.updateAnswerStatus(answer.uuidAnswer, question)"
+        />
         <n-input
           style="max-width: 80%"
           placeholder="Введите вариант ответа"
           v-model:value="answer.text"
-          :on-blur="() => testStore.updateAnswer(answer.text, answer.uuidAnswer)"
+          :on-blur="() => testStore.updateAnswerText(answer.text, answer.uuidAnswer)"
         />
         <n-button
           @click="testStore.deleteAnswer(answer.uuidAnswer, answers)"
@@ -57,12 +60,15 @@ const testStore = useTestStore();
       vertical
     >
       <div class="answer__wrapper">
-        <n-radio :checked="answer.correct_answer" />
+        <n-radio
+          :checked="answer.correctAnswer"
+          @click="testStore.updateAnswerStatus(answer.uuidAnswer, question)"
+        />
         <n-input
           style="max-width: 80%"
           placeholder="Введите вариант ответа"
           v-model:value="answer.text"
-          :on-blur="() => testStore.updateAnswer(answer.text, answer.uuidAnswer)"
+          :on-blur="() => testStore.updateAnswerText(answer.text, answer.uuidAnswer)"
         />
         <n-button
           @click="testStore.deleteAnswer(answer.uuidAnswer, answers)"
