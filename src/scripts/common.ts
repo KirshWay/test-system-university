@@ -1,11 +1,11 @@
 export const generateStatus = (str: string) => {
   switch (str) {
   case 'TEACHER':
-    return 'Преподаватель';
+    return 'Разработчик тестов';
   case 'STUDENT':
     return 'Студент';
   case 'DEAN':
-    return 'Декан';
+    return 'Админ';
   default:
     return 'Неопределённая роль';
   }

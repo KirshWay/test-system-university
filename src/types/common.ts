@@ -18,6 +18,8 @@ export type TestType = {
     subtitle?: string,
     answer_time: number,
     uuidTesting?: string,
+    specializationId: number,
+    disciplineId: number,
     questions?: QuestionType[]
 }
 
@@ -31,5 +33,27 @@ export type QuestionType = {
 export type AnswersType = {
     text: string,
     uuidAnswer?: string,
-    correct_answer: boolean
+    correctAnswer: boolean
+}
+
+export type SpecializationType = {
+    id: number,
+    title: string,
+    code: string
+}
+
+export type CompetenceType = {
+    id: number,
+    code: string
+}
+
+export type DisciplineType = {
+    id: number,
+    title: string,
+    competences: DisciplineType[]
+}
+
+export type DisciplineCompetencesType = {
+    code: string,
+    id: number
 }

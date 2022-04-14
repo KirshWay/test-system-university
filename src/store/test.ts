@@ -2,7 +2,9 @@ import {defineStore} from 'pinia';
 
 import Tests from '~/api/tests';
 import {useStore} from '~/store/index';
-import {AnswersType, TestType} from '~/types/common';
+import {
+  AnswersType, QuestionType, TestType,
+} from '~/types/common';
 
 export const useTestStore = defineStore('tests', {
   state: () => ({
@@ -15,12 +17,13 @@ export const useTestStore = defineStore('tests', {
 
       this.test = {
         title: '',
-        subtitle: '',
         answer_time: 240,
         questions: [],
+        specializationId: 1,
+        disciplineId: 1,
       };
 
-      Tests.createTest(this.test.title, this.test.subtitle!, this.test.answer_time)
+      Tests.createTest(this.test.title, this.test.answer_time, this.test.specializationId, this.test.specializationId)
         .then(({data}) => {
           this.test.uuidTesting = data.uuid;
           store.router.push(`/constructor-test/${this.test.uuidTesting}`);
@@ -63,15 +66,15 @@ export const useTestStore = defineStore('tests', {
         answers: [],
       });
 
-      Tests.createQuestion('', uuidTesting, false)
+      Tests.createQuestion('', uuidTesting, 1, false)
         .then(({data}) => this.test.questions![this.test.questions!.length - 1] = data.question)
         .catch(() => store.message.error('Не получилось создать вопрос'));
     },
 
-    updateQuestion(text: string, updateQuestion: string) {
+    updateQuestion(text: string, uuidQuestion: string, typeAnswerQuestion: boolean) {
       const store = useStore();
 
-      Tests.updateQuestion(text, updateQuestion)
+      Tests.updateQuestion(text, uuidQuestion, typeAnswerQuestion)
         .catch(() => store.message.error('Не получилось обновить заголовок вопроса'));
     },
 
@@ -87,18 +90,33 @@ export const useTestStore = defineStore('tests', {
       this.test.questions!.filter((el) => el.uuidQuestion === uuidQuestion).map((el) => {
         el.answers!.push({
           text: '',
-          correct_answer: false,
+          correctAnswer: false,
         });
         return Tests.createAnswer('', uuidQuestion, false)
           .then(({data}) => el.answers![el.answers!.length - 1] = data.answer);
       });
     },
 
-    updateAnswer(text: string, uuidAnswer: string) {
+    updateAnswerStatus(uuidAnswer: string, question: QuestionType) {
+      const store = useStore();
+        question!.answers!.forEach((el) => {
+          if (el.uuidAnswer === uuidAnswer) {
+            el.correctAnswer = !el.correctAnswer;
+            Tests.updateAnswerStatus(uuidAnswer, el.correctAnswer)
+              .catch(() => store.message.error('Не получилось обновить ответ'));
+          } else if (!question!.typeAnswerQuestion && el.uuidAnswer !== uuidAnswer) {
+            el.correctAnswer = false;
+            Tests.updateAnswerStatus(el.uuidAnswer, el.correctAnswer)
+              .catch(() => store.message.error('Не получилось обновить ответ'));
+          }
+        });
+    },
+
+    updateAnswerText(text: string, uuidAnswer: string) {
       const store = useStore();
 
       Tests.updateAnswerText(text, uuidAnswer)
-        .catch(() => store.message.error('Не получилось обновить ответ'));
+        .catch(() => store.message.error('Текст ответа не получилось обновить'));
     },
 
     deleteAnswer(uuidAnswer: string, answers: AnswersType[]) {
@@ -109,12 +127,15 @@ export const useTestStore = defineStore('tests', {
         .catch(() => store.message.error('Не получилось удалить ответ'));
     },
 
-    changeTypeAnswer(v: boolean, idQuestion: string) {
-      return this.test.questions!.filter((el) => el.uuidQuestion === idQuestion).map((el) => el.typeAnswerQuestion = v);
-    },
-
-    chooseRightAnswer() {
-
+    changeTypeAnswer(v: boolean, question: QuestionType) {
+      return this.test.questions!.filter((el) => el.uuidQuestion === question.uuidQuestion)
+        .map((el) => {
+          el.answers!.map((el) => el.correctAnswer = false);
+          el.typeAnswerQuestion = v;
+          if (question.uuidQuestion != null) {
+            this.updateQuestion(question.text, question.uuidQuestion, question.typeAnswerQuestion);
+          }
+        });
     },
   },
 });
