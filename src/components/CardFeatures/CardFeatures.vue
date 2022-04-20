@@ -34,7 +34,7 @@ const featureStore = useFeaturesStore();
 
 const disciplineOptions = ref<number[]>([]);
 
-const reactiveShowModal = computed(() => featureStore.showModal);
+const reactiveShowModal = computed(() => featureStore.responseDiscipline.competences);
 
 watch(reactiveShowModal, (v) => {
   if (v) {
