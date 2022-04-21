@@ -49,7 +49,7 @@ const routes = [
         component: FeaturesPage,
       },
       {
-        path: '/tests/:id',
+        path: '/test/:id',
         name: 'Tests',
         component: TestPage,
       },

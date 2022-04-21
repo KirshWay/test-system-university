@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import {
-  PenAlt, Table, Trash,
+  ArrowRight,
+  PenAlt,
+  Table,
+  Trash,
 } from '@vicons/fa';
 import {
   NButton,
@@ -12,12 +15,14 @@ import {
   NTooltip,
 } from 'naive-ui';
 
+import {useStore} from '~/store';
 import {useTestStore} from '~/store/test';
 import {TestType} from '~/types/common';
 
 const {test} = defineProps<{ test: TestType }>();
 
 const testStore = useTestStore();
+const store = useStore();
 </script>
 
 <template>
@@ -26,7 +31,23 @@ const testStore = useTestStore();
       <n-p style="margin: 0">
         <strong>Название: </strong> {{ test.title }}
       </n-p>
-      <n-button-group align="center">
+      <n-button-group v-if="store.user.status === 'STUDENT'">
+        <router-link :to="`/test/${test.uuidTesting}`">
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-button type="success">
+                <template #icon>
+                  <n-icon>
+                    <ArrowRight />
+                  </n-icon>
+                </template>
+              </n-button>
+            </template>
+            Пройти тест
+          </n-tooltip>
+        </router-link>
+      </n-button-group>
+      <n-button-group v-else align="center">
         <router-link :to="`/constructor-test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>
