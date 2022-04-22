@@ -31,7 +31,7 @@ const store = useStore();
       <n-p style="margin: 0">
         <strong>Название: </strong> {{ test.title }}
       </n-p>
-      <n-button-group v-if="store.user.status === 'STUDENT'">
+      <n-button-group v-if="store.user.status === 'DEAN'">
         <router-link :to="`/test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>

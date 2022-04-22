@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {NButton, NSpace} from 'naive-ui';
 
+import CardPassTest from '~/components/CardPassTest/CardPassTest.vue';
 import {usePassTest} from '~/store/passTest';
 
 const passTestStore = usePassTest();
@@ -11,7 +12,8 @@ const passTestStore = usePassTest();
     <p class="passTest__title">
       Название теста
     </p>
-    <n-space justify="end">
+    <CardPassTest />
+    <n-space style="margin-top: 2%" justify="end">
       <n-button type="primary">
         Следующий вопрос
       </n-button>

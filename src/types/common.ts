@@ -52,8 +52,3 @@ export type DisciplineType = {
     title: string,
     competences: DisciplineType[]
 }
-
-export type DisciplineCompetencesType = {
-    code: string,
-    id: number
-}

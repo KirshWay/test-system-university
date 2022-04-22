@@ -1,3 +1,5 @@
 import {defineStore} from 'pinia';
 
-export const usePassTest = defineStore('usePassTest', {state: () => ({tests: [] as any})});
+import {TestType} from '~/types/common';
+
+export const usePassTest = defineStore('usePassTest', {state: () => ({test: {} as TestType})});
