@@ -16,12 +16,14 @@ import {
 } from 'naive-ui';
 
 import {useStore} from '~/store';
+import {usePassTest} from '~/store/passTest';
 import {useTestStore} from '~/store/test';
 import {TestType} from '~/types/common';
 
 const {test} = defineProps<{ test: TestType }>();
 
 const testStore = useTestStore();
+const passTestStore = usePassTest();
 const store = useStore();
 </script>
 
@@ -35,7 +37,7 @@ const store = useStore();
         <router-link :to="`/test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button type="success">
+              <n-button @click="passTestStore.startTestingSession(test.uuidTesting)" type="success">
                 <template #icon>
                   <n-icon>
                     <ArrowRight />

@@ -7,9 +7,10 @@ import {
 import {ref} from 'vue';
 
 import {usePassTest} from '~/store/passTest';
-import {TestType} from '~/types/common';
+import {QuestionType} from '~/types/common';
 
-const passTestStore = usePassTest();
+const {question} = defineProps<{ question: QuestionType }>();
+
 
 const radioAnswer = ref<boolean>(false);
 const checkboxAnswer = ref<boolean>(false);
@@ -17,7 +18,7 @@ const typeAnswer = ref<boolean>(false);
 </script>
 
 <template>
-  <n-card title="Вопрос">
+  <n-card :title="question.text">
     <template v-if="!typeAnswer">
       <n-radio
         :checked="radioAnswer"
