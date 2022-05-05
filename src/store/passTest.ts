@@ -8,6 +8,7 @@ export const usePassTest = defineStore('usePassTest', {
   state: () => ({
     test: {} as TestType,
     sessionUuid: '' as string,
+    currentQuestion: 0,
   }),
   actions: {
     getPassTest(id: string) {
@@ -17,6 +18,14 @@ export const usePassTest = defineStore('usePassTest', {
     startTestingSession(id: string) {
       PassTests.startTestingSession(id).then(({data}) => this.sessionUuid = data.session_uuid);
     },
+
+    nextQuestion() {
+      this.test.questions.forEach((el, index) => index + 1);
+    },
   },
-  getters: {currentQuestion(state) {}},
+  getters: {
+    getCurrentQuestion(state) {
+      return state.test.questions[0];
+    },
+  },
 });

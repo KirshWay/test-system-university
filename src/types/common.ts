@@ -18,9 +18,9 @@ export type TestType = {
     subtitle?: string,
     answer_time: number,
     uuidTesting?: string,
-    specializationId: number,
-    disciplineId: number,
-    questions?: QuestionType[]
+    specialization: number,
+    discipline: number,
+    questions: QuestionType[]
 }
 
 export type QuestionType = {
