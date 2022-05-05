@@ -19,11 +19,11 @@ export const useTestStore = defineStore('tests', {
         title: '',
         answer_time: 240,
         questions: [],
-        specializationId: 1,
-        disciplineId: 1,
+        specialization: 1,
+        discipline: 1,
       };
 
-      Tests.createTest(this.test.title, this.test.answer_time, this.test.specializationId, this.test.specializationId)
+      Tests.createTest(this.test.title, this.test.answer_time, this.test.specialization, this.test.specialization)
         .then(({data}) => {
           this.test.uuidTesting = data.uuid;
           store.router.push(`/constructor-test/${this.test.uuidTesting}`);

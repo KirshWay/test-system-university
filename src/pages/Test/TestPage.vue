@@ -20,10 +20,13 @@ passTestStore.getPassTest(route.params.id as string);
     <CardPassTest
       v-for="question in passTestStore.test.questions"
       :key="question.uuidQuestion"
-      :question="question"
+      :question="passTestStore.getCurrentQuestion"
     />
-    <n-space style="margin-top: 2%" justify="end">
+    <n-space style="margin-top: 2%" justify="space-between">
       <n-button type="primary">
+        Предыдущий вопрос
+      </n-button>
+      <n-button @click="passTestStore.nextQuestion" type="primary">
         Следующий вопрос
       </n-button>
     </n-space>

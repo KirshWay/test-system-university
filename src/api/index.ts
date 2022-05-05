@@ -34,12 +34,12 @@ export const caseTransfer = (o: any, type: 'Camel' | 'Snake'): any => {
 
 const $axios = axios.create({baseURL: `https://testing-backend.admire.social`});
 
-
 $axios.interceptors.response.use((response) => {
   if (['', 'json'].includes(response.request.responseType)) response.data = caseTransfer(response.data, 'Camel');
   return response;
 }, (error) => {
   if (error.response.status === 401 && !['/auth', '/sign-up'].includes(Router.currentRoute.value.path)) {
+    localStorage.removeItem('Authorization');
     Router.push('/auth');
   }
   return Promise.reject(error);
