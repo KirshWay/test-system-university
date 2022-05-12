@@ -1,32 +1,39 @@
 <script setup lang="ts">
 import {NButton, NSpace} from 'naive-ui';
+import {computed, ref} from 'vue';
 import {useRoute} from 'vue-router';
 
-import CardPassTest from '~/components/CardPassTest/CardPassTest.vue';
-import {usePassTest} from '~/store/passTest';
-
-const passTestStore = usePassTest();
+import QuestionCard from '~/components/PassingTest/QuestionCard/QuestionCard.vue';
+import {usePassingTest} from '~/store/passingTest';
 
 const route = useRoute();
 
-passTestStore.getPassTest(route.params.id as string);
+const passingTestStore = usePassingTest();
+
+passingTestStore.getTest(route.params.id as string);
+
+const indexActiveQuestion = ref(0);
+
+const activeQuestion = computed(() => passingTestStore.test.questions?.[indexActiveQuestion.value] || {});
 </script>
 
 <template>
   <div>
     <p class="passTest__title">
-      {{ passTestStore.test.title }}
+      {{ passingTestStore.test.title }}
     </p>
-    <CardPassTest
-      v-for="question in passTestStore.test.questions"
-      :key="question.uuidQuestion"
-      :question="passTestStore.getCurrentQuestion"
+    <QuestionCard
+      v-if="activeQuestion"
+      :question="activeQuestion"
     />
+    <p v-else>
+      Вы прошли тест
+    </p>
     <n-space style="margin-top: 2%" justify="space-between">
-      <n-button type="primary">
+      <n-button v-if="indexActiveQuestion > 0" @click="indexActiveQuestion -= 1">
         Предыдущий вопрос
       </n-button>
-      <n-button @click="passTestStore.nextQuestion" type="primary">
+      <n-button v-if="activeQuestion" @click="indexActiveQuestion += 1" type="primary">
         Следующий вопрос
       </n-button>
     </n-space>

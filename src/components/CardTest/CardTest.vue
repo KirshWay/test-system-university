@@ -15,15 +15,16 @@ import {
   NTooltip,
 } from 'naive-ui';
 
+import PassingTest from '~/api/passingTest';
 import {useStore} from '~/store';
-import {usePassTest} from '~/store/passTest';
+import {usePassingTest} from '~/store/passingTest';
 import {useTestStore} from '~/store/test';
 import {TestType} from '~/types/common';
 
 const {test} = defineProps<{ test: TestType }>();
 
 const testStore = useTestStore();
-const passTestStore = usePassTest();
+const passingTestStore = usePassingTest();
 const store = useStore();
 </script>
 
@@ -34,11 +35,11 @@ const store = useStore();
         <strong>Название: </strong> {{ test.title }}
       </n-p>
       <!-- TODO: come back status === 'STUDENT'     -->
-      <n-button-group v-if="store.user.status === 'STUDENT'">
+      <n-button-group v-if="store.user.status === 'DEAN'">
         <router-link :to="`/test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button @click="passTestStore.startTestingSession(test.uuidTesting)" type="success">
+              <n-button @click="PassingTest.startTestingSession(test.uuidTesting)" type="success">
                 <template #icon>
                   <n-icon>
                     <ArrowRight />
