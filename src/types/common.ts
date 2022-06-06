@@ -6,7 +6,7 @@ export type UsersModel = {
     lastName: string,
     patronymic: string,
     status: string,
-    uuid?: string
+    uuid?: any
 };
 
 export type SignIn = {
@@ -17,7 +17,7 @@ export type TestType = {
     title: string,
     subtitle?: string,
     answer_time: number,
-    uuidTesting?: string,
+    uuidTesting?: any,
     specialization: number,
     discipline: number,
     questions: QuestionType[]
@@ -26,13 +26,13 @@ export type TestType = {
 export type QuestionType = {
     text: string,
     typeAnswerQuestion: boolean,
-    uuidQuestion?: string,
-    answers?: AnswersType[]
+    uuidQuestion?: any,
+    answers: AnswersType[]
 }
 
 export type AnswersType = {
     text: string,
-    uuidAnswer?: string,
+    uuidAnswer?: any,
     correctAnswer: boolean
 }
 
