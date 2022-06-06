@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 
-import Tests from '~/api/tests';
-import {TestType} from '~/types/common';
+import PassingTest from '~/api/passingTest';
+import {QuestionType, TestType} from '~/types/common';
 
 export const usePassingTest = defineStore('usePassingTest', {
   state: () => ({
@@ -9,8 +9,18 @@ export const usePassingTest = defineStore('usePassingTest', {
     sessionUuid: '' as string,
   }),
   actions: {
-    getTest(id: string) {
-      Tests.getTest(id).then(({data}) => this.test = data);
+    getTest(id: string, mode: '0' | '1') {
+      PassingTest.getTest(id, mode).then(({data}) => this.test = data);
+    },
+
+    chooseAnswer(uuidAnswer: string, question: QuestionType) {
+      question!.answers!.forEach((el) => {
+        if (el.uuidAnswer === uuidAnswer) {
+          el.correctAnswer = !el.correctAnswer;
+        } else if (!question!.typeAnswerQuestion && el.uuidAnswer !== uuidAnswer) {
+          el.correctAnswer = false;
+        }
+      });
     },
   },
 });

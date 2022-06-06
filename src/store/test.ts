@@ -10,6 +10,7 @@ export const useTestStore = defineStore('tests', {
   state: () => ({
     tests: [] as TestType[],
     test: {} as TestType,
+    showBankMenu: false as boolean,
   }),
   actions: {
     createTest() {
@@ -39,10 +40,10 @@ export const useTestStore = defineStore('tests', {
         .catch(() => store.message.error('Тест не найден'));
     },
 
-    getTest(idTest: string) {
+    getTest(idTest: string, mode: '0' | '1') {
       const store = useStore();
 
-      Tests.getTest(idTest)
+      Tests.getTest(idTest, mode)
         .then(({data}) => this.test = data)
         .catch(() => store.message.error('Тест не найден'));
     },

@@ -13,7 +13,7 @@ const {question} = defineProps<{ question: QuestionType }>();
       v-for="answer in question.answers"
       :key="answer.uuidAnswer"
       :answer="answer"
-      :type-answer="question.typeAnswerQuestion"
+      :question="question"
     />
   </n-card>
 </template>

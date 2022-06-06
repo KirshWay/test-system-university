@@ -2,7 +2,7 @@ import $axios from './index';
 
 const Tests = {
   getAllTest: () => $axios.get(`/test/list_test/`),
-  getTest: (uuid_testing: string) => $axios.get(`/test/get_test/${uuid_testing}`),
+  getTest: (uuid_testing: string, mode: '0' | '1') => $axios.get(`/test/get_test/${uuid_testing}/${mode}`),
   createTest: (title: string, answerTime: number, specializationId: number, disciplineId: number) => $axios.post(`/test/create_test/`, {
     title,
     answerTime,

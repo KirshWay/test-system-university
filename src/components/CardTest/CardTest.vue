@@ -17,14 +17,12 @@ import {
 
 import PassingTest from '~/api/passingTest';
 import {useStore} from '~/store';
-import {usePassingTest} from '~/store/passingTest';
 import {useTestStore} from '~/store/test';
 import {TestType} from '~/types/common';
 
 const {test} = defineProps<{ test: TestType }>();
 
 const testStore = useTestStore();
-const passingTestStore = usePassingTest();
 const store = useStore();
 </script>
 

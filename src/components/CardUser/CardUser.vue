@@ -10,9 +10,9 @@ import {
   NTooltip,
 } from 'naive-ui';
 
-import {generateStatus} from '~/scripts/common';
 import {useStore} from '~/store';
 import {UsersModel} from '~/types/common';
+import {generateStatus} from '~/utils/common';
 
 const store = useStore();
 

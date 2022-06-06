@@ -5,20 +5,33 @@ import {
   NSpace,
 } from 'naive-ui';
 
-import {AnswersType} from '~/types/common';
+import {usePassingTest} from '~/store/passingTest';
+import {AnswersType, QuestionType} from '~/types/common';
 
-const {answer, typeAnswer} = defineProps<{ answer: AnswersType, typeAnswer: boolean }>();
+const {answer, question} = defineProps<{ answer: AnswersType, question: QuestionType }>();
+
+const passingTestStore = usePassingTest();
 </script>
 
 <template>
-  <template v-if="typeAnswer">
+  <template v-if="question.typeAnswerQuestion">
     <n-space>
-      <n-checkbox>{{ answer.text }}</n-checkbox>
+      <n-checkbox
+        :checked="answer.correctAnswer"
+        @click="passingTestStore.chooseAnswer(answer.uuidAnswer, question)"
+      >
+        {{ answer.text }}
+      </n-checkbox>
     </n-space>
   </template>
   <template v-else>
     <n-space>
-      <n-radio>{{ answer.text }}</n-radio>
+      <n-radio
+        :checked="answer.correctAnswer"
+        @click="passingTestStore.chooseAnswer(answer.uuidAnswer, question)"
+      >
+        {{ answer.text }}
+      </n-radio>
     </n-space>
   </template>
 </template>
