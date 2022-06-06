@@ -16,7 +16,7 @@ const {
   answer, typeAnswerQuestion, question,
 } = defineProps<{
   answer: AnswersType,
-  answers?: AnswersType[],
+  answers: AnswersType[],
   question: QuestionType,
   typeAnswerQuestion?: boolean
 }>();
