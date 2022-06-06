@@ -93,7 +93,11 @@ Tests.getAllTest().then(({data}) => testStore.tests = data);
       />
     </template>
     <template v-if="store.user.status === 'STUDENT'">
-      <p>Тесты для студентов</p>
+      <CardTest
+        v-for="test in testStore.tests"
+        :key="test.uuidTesting"
+        :test="test"
+      />
     </template>
   </div>
 </template>
