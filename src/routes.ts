@@ -8,7 +8,6 @@ import MainPage from './pages/Main/MainPage.vue';
 import NotFoundPage from './pages/NotFound/NotFoundPage.vue';
 import RegistrationPage from './pages/Registration/RegistrationPage.vue';
 import SettingsPage from './pages/Settings/SettingsPage.vue';
-import StatisticPage from './pages/Statistic/StatisticPage.vue';
 import TestPage from './pages/Test/TestPage.vue';
 import UsersPage from './pages/Users/UsersPage.vue';
 
@@ -62,11 +61,6 @@ const routes = [
         path: '/constructor-test/:id',
         name: 'ConstructorTestOnce',
         component: ConstructorTestPage,
-      },
-      {
-        path: '/statistic/:id',
-        name: 'Statistic',
-        component: StatisticPage,
       },
       {
         path: '/:pathMatch(.*)*',

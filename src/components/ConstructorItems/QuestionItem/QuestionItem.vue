@@ -12,11 +12,11 @@ import {
 
 import AnswerConstructor from '~/components/ConstructorItems/AnswerItem/AnswerItem.vue';
 import {useTestStore} from '~/store/test';
-import {QuestionType} from '~/types/common';
+import {Question} from '~/types/test';
 
 const testStore = useTestStore();
 
-const {question} = defineProps<{ question: QuestionType }>();
+const {question} = defineProps<{ question: Question }>();
 </script>
 
 <template>

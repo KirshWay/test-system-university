@@ -3,9 +3,9 @@ import {defineStore} from 'pinia';
 import {RouteLocationNormalizedLoaded, Router} from 'vue-router';
 
 import Users from '~/api/users';
-import {UsersModel} from '~/types/common';
+import {UsersModel} from '~/types/user';
 
-export const useStore = defineStore('main', {
+export const useUser = defineStore('main', {
   state: () => {
     return {
       user: {} as UsersModel,

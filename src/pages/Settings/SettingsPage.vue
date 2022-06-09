@@ -14,7 +14,7 @@ import {
 } from 'vue';
 
 import Users from '~/api/users';
-import {useStore} from '~/store';
+import {useUser} from '~/store/user';
 import {generateStatus} from '~/utils/common';
 import {createFormData} from '~/utils/common';
 
@@ -22,7 +22,7 @@ const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
 const message = useMessage();
 
-const store = useStore();
+const storeUser = useUser();
 
 const password = ref('');
 const avatar = ref<{
@@ -43,18 +43,18 @@ const saveAvatar = (e: Event) => {
 
 const submit = () => {
   const result = createFormData(!avatar.value.file ? {
-    'first_name': store.user.firstName,
-    'last_name': store.user.lastName,
-    'patronymic': store.user.patronymic,
+    'first_name': storeUser.user.firstName,
+    'last_name': storeUser.user.lastName,
+    'patronymic': storeUser.user.patronymic,
   } : {
-    'first_name': store.user.firstName,
-    'last_name': store.user.lastName,
-    'patronymic': store.user.patronymic,
+    'first_name': storeUser.user.firstName,
+    'last_name': storeUser.user.lastName,
+    'patronymic': storeUser.user.patronymic,
     'Avatar': avatar.value.file,
   });
   return Users.updateUser(result)
     .then(({data}) => {
-      store.user = data;
+      storeUser.user = data;
     })
     .catch(() => message.error('Не получилось изменить данные профиля'))
     .finally(() => message.success('Данные изменены'));
@@ -69,7 +69,7 @@ const submit = () => {
           round
           object-fit="cover"
           :size="160"
-          :src="avatar.data || store.avatar"
+          :src="avatar.data || storeUser.avatar"
         />
         <n-button
           style="position: relative;"
@@ -86,16 +86,16 @@ const submit = () => {
         </n-button>
       </div>
       <div>
-        <n-h3><strong>Статус пользователя: </strong>{{ generateStatus(store.user.status) }}</n-h3>
+        <n-h3><strong>Статус пользователя: </strong>{{ generateStatus(storeUser.user.status) }}</n-h3>
         <form @submit.prevent="submit">
           Редактирование имени
-          <n-input v-model:value="store.user.firstName" placeholder="Имя" />
+          <n-input v-model:value="storeUser.user.firstName" placeholder="Имя" />
           Редактирование фамилии
-          <n-input v-model:value="store.user.lastName" placeholder="Фамилия" />
+          <n-input v-model:value="storeUser.user.lastName" placeholder="Фамилия" />
           Редактирование отчества
-          <n-input v-model:value="store.user.patronymic" placeholder="Отчество" />
+          <n-input v-model:value="storeUser.user.patronymic" placeholder="Отчество" />
           Редактирование почты
-          <n-input v-model:value="store.user.email" />
+          <n-input v-model:value="storeUser.user.email" />
           Редактирование пароля
           <n-input v-model:value="password" type="password" placeholder="Пароль" />
           <n-button

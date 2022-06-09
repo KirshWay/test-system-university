@@ -16,8 +16,8 @@ import {
 
 import Tests from '~/api/tests';
 import CardTest from '~/components/CardTest/CardTest.vue';
-import {useStore} from '~/store';
 import {useTestStore} from '~/store/test';
+import {useUser} from '~/store/user';
 
 const options = ref([
   {
@@ -40,7 +40,7 @@ const options = ref([
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
-const store = useStore();
+const storeUser = useUser();
 const testStore = useTestStore();
 
 const search = ref('');
@@ -56,7 +56,7 @@ Tests.getAllTest().then(({data}) => testStore.tests = data);
         Тесты
       </n-h1>
       <n-button
-        v-if="['TEACHER', 'DEAN'].includes(store.user.status)"
+        v-if="['TEACHER', 'DEAN'].includes(storeUser.user.status)"
         @click="testStore.createTest"
         type="success"
         secondary
@@ -74,7 +74,7 @@ Tests.getAllTest().then(({data}) => testStore.tests = data);
         </n-tooltip>
       </n-button>
     </n-space>
-    <template v-if="['TEACHER', 'DEAN'].includes(store.user.status)">
+    <template v-if="['TEACHER', 'DEAN'].includes(storeUser.user.status)">
       <n-card title="Поиск теста" style="margin-bottom: 24px">
         <n-space vertical>
           <n-input v-model:value="search" placeholder="Поиск теста" />
@@ -92,7 +92,7 @@ Tests.getAllTest().then(({data}) => testStore.tests = data);
         :test="test"
       />
     </template>
-    <template v-if="store.user.status === 'STUDENT'">
+    <template v-if="storeUser.user.status === 'STUDENT'">
       <CardTest
         v-for="test in testStore.tests"
         :key="test.uuidTesting"

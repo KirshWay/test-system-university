@@ -1,4 +1,4 @@
-import {SignIn, UsersModel} from '~/types/common';
+import {UsersModel} from '~/types/user';
 
 import $axios from './index';
 
@@ -6,7 +6,7 @@ const Users = {
   signUpDean: (email: string, firstName: string, lastName: string, patronymiс: string, password: string, code: string) => $axios.post(`/user/create_dekan/`, {
     email, firstName, lastName, patronymiс, password, code,
   }),
-  signIn: (login: string, password: string) => $axios.post<SignIn>(`/user/obtain_token/`, {login, password}),
+  signIn: (login: string, password: string) => $axios.post<{token: string}>(`/user/obtain_token/`, {login, password}),
   createUser: (username: string, email: string, firstName: string, lastName: string, patronymic: string, password: string, status: string) => $axios.post(`/user/create_user/`, {
     username,
     email,

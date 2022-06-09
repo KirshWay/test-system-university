@@ -1,20 +1,20 @@
 import {defineStore} from 'pinia';
 
 import Tests from '~/api/tests';
-import {useStore} from '~/store/index';
+import {useUser} from '~/store/user';
 import {
-  AnswersType, QuestionType, TestType,
-} from '~/types/common';
+  Answer, Question, Test,
+} from '~/types/test';
 
 export const useTestStore = defineStore('tests', {
   state: () => ({
-    tests: [] as TestType[],
-    test: {} as TestType,
+    tests: [] as Test[],
+    test: {} as Test,
     showBankMenu: false as boolean,
   }),
   actions: {
     createTest() {
-      const store = useStore();
+      const storeUser = useUser();
 
       this.test = {
         title: '',
@@ -27,39 +27,39 @@ export const useTestStore = defineStore('tests', {
       Tests.createTest(this.test.title, this.test.answer_time, this.test.specialization, this.test.specialization)
         .then(({data}) => {
           this.test.uuidTesting = data.uuid;
-          store.router.push(`/constructor-test/${this.test.uuidTesting}`);
+          storeUser.router.push(`/constructor-test/${this.test.uuidTesting}`);
         })
-        .catch(() => store.message.error('Нет полного доступа для создания'));
+        .catch(() => storeUser.message.error('Нет полного доступа для создания'));
     },
 
     deleteOnceTest(uuid_testing: string) {
-      const store = useStore();
+      const storeUser = useUser();
 
       Tests.deleteTest(uuid_testing)
         .then(() => this.tests = this.tests.filter((el) => el.uuidTesting !== uuid_testing))
-        .catch(() => store.message.error('Тест не найден'));
+        .catch(() => storeUser.message.error('Тест не найден'));
     },
 
     getTest(idTest: string, mode: '0' | '1') {
-      const store = useStore();
+      const storeUser = useUser();
 
       Tests.getTest(idTest, mode)
         .then(({data}) => this.test = data)
-        .catch(() => store.message.error('Тест не найден'));
+        .catch(() => storeUser.message.error('Тест не найден'));
     },
 
     updateTitleTest() {
-      const store = useStore();
+      const storeUser = useUser();
       Tests.updateTest(this.test.title, this.test.uuidTesting!)
         .then(({data}) => {
           this.test.title = data.title;
           this.test.subtitle = data.subtitle;
           this.test.answer_time = data.answer_time;
-        }).catch(() => store.message.error('Не найден id теста'));
+        }).catch(() => storeUser.message.error('Не найден id теста'));
     },
 
     addQuestion(uuidTesting: string) {
-      const store = useStore();
+      const storeUser = useUser();
 
       this.test.questions!.push({
         text: '',
@@ -69,22 +69,22 @@ export const useTestStore = defineStore('tests', {
 
       Tests.createQuestion('', uuidTesting, 1, false)
         .then(({data}) => this.test.questions![this.test.questions!.length - 1] = data.question)
-        .catch(() => store.message.error('Не получилось создать вопрос'));
+        .catch(() => storeUser.message.error('Не получилось создать вопрос'));
     },
 
     updateQuestion(text: string, uuidQuestion: string, typeAnswerQuestion: boolean) {
-      const store = useStore();
+      const storeUser = useUser();
 
       Tests.updateQuestion(text, uuidQuestion, typeAnswerQuestion)
-        .catch(() => store.message.error('Не получилось обновить заголовок вопроса'));
+        .catch(() => storeUser.message.error('Не получилось обновить заголовок вопроса'));
     },
 
     deleteQuestion(uuidQuestion: string) {
-      const store = useStore();
+      const storeUser = useUser();
 
       Tests.deleteQuestion(uuidQuestion)
         .then(() => this.test.questions = this.test.questions!.filter((el) => el.uuidQuestion !== uuidQuestion))
-        .catch(() => store.message.error('Возникла ошибка при удалении вопроса'));
+        .catch(() => storeUser.message.error('Возникла ошибка при удалении вопроса'));
     },
 
     addAnswer(uuidQuestion: string) {
@@ -98,37 +98,37 @@ export const useTestStore = defineStore('tests', {
       });
     },
 
-    updateAnswerStatus(uuidAnswer: string, question: QuestionType) {
-      const store = useStore();
+    updateAnswerStatus(uuidAnswer: string, question: Question) {
+      const storeUser = useUser();
         question!.answers!.forEach((el) => {
           if (el.uuidAnswer === uuidAnswer) {
             el.correctAnswer = !el.correctAnswer;
             Tests.updateAnswerStatus(uuidAnswer, el.correctAnswer)
-              .catch(() => store.message.error('Не получилось обновить ответ'));
+              .catch(() => storeUser.message.error('Не получилось обновить ответ'));
           } else if (!question!.typeAnswerQuestion && el.uuidAnswer !== uuidAnswer) {
             el.correctAnswer = false;
             Tests.updateAnswerStatus(el.uuidAnswer, el.correctAnswer)
-              .catch(() => store.message.error('Не получилось обновить ответ'));
+              .catch(() => storeUser.message.error('Не получилось обновить ответ'));
           }
         });
     },
 
     updateAnswerText(text: string, uuidAnswer: string) {
-      const store = useStore();
+      const storeUser = useUser();
 
       Tests.updateAnswerText(text, uuidAnswer)
-        .catch(() => store.message.error('Текст ответа не получилось обновить'));
+        .catch(() => storeUser.message.error('Текст ответа не получилось обновить'));
     },
 
-    deleteAnswer(uuidAnswer: string, answers: AnswersType[]) {
-      const store = useStore();
+    deleteAnswer(uuidAnswer: string, answers: Answer[]) {
+      const storeUser = useUser();
       Tests.deleteAnswer(uuidAnswer)
         .then(() => this.test.questions!.forEach((el) =>
           el.answers = answers.filter((el) => el.uuidAnswer !== uuidAnswer)))
-        .catch(() => store.message.error('Не получилось удалить ответ'));
+        .catch(() => storeUser.message.error('Не получилось удалить ответ'));
     },
 
-    changeTypeAnswer(v: boolean, question: QuestionType) {
+    changeTypeAnswer(v: boolean, question: Question) {
       return this.test.questions!.filter((el) => el.uuidQuestion === question.uuidQuestion)
         .map((el) => {
           el.answers!.map((el) => el.correctAnswer = false);

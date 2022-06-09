@@ -6,9 +6,9 @@ import {
 } from 'naive-ui';
 
 import {usePassingTest} from '~/store/passingTest';
-import {AnswersType, QuestionType} from '~/types/common';
+import {Answer, Question} from '~/types/test';
 
-const {answer, question} = defineProps<{ answer: AnswersType, question: QuestionType }>();
+const {answer, question} = defineProps<{ answer: Answer, question: Question }>();
 
 const passingTestStore = usePassingTest();
 </script>

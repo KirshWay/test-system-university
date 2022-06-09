@@ -1,7 +1,5 @@
 import $axios from './index';
 
-
-// true -> red, false -> pass
 const PassingTest = {
   getTest: (uuid_testing: string, mode: '0' | '1') => $axios.get(`/test/get_test/${uuid_testing}/${mode}`),
   startTestingSession: (testUuid: string) => $axios.post(`/results/start_testing_session/`, {testUuid} ),

@@ -29,7 +29,7 @@ import {
 } from 'vue-router';
 
 import Users from '~/api/users';
-import {useStore} from '~/store';
+import {useUser} from '~/store/user';
 
 const links = [
   {
@@ -62,12 +62,12 @@ const OPTIONS = [
 
 const router = useRouter();
 const route = useRoute();
-const store = useStore();
+const storeUser = useUser();
 
-store.message = useMessage();
-store.loader = useLoadingBar();
-store.router = router;
-store.route = route;
+storeUser.message = useMessage();
+storeUser.loader = useLoadingBar();
+storeUser.router = router;
+storeUser.route = route;
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
@@ -78,7 +78,7 @@ if (!localStorage.getItem('Authorization')) {
 }
 
 if (localStorage.getItem('Authorization')) {
-  Users.getProfile().then(({data}) => store.setUser(data));
+  Users.getProfile().then(({data}) => storeUser.setUser(data));
 }
 
 const onSelectDropdownOption = (key: string) => {
@@ -99,11 +99,11 @@ const onSelectDropdownOption = (key: string) => {
 };
 
 const filteredButtons = computed(() =>
-  store.user.status === 'DEAN' ?
+  storeUser.user.status === 'DEAN' ?
     links.filter((button) => route.path !== '/' || button.key !== 'main') :
-    store.user.status === 'TEACHER' ?
+    storeUser.user.status === 'TEACHER' ?
       links.filter((button) => (route.path !== '/' || button.key !== 'main') && button.key === 'test-constructor') :
-      store.user.status === 'STUDENT' ?
+      storeUser.user.status === 'STUDENT' ?
         links.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users', 'test-constructor', 'features'].includes(button.key))) :
         null!,
 );
@@ -124,13 +124,13 @@ const filteredButtons = computed(() =>
               round
               object-fit="cover"
               :size="88"
-              :src="store.avatar"
+              :src="storeUser.avatar"
             />
             <n-h2>
-              {{ store.user.firstName }} {{ store.user.lastName }} {{ store.user.patronymic }}
+              {{ storeUser.user.firstName }} {{ storeUser.user.lastName }} {{ storeUser.user.patronymic }}
             </n-h2>
             <n-p depth="3">
-              {{ store.user.email }}
+              {{ storeUser.user.email }}
             </n-p>
           </div>
         </template>
@@ -169,13 +169,13 @@ const filteredButtons = computed(() =>
           >
             <n-button :bordered="false">
               <span style="margin-right: 16px">
-                {{ store.user.firstName }} {{ store.user.lastName }}
+                {{ storeUser.user.firstName }} {{ storeUser.user.lastName }}
               </span>
               <n-avatar
                 round
                 object-fit="cover"
                 size="medium"
-                :src="store.avatar"
+                :src="storeUser.avatar"
               />
             </n-button>
           </n-dropdown>

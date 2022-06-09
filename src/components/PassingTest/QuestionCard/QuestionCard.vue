@@ -2,9 +2,9 @@
 import {NCard} from 'naive-ui';
 
 import AnswerChoice from '~/components/PassingTest/AnswerChoice/AnswerChoice.vue';
-import {QuestionType} from '~/types/common';
+import {Question} from '~/types/test';
 
-const {question} = defineProps<{ question: QuestionType }>();
+const {question} = defineProps<{ question: Question }>();
 </script>
 
 <template>

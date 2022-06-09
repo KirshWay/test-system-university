@@ -16,14 +16,14 @@ import {
 } from 'naive-ui';
 
 import PassingTest from '~/api/passingTest';
-import {useStore} from '~/store';
 import {useTestStore} from '~/store/test';
-import {TestType} from '~/types/common';
+import {useUser} from '~/store/user';
+import {Test} from '~/types/test';
 
-const {test} = defineProps<{ test: TestType }>();
+const {test} = defineProps<{ test: Test }>();
 
 const testStore = useTestStore();
-const store = useStore();
+const storeUser = useUser();
 </script>
 
 <template>
@@ -33,7 +33,7 @@ const store = useStore();
         <strong>Название: </strong> {{ test.title }}
       </n-p>
       <!-- TODO: come back status === 'STUDENT'     -->
-      <n-button-group v-if="store.user.status === 'STUDENT'">
+      <n-button-group v-if="storeUser.user.status === 'DEAN'">
         <router-link :to="`/test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>
@@ -66,17 +66,15 @@ const store = useStore();
         </router-link>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <router-link style="color: #fff" :to="`/statistic/${Date.now()}`">
-              <n-button type="info">
-                <template #icon>
-                  <n-icon>
-                    <Table />
-                  </n-icon>
-                </template>
-              </n-button>
-            </router-link>
+            <n-button type="info">
+              <template #icon>
+                <n-icon>
+                  <Table />
+                </n-icon>
+              </template>
+            </n-button>
           </template>
-          Информация по результатам теста
+          Скачать результаты студентов
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>

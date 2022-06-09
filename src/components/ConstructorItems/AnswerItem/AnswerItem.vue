@@ -10,14 +10,14 @@ import {
 } from 'naive-ui';
 
 import {useTestStore} from '~/store/test';
-import {AnswersType, QuestionType} from '~/types/common';
+import {Answer, Question} from '~/types/test';
 
 const {
   answer, typeAnswerQuestion, question,
 } = defineProps<{
-  answer: AnswersType,
-  answers: AnswersType[],
-  question: QuestionType,
+  answer: Answer,
+  answers: Answer[],
+  question: Question,
   typeAnswerQuestion?: boolean
 }>();
 
