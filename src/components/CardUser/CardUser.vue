@@ -12,7 +12,7 @@ import {
 
 import {useUser} from '~/store/user';
 import {UsersModel} from '~/types/user';
-import {generateStatus} from '~/utils/common';
+import {generateStatus} from '~/utils/status';
 
 const storeUser = useUser();
 

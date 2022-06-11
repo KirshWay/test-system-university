@@ -33,7 +33,7 @@ const storeUser = useUser();
         <strong>Название: </strong> {{ test.title }}
       </n-p>
       <!-- TODO: come back status === 'STUDENT'     -->
-      <n-button-group v-if="storeUser.user.status === 'DEAN'">
+      <n-button-group v-if="storeUser.user.status === 'STUDENT'">
         <router-link :to="`/test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>

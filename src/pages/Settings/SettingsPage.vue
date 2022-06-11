@@ -15,8 +15,8 @@ import {
 
 import Users from '~/api/users';
 import {useUser} from '~/store/user';
-import {generateStatus} from '~/utils/common';
 import {createFormData} from '~/utils/common';
+import {generateStatus} from '~/utils/status';
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 

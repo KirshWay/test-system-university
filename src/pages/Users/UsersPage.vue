@@ -37,11 +37,22 @@ if (storeUser.user.status === 'STUDENT') {
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
-const TYPES_USERS = [
+const TYPES_USERS_SEARCH = [
   {
     label: 'Все',
     value: 'all',
   },
+  {
+    label: 'Разработчик тестов',
+    value: 'TEACHER',
+  },
+  {
+    label: 'Студент',
+    value: 'STUDENT',
+  },
+];
+
+const TYPES_USERS_CREATED = [
   {
     label: 'Разработчик тестов',
     value: 'TEACHER',
@@ -116,7 +127,7 @@ const filteredListUsers = computed(() =>
     <n-card title="Поиск пользователя" style="margin-bottom: 3%">
       <n-input-group>
         <n-input v-model:value="search" placeholder="Пользователь" />
-        <n-select v-model:value="searchType" :options="TYPES_USERS" style="width: 200px" />
+        <n-select v-model:value="searchType" :options="TYPES_USERS_SEARCH" style="width: 200px" />
       </n-input-group>
     </n-card>
     <div style="display: flex; flex-direction: column; gap: 10px">
@@ -139,16 +150,16 @@ const filteredListUsers = computed(() =>
             placeholder="Тип пользователя"
             filterable
             v-model:value="selectedType"
-            :options="TYPES_USERS"
+            :options="TYPES_USERS_CREATED"
           />
-          Редактирование имени
+          Имя пользователя
           <n-input v-model:value="firstName" placeholder="Имя" />
-          Редактирование фамилии
+          Фамилия пользователя
           <n-input v-model:value="lastName" placeholder="Фамилия" />
-          Редактирование отчества
+          Отчество пользователя
           <n-input v-model:value="patronymic" placeholder="Отчество" />
           Почта пользователя
-          <n-input placeholder="Почту" name="email" v-model:value="email" />
+          <n-input placeholder="Почта" name="email" v-model:value="email" />
           Пароль пользователя
           <n-input
             style="margin-bottom: 2%"

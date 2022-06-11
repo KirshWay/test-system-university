@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  NAlert,
   NButton,
   NSpace,
 } from 'naive-ui';
@@ -18,6 +19,9 @@ passingTestStore.getTest(route.params.id as string, '0');
 const indexActiveQuestion = ref(0);
 
 const activeQuestion = computed(() => passingTestStore.test.questions?.[indexActiveQuestion.value]);
+
+const checkStatusСhoice = computed(() => passingTestStore.test
+  .questions?.[indexActiveQuestion.value]?.answers.some((statusEl) => statusEl.correctAnswer));
 </script>
 
 <template>
@@ -25,6 +29,7 @@ const activeQuestion = computed(() => passingTestStore.test.questions?.[indexAct
     <p class="passTest__title">
       {{ passingTestStore.test.title }}
     </p>
+    <p>{{ checkStatusСhoice }}</p>
     <p
       v-if="indexActiveQuestion < passingTestStore.test.questions?.length"
       class="passTest__counter"
@@ -36,14 +41,28 @@ const activeQuestion = computed(() => passingTestStore.test.questions?.[indexAct
       v-if="activeQuestion"
       :question="activeQuestion"
     />
-    <p v-else>
-      Вы прошли тест
-    </p>
+    <template v-else>
+      <n-space vertical>
+        <n-alert title="Вы закончили прохождение теста" type="info">
+          Пройдите и другие достпные тесты
+        </n-alert>
+        <router-link to="/">
+          <n-button>
+            Главная
+          </n-button>
+        </router-link>
+      </n-space>
+    </template>
     <n-space style="margin-top: 2%" justify="space-between">
       <n-button v-if="indexActiveQuestion > 0 && activeQuestion" @click="indexActiveQuestion -= 1">
         Предыдущий вопрос
       </n-button>
-      <n-button v-if="activeQuestion" @click="indexActiveQuestion += 1" type="primary">
+      <n-button
+        v-if="activeQuestion"
+        @click="indexActiveQuestion += 1"
+        :disabled="!checkStatusСhoice"
+        type="primary"
+      >
         {{ indexActiveQuestion + 1 === passingTestStore.test.questions?.length ? `Закончить тест` : `Следующий вопрос` }}
       </n-button>
     </n-space>

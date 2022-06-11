@@ -11,6 +11,7 @@ import {
   NTooltip,
 } from 'naive-ui';
 import {
+  computed,
   ComputedRef, inject, ref,
 } from 'vue';
 
@@ -43,10 +44,11 @@ const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 const storeUser = useUser();
 const testStore = useTestStore();
 
-const search = ref('');
-const selectedValue = ref<string>();
+const search = ref<string>('');
 
 Tests.getAllTest().then(({data}) => testStore.tests = data);
+
+const filteredListTests = computed( () => testStore.tests.filter((el) => el.title.toLowerCase().includes(search.value.toLowerCase())));
 </script>
 
 <template>
@@ -78,23 +80,17 @@ Tests.getAllTest().then(({data}) => testStore.tests = data);
       <n-card title="Поиск теста" style="margin-bottom: 24px">
         <n-space vertical>
           <n-input v-model:value="search" placeholder="Поиск теста" />
-          <n-select
-            placeholder="Выберите тег"
-            filterable
-            v-model:value="selectedValue"
-            :options="options"
-          />
         </n-space>
       </n-card>
       <CardTest
-        v-for="test in testStore.tests"
+        v-for="test in filteredListTests"
         :key="test.uuidTesting"
         :test="test"
       />
     </template>
     <template v-if="storeUser.user.status === 'STUDENT'">
       <CardTest
-        v-for="test in testStore.tests"
+        v-for="test in filteredListTests"
         :key="test.uuidTesting"
         :test="test"
       />
