@@ -16,7 +16,7 @@ const passingTestStore = usePassingTest();
 
 passingTestStore.getTest(route.params.id as string, '0');
 
-const indexActiveQuestion = ref(0);
+const indexActiveQuestion = ref<number>(0);
 
 const activeQuestion = computed(() => passingTestStore.test.questions?.[indexActiveQuestion.value]);
 

@@ -21,11 +21,6 @@ const {question} = defineProps<{ question: Question }>();
 
 <template>
   <div>
-    <!--    <n-select-->
-    <!--      style="margin-bottom: 2%"-->
-    <!--      placeholder="Выберите компетенцию"-->
-    <!--      filterable-->
-    <!--    />-->
     <n-input
       placeholder="Заголовок вопроса"
       v-model:value="question.text"

@@ -12,7 +12,7 @@ import {
   computed, provide, ref,
 } from 'vue';
 
-const screenWidth = ref(window.innerWidth);
+const screenWidth = ref<number>(window.innerWidth);
 
 provide('screenWidth', computed(() => screenWidth.value));
 

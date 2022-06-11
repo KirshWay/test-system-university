@@ -50,6 +50,20 @@ const storeUser = useUser();
         </router-link>
       </n-button-group>
       <n-button-group v-else align="center">
+        <router-link :to="`/test/${test.uuidTesting}`">
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-button @click="PassingTest.startTestingSession(test.uuidTesting)" type="success">
+                <template #icon>
+                  <n-icon>
+                    <ArrowRight />
+                  </n-icon>
+                </template>
+              </n-button>
+            </template>
+            Пройти тест
+          </n-tooltip>
+        </router-link>
         <router-link :to="`/constructor-test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>

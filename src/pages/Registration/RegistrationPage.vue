@@ -16,14 +16,14 @@ const router = useRouter();
 
 if (localStorage.getItem('Authorization')) router.push('/');
 
-const firstName = ref('');
-const lastName = ref('');
-const patronymiс = ref('');
+const firstName = ref<string>('');
+const lastName = ref<string>('');
+const patronymiс = ref<string>('');
 
-const email = ref('');
-const password = ref('');
-const repeatPassword = ref('');
-const accessCode = ref('');
+const email = ref<string>('');
+const password = ref<string>('');
+const repeatPassword = ref<string>('');
+const accessCode = ref<string>('');
 
 const submit = () => {
   loader.start();

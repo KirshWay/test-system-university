@@ -21,10 +21,10 @@ const featureStore = useFeaturesStore();
 
 const message = useMessage();
 
-const competenceCodeValue = ref('');
-const specializationValue = ref('');
-const specializationCodeValue = ref('');
-const disciplineValue = ref('');
+const competenceCodeValue = ref<string>('');
+const specializationValue = ref<string>('');
+const specializationCodeValue = ref<string>('');
+const disciplineValue = ref<string>('');
 const disciplineOptions = ref<number[]>([]);
 
 const createCompetence = () => {

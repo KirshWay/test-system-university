@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router';
 
-import AuthorizedLayout from './layout/Authorized.vue';
+import AuthorizedLayout from './layout/AuthorizedLayout.vue';
 import AuthPage from './pages/Auth/AuthPage.vue';
 import ConstructorTestPage from './pages/ConstructorTest/ConstructorTestPage.vue';
 import FeaturesPage from './pages/Features/FeaturesPage.vue';

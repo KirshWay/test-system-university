@@ -23,6 +23,7 @@ import {useRouter} from 'vue-router';
 
 import Users from '~/api/users';
 import CardUser from '~/components/CardUser/CardUser.vue';
+import {TYPES_USERS_SELECT} from '~/constans/usersSelect';
 import {useUser} from '~/store/user';
 
 const message = useMessage();
@@ -37,44 +38,18 @@ if (storeUser.user.status === 'STUDENT') {
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
-const TYPES_USERS_SEARCH = [
-  {
-    label: 'Все',
-    value: 'all',
-  },
-  {
-    label: 'Разработчик тестов',
-    value: 'TEACHER',
-  },
-  {
-    label: 'Студент',
-    value: 'STUDENT',
-  },
-];
+const showModal = ref<boolean>(false);
 
-const TYPES_USERS_CREATED = [
-  {
-    label: 'Разработчик тестов',
-    value: 'TEACHER',
-  },
-  {
-    label: 'Студент',
-    value: 'STUDENT',
-  },
-];
-
-const showModal = ref(false);
-
-const searchType = ref('all');
-const search = ref('');
+const searchType = ref<string>('all');
+const search = ref<string>('');
 
 const selectedType = ref<string>();
-const username = ref('');
-const firstName = ref('');
-const lastName = ref('');
-const patronymic = ref('');
-const email = ref('');
-const password = ref('');
+const username = ref<string>('');
+const firstName = ref<string>('');
+const lastName = ref<string>('');
+const patronymic = ref<string>('');
+const email = ref<string>('');
+const password = ref<string>('');
 
 const submit = () => {
   Users.createUser(
@@ -105,6 +80,8 @@ const filteredListUsers = computed(() =>
         (el.email?.toLowerCase().includes(search.value.toLowerCase()) ||
             el.lastName?.toLowerCase().includes(search.value.toLowerCase()) ||
             el.username?.toLowerCase().includes(search.value.toLowerCase()))));
+
+const createdSortedSelectUsers = computed(() => TYPES_USERS_SELECT.filter((el) => el.value !== 'all'));
 </script>
 
 <template>
@@ -127,7 +104,7 @@ const filteredListUsers = computed(() =>
     <n-card title="Поиск пользователя" style="margin-bottom: 3%">
       <n-input-group>
         <n-input v-model:value="search" placeholder="Пользователь" />
-        <n-select v-model:value="searchType" :options="TYPES_USERS_SEARCH" style="width: 200px" />
+        <n-select v-model:value="searchType" :options="TYPES_USERS_SELECT" style="width: 200px" />
       </n-input-group>
     </n-card>
     <div style="display: flex; flex-direction: column; gap: 10px">
@@ -150,7 +127,7 @@ const filteredListUsers = computed(() =>
             placeholder="Тип пользователя"
             filterable
             v-model:value="selectedType"
-            :options="TYPES_USERS_CREATED"
+            :options="createdSortedSelectUsers"
           />
           Имя пользователя
           <n-input v-model:value="firstName" placeholder="Имя" />

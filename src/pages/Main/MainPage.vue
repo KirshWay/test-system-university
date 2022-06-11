@@ -6,7 +6,6 @@ import {
   NH1,
   NIcon,
   NInput,
-  NSelect,
   NSpace,
   NTooltip,
 } from 'naive-ui';
@@ -19,25 +18,6 @@ import Tests from '~/api/tests';
 import CardTest from '~/components/CardTest/CardTest.vue';
 import {useTestStore} from '~/store/test';
 import {useUser} from '~/store/user';
-
-const options = ref([
-  {
-    label: 'Все',
-    value: 'all',
-  },
-  {
-    label: 'КП-1',
-    value: 'KP-1',
-  },
-  {
-    label: 'КП-2',
-    value: 'KP-2',
-  },
-  {
-    label: 'КП-3',
-    value: 'KP-3',
-  },
-]);
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 

@@ -24,7 +24,7 @@ const message = useMessage();
 
 const storeUser = useUser();
 
-const password = ref('');
+const password = ref<string>('');
 const avatar = ref<{
   file?: File,
   data?: string

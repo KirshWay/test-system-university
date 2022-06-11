@@ -30,8 +30,8 @@ const submit = () => {
     }).finally(loader.finish);
 };
 
-const email = ref('');
-const password = ref('');
+const email = ref<string>('');
+const password = ref<string>('');
 </script>
 
 <template>
