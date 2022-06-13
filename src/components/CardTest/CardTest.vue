@@ -16,6 +16,7 @@ import {
 } from 'naive-ui';
 
 import PassingTest from '~/api/passingTest';
+import {usePassingTest} from '~/store/passingTest';
 import {useTestStore} from '~/store/test';
 import {useUser} from '~/store/user';
 import {Test} from '~/types/test';
@@ -24,6 +25,7 @@ const {test} = defineProps<{ test: Test }>();
 
 const testStore = useTestStore();
 const storeUser = useUser();
+const passingTestStore = usePassingTest();
 </script>
 
 <template>
@@ -32,12 +34,11 @@ const storeUser = useUser();
       <n-p style="margin: 0">
         <strong>Название: </strong> {{ test.title }}
       </n-p>
-      <!-- TODO: come back status === 'STUDENT'     -->
       <n-button-group v-if="storeUser.user.status === 'STUDENT'">
         <router-link :to="`/test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button @click="PassingTest.startTestingSession(test.uuidTesting)" type="success">
+              <n-button @click="passingTestStore.startSession(test.uuidTesting)" type="success">
                 <template #icon>
                   <n-icon>
                     <ArrowRight />
@@ -53,7 +54,7 @@ const storeUser = useUser();
         <router-link :to="`/test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button @click="PassingTest.startTestingSession(test.uuidTesting)" type="success">
+              <n-button @click="passingTestStore.startSession(test.uuidTesting)" type="success">
                 <template #icon>
                   <n-icon>
                     <ArrowRight />

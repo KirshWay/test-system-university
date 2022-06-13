@@ -18,7 +18,7 @@ const passingTestStore = usePassingTest();
     <n-space>
       <n-checkbox
         :checked="answer.correctAnswer"
-        @click="passingTestStore.chooseAnswer(answer.uuidAnswer, question)"
+        @click="passingTestStore.chooseAnswer(answer.uuidAnswer, question, 'checkbox')"
       >
         {{ answer.text }}
       </n-checkbox>
@@ -28,7 +28,7 @@ const passingTestStore = usePassingTest();
     <n-space>
       <n-radio
         :checked="answer.correctAnswer"
-        @click="passingTestStore.chooseAnswer(answer.uuidAnswer, question)"
+        @click="passingTestStore.chooseAnswer(answer.uuidAnswer, question, 'radio')"
       >
         {{ answer.text }}
       </n-radio>

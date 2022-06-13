@@ -4,9 +4,14 @@ import {
   NButton,
   NSpace,
 } from 'naive-ui';
-import {computed, ref} from 'vue';
+import {
+  computed,
+  ref,
+  watch,
+} from 'vue';
 import {useRoute} from 'vue-router';
 
+import PassingTest from '~/api/passingTest';
 import QuestionCard from '~/components/PassingTest/QuestionCard/QuestionCard.vue';
 import {usePassingTest} from '~/store/passingTest';
 
@@ -22,6 +27,12 @@ const activeQuestion = computed(() => passingTestStore.test.questions?.[indexAct
 
 const checkStatusСhoice = computed(() => passingTestStore.test
   .questions?.[indexActiveQuestion.value]?.answers.some((statusEl) => statusEl.correctAnswer));
+
+watch(indexActiveQuestion, () => {
+  if (indexActiveQuestion.value + 1 > passingTestStore.test.questions?.length) {
+    PassingTest.finishTestingSession(passingTestStore.sessionUuid);
+  }
+});
 </script>
 
 <template>
@@ -29,7 +40,6 @@ const checkStatusСhoice = computed(() => passingTestStore.test
     <p class="passTest__title">
       {{ passingTestStore.test.title }}
     </p>
-    <p>{{ checkStatusСhoice }}</p>
     <p
       v-if="indexActiveQuestion < passingTestStore.test.questions?.length"
       class="passTest__counter"
@@ -59,7 +69,7 @@ const checkStatusСhoice = computed(() => passingTestStore.test
       </n-button>
       <n-button
         v-if="activeQuestion"
-        @click="indexActiveQuestion += 1"
+        @click="indexActiveQuestion += 1; passingTestStore.sendingAnswers()"
         :disabled="!checkStatusСhoice"
         type="primary"
       >
