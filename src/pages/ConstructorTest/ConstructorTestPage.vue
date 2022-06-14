@@ -6,6 +6,7 @@ import {
   NDivider,
   NIcon,
   NInput,
+  NSelect,
   NSpace,
 } from 'naive-ui';
 import {useRoute} from 'vue-router';
@@ -27,7 +28,9 @@ testStore.getTest(route.params.id as string, '1');
         placeholder="Заголовок теста"
         v-model:value="testStore.test.title"
         :on-blur="testStore.updateTitleTest"
+        style="margin-bottom: 2%"
       />
+      <n-select placeholder="Выбирите специальность" />
       <n-divider />
       <n-card
         v-for="question in testStore.test.questions"

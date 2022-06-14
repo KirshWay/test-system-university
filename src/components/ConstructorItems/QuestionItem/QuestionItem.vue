@@ -6,6 +6,7 @@ import {
   NIcon,
   NInput,
   NP,
+  NSelect,
   NSpace,
   NSwitch,
 } from 'naive-ui';
@@ -27,6 +28,7 @@ const {question} = defineProps<{ question: Question }>();
       :on-blur="() => testStore.updateQuestion(question.text, question.uuidQuestion, question.typeAnswerQuestion)"
       style="max-width: 100%; margin-bottom: 2%"
     />
+    <n-select placeholder="Выбирите компетенцию" style="margin-bottom: 2%;" />
     <AnswerConstructor
       v-for="answer in question.answers"
       :key="answer.uuidAnswer"

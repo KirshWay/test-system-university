@@ -95,6 +95,10 @@ watch(reactiveShowModal, (v) => {
         <template v-if="featureStore.typeResponse === 'competence'">
           Код компетенции
           <n-input v-model:value="featureStore.responseCompetence.code" />
+          <n-select
+            class="feathure__input"
+            placeholder="Специальность"
+          />
         </template>
 
         <template v-if="featureStore.typeResponse === 'specialization'">

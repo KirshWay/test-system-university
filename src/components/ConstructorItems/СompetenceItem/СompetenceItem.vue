@@ -59,8 +59,8 @@ const switcherСompetenceChoice = ref<boolean>(false);
     </template>
     <template v-else>
       <n-collapse arrow-placement="right" style="margin-bottom: 3%">
-        <n-collapse-item title="Дисциплина" name="1">
-          <n-card title="Card Slots Demo">
+        <n-collapse-item title="Дисциплина">
+          <n-card title="Компетенция">
             <template #header-extra>
               <n-input-number
                 v-model:value="numberDiscipline"

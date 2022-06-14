@@ -113,6 +113,10 @@ featureStore.getAllDisciplines();
                   v-model:value="competenceCodeValue"
                   placeholder="Код Компетенции"
                 />
+                <n-select
+                  class="feathure__input"
+                  placeholder="Выберите специальность"
+                />
                 <n-button
                   @click="createCompetence"
                   type="success"
@@ -147,10 +151,11 @@ featureStore.getAllDisciplines();
               />
               <n-select
                 class="feathure__input"
-                v-model:value="disciplineOptions"
                 placeholder="Выберите компетенцию"
-                multiple
-                :options="featureStore.optionsCompetencies"
+              />
+              <n-select
+                class="feathure__input"
+                placeholder="Выберите специальность"
               />
               <n-button
                 @click="createDiscipline"
