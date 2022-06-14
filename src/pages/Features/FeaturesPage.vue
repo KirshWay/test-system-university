@@ -54,7 +54,9 @@ const createDiscipline = () => {
     .catch(() => message.error('Не получилось создать дисциплину'));
 };
 
+featureStore.getAllSpecializations();
 featureStore.getAllCompetencies();
+featureStore.getAllDisciplines();
 </script>
 
 <template>
@@ -64,39 +66,6 @@ featureStore.getAllCompetencies();
       :on-update:value="featureStore.getTabsValue"
       type="segment"
     >
-      <n-tab-pane name="competencies" tab="Компетенции">
-        <n-card style="margin-bottom: 2%;">
-          <n-space vertical>
-            <n-space vertical>
-              Компетенция
-              <div class="feathure__container">
-                <n-input
-                  class="feathure__input"
-                  v-model:value="competenceCodeValue"
-                  placeholder="Код Компетенции"
-                />
-                <n-button
-                  @click="createCompetence"
-                  type="success"
-                  :disabled="competenceCodeValue.length === 0"
-                >
-                  <template #icon>
-                    <n-icon>
-                      <Plus />
-                    </n-icon>
-                  </template>
-                </n-button>
-              </div>
-            </n-space>
-          </n-space>
-        </n-card>
-        <CardFeatures
-          v-for="competence in featureStore.competencies"
-          :key="competence.id"
-          :feature="competence"
-          :type-feature="`competence`"
-        />
-      </n-tab-pane>
       <n-tab-pane name="specialization" tab="Специальность">
         <n-card style="margin-bottom: 2%;">
           <n-space vertical>
@@ -131,6 +100,39 @@ featureStore.getAllCompetencies();
           :key="specialization.id"
           :feature="specialization"
           :type-feature="`specialization`"
+        />
+      </n-tab-pane>
+      <n-tab-pane name="competencies" tab="Компетенции">
+        <n-card style="margin-bottom: 2%;">
+          <n-space vertical>
+            <n-space vertical>
+              Компетенция
+              <div class="feathure__container">
+                <n-input
+                  class="feathure__input"
+                  v-model:value="competenceCodeValue"
+                  placeholder="Код Компетенции"
+                />
+                <n-button
+                  @click="createCompetence"
+                  type="success"
+                  :disabled="competenceCodeValue.length === 0"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <Plus />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </div>
+            </n-space>
+          </n-space>
+        </n-card>
+        <CardFeatures
+          v-for="competence in featureStore.competencies"
+          :key="competence.id"
+          :feature="competence"
+          :type-feature="`competence`"
         />
       </n-tab-pane>
       <n-tab-pane name="discipline" tab="Дисциплина">

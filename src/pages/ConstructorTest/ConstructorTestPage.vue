@@ -54,6 +54,7 @@ testStore.getTest(route.params.id as string, '1');
       <n-button
         v-if="!testStore.showBankMenu"
         @click="testStore.showBankMenu = !testStore.showBankMenu"
+        :disabled="testStore.test.questions?.length > 0"
         class="constructor__button"
         type="info"
         dashed
