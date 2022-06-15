@@ -6,11 +6,13 @@ export type Specialization = {
 
 export type Competence = {
   id: number,
-  code: string
+  code: string,
+  specialization: Specialization,
 }
 
 export type Discipline = {
   id: number,
   title: string,
-  competences: Discipline[]
+  specialization: Specialization,
+  competences: Competence[]
 }

@@ -12,13 +12,21 @@ const Features = {
   deleteSpecialization: (id: number) => $axios.delete(`/features/specialization/${id}`),
   getAllCompetencies: () => $axios.get<Competence[]>(`/features/competence/`),
   getOnceCompetence: (id: number) => $axios.get<Competence>(`/features/competence/${id}`),
-  createCompetence: (code: string) => $axios.post(`/features/competence/`, {code}),
-  updateCompetence: (id: number, code: string) => $axios.put(`/features/competence/${id}/`, {code}),
+  createCompetence: (code: string, specializationId: number) => $axios.post(`/features/competence/`, {code, specializationId}),
+  updateCompetence: (id: number, code: string, specializationId: number) => $axios.put(`/features/competence/${id}/`, {code, specializationId}),
   deleteCompetence: (id: number) => $axios.delete(`/features/competence/${id}`),
   getAllDisciplines: () => $axios.get<Discipline[]>(`/features/discipline/`),
   getOnceDisciplines: (id: number) => $axios.get<Discipline>(`/features/discipline/${id}`),
-  createDisciplines: (title: string, competencesIds: number[]) => $axios.post(`/features/discipline/`, {title, competencesIds}),
-  updateDisciplines: (id: number, title: string, competencesIds: number[]) => $axios.put(`/features/discipline/${id}/`, {title, competencesIds}),
+  createDisciplines: (title: string, specializationId: number, competencesIds: number[]) => $axios.post(`/features/discipline/`, {
+    title,
+    specializationId,
+    competencesIds,
+  }),
+  updateDisciplines: (id: number, title: string, specializationId: number, competencesIds: number[]) => $axios.put(`/features/discipline/${id}/`, {
+    title,
+    specializationId,
+    competencesIds,
+  }),
   deleteDisciplines: (id: number) => $axios.delete(`/features/discipline/${id}`),
 };
 

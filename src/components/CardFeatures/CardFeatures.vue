@@ -32,13 +32,17 @@ const {feature, typeFeature} = defineProps<{
 
 const featureStore = useFeaturesStore();
 
-const disciplineOptions = ref<number[]>([]);
+const disciplineSelected = ref<number[]>([]);
 
 const reactiveShowModal = computed(() => featureStore.responseDiscipline.competences);
 
+const dataSpecializationsForForm = computed(() => featureStore.specializations.map((el) => ({label: el.title, value: el.id})));
+
+const dataCompetenciesForForm = computed(() => featureStore.competencies.map((el) => ({label: el.code, value: el.id})));
+
 watch(reactiveShowModal, (v) => {
   if (v) {
-    disciplineOptions.value = featureStore.responseDiscipline.competences.map((el) => el.id);
+    disciplineSelected.value = featureStore.responseDiscipline.competences.map((el) => el.id);
   }
 });
 </script>
@@ -92,15 +96,6 @@ watch(reactiveShowModal, (v) => {
       style="max-width: 500px"
     >
       <n-space vertical>
-        <template v-if="featureStore.typeResponse === 'competence'">
-          Код компетенции
-          <n-input v-model:value="featureStore.responseCompetence.code" />
-          <n-select
-            class="feathure__input"
-            placeholder="Специальность"
-          />
-        </template>
-
         <template v-if="featureStore.typeResponse === 'specialization'">
           Специальность
           <n-input v-model:value="featureStore.responseSpecializations.title" />
@@ -108,20 +103,39 @@ watch(reactiveShowModal, (v) => {
           <n-input v-model:value="featureStore.responseSpecializations.code" />
         </template>
 
+        <template v-if="featureStore.typeResponse === 'competence'">
+          <p>Код компетенции</p>
+          <n-input v-model:value="featureStore.responseCompetence.code" />
+          <p>Выбранная специальность</p>
+          <n-select
+            v-model:value="featureStore.responseCompetence.specialization.id"
+            class="feathure__input"
+            placeholder="Изменить специальность"
+            :options="dataSpecializationsForForm"
+          />
+        </template>
+
         <template v-if="featureStore.typeResponse === 'discipline'">
           Дисциплина
           <n-input v-model:value="featureStore.responseDiscipline.title" />
+          Специальность
           <n-select
-            v-model:value="disciplineOptions"
+            v-model:value="featureStore.responseDiscipline.specialization.id"
+            placeholder="Выберите компетенцию"
+            :options="dataSpecializationsForForm"
+          />
+          Компетенции
+          <n-select
+            v-model:value="disciplineSelected"
+            :options="dataCompetenciesForForm"
             placeholder="Выберите компетенцию"
             multiple
-            :options="featureStore.optionsCompetencies"
           />
         </template>
 
         <n-space justify="end">
           <n-button
-            @click="featureStore.updateFeature(typeFeature, disciplineOptions)"
+            @click="featureStore.updateFeature(typeFeature, disciplineSelected)"
             type="success"
             secondary
           >

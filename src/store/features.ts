@@ -60,7 +60,7 @@ export const useFeaturesStore = defineStore('features', {
       this.typeResponse = typeFeature;
       switch (this.typeResponse) {
       case 'competence':
-        return Features.updateCompetence(this.responseCompetence.id, this.responseCompetence.code)
+        return Features.updateCompetence(this.responseCompetence.id, this.responseCompetence.code, this.responseCompetence.specialization.id)
           .then(({data}) => {
             this.responseCompetence = data;
             this.competencies.forEach((el) => {
@@ -83,7 +83,7 @@ export const useFeaturesStore = defineStore('features', {
           })
           .catch(() => storeUser.message.error('Не получилось получить специальность'));
       case 'discipline':
-        return Features.updateDisciplines(this.responseDiscipline.id, this.responseDiscipline.title, disciplineOptions)
+        return Features.updateDisciplines(this.responseDiscipline.id, this.responseDiscipline.title, this.responseDiscipline.specialization.id, disciplineOptions)
           .then(({data}) => {
             this.disciplines.forEach((el) => {
               if (el.id === data.id) {
@@ -133,7 +133,7 @@ export const useFeaturesStore = defineStore('features', {
       case 'specialization':
         return this.getAllSpecializations();
       case 'discipline':
-        return this.getAllDisciplines();
+        return Promise.all([this.getAllCompetencies(), this.getAllDisciplines()]);
       }
     },
   },
