@@ -137,20 +137,4 @@ export const useFeaturesStore = defineStore('features', {
       }
     },
   },
-  getters: {
-    optionsCompetencies(state) {
-      return state.competencies
-        .filter((el) => !state.disciplines
-          .some((s) => s.competences
-            .some((_s) => _s.id === el.id)) ||
-            state.responseDiscipline?.competences?.some((s) => s.id === el.id))
-        .map((el) => (
-          {
-            ...el,
-            label: el.code,
-            value: el.id,
-          }
-        ));
-    },
-  },
 });

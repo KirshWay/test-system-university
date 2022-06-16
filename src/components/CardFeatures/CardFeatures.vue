@@ -7,7 +7,6 @@ import {
   NIcon,
   NInput,
   NModal,
-  NP,
   NSelect,
   NSpace,
   NTooltip,
@@ -19,13 +18,15 @@ import {
 } from 'vue';
 
 import {useFeaturesStore} from '~/store/features';
+import {Competence, Specialization} from '~/types/feature';
 
 const {feature, typeFeature} = defineProps<{
   feature: {
     id: number,
     title?: string,
-    description?: string,
     code?: string
+    specialization?: Specialization,
+    competences?: Competence[],
   },
   typeFeature: string
 }>();
@@ -50,9 +51,28 @@ watch(reactiveShowModal, (v) => {
 <template>
   <n-card style="margin-bottom: 2%" hoverable>
     <n-space align="center" justify="space-between">
-      <n-p style="margin: 0">
-        <strong>Название: </strong> {{ feature.title || feature.code }}
-      </n-p>
+      <n-space
+        v-if="typeFeature === 'specialization'"
+        vertical
+      >
+        <p><strong>Название специальности: </strong> {{ feature.title }}</p>
+        <p><strong>Код специальности: </strong> {{ feature.code }}</p>
+      </n-space>
+      <n-space
+        v-if="typeFeature === 'competence'"
+        vertical
+      >
+        <p><strong>Название компетенции: </strong> {{ feature.code }}</p>
+        <p><strong>Выбранная специальность: </strong> {{ feature.specialization?.title }}</p>
+      </n-space>
+      <n-space
+        v-if="typeFeature === 'discipline'"
+        vertical
+      >
+        <p><strong>Название дисциплины: </strong> {{ feature.title }}</p>
+        <p><strong>Выбранная специальность: </strong> {{ feature.specialization?.title }}</p>
+        <p><strong>Выбранные компетенции: </strong> {{ feature.competences?.map((el) => el.code).toString() }}</p>
+      </n-space>
       <n-button-group align="center">
         <n-tooltip trigger="hover">
           <template #trigger>
