@@ -25,7 +25,7 @@ export const useFeaturesStore = defineStore('features', {
         .then(({data}) => this.specializations = data);
     },
 
-    getOnceFeature(idFeature: number, typeFeature: string, specId: number) {
+    getOnceFeature(idFeature: number, typeFeature: string, specId: number | null) {
       const storeUser = useUser();
 
       this.typeResponse = typeFeature;
@@ -48,7 +48,7 @@ export const useFeaturesStore = defineStore('features', {
         return Features.getOnceDisciplines(idFeature)
           .then(({data}) => {
             this.responseDiscipline = data;
-            Features.getCompetencesBySpecialization(specId)
+            Features.getCompetencesBySpecialization(specId!)
               .then(({data}) => this.competencies = data);
             this.showModal = true;
           })

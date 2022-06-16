@@ -69,21 +69,21 @@ watch(reactiveShowModal, (v) => {
         vertical
       >
         <p><strong>Название компетенции: </strong> {{ feature.code }}</p>
-        <p><strong>Выбранная специальность: </strong> {{ feature.specialization?.title }}</p>
+        <p><strong>Выбранная специальность: </strong> {{ feature?.specialization?.title }}</p>
       </n-space>
       <n-space
         v-if="typeFeature === 'discipline'"
         vertical
       >
         <p><strong>Название дисциплины: </strong> {{ feature.title }}</p>
-        <p><strong>Выбранная специальность: </strong> {{ feature.specialization?.title }}</p>
+        <p><strong>Выбранная специальность: </strong> {{ feature?.specialization?.title }}</p>
         <p><strong>Выбранные компетенции: </strong> {{ feature.competences?.map((el) => el.code).toString() }}</p>
       </n-space>
       <n-button-group align="center">
         <n-tooltip trigger="hover">
           <template #trigger>
             <n-button
-              @click="featureStore.getOnceFeature(feature.id, typeFeature, feature.specialization?.id)"
+              @click="featureStore.getOnceFeature(feature.id, typeFeature, feature?.specialization?.id || null)"
               type="warning"
             >
               <template #icon>
