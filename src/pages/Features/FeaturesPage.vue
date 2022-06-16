@@ -46,6 +46,7 @@ const createCompetence = () => {
   Features.createCompetence(competenceCodeText.value, comSpecSelected.value!)
     .then(({data}) => {
       featureStore.competencies.push(data);
+      competenceCodeText.value = '';
       comSpecSelected.value = null;
       message.info('Компетенция создана');
     })
@@ -67,6 +68,11 @@ const createDiscipline = () => {
 const dataSpecializationsForForm = computed(() => featureStore.specializations.map((el) => ({label: el.title, value: el.id})));
 
 const dataCompetenciesForForm = computed(() => featureStore.competencies.map((el) => ({label: el.code, value: el.id})));
+
+const getCompetencesBySpecialization = (value: number) => {
+  featureStore.getCompetencesBySpecialization(value);
+  disSpecSelected.value = value;
+};
 
 featureStore.getAllSpecializations();
 </script>
@@ -123,13 +129,14 @@ featureStore.getAllSpecializations();
                 <n-input
                   class="feathure__input"
                   v-model:value="competenceCodeText"
-                  placeholder="Код Компетенции"
+                  placeholder="Компетенции"
                 />
                 <n-select
                   v-model:value="comSpecSelected"
                   :options="dataSpecializationsForForm"
                   class="feathure__input"
                   placeholder="Выберите специальность"
+                  filterable
                 />
                 <n-button
                   @click="createCompetence"
@@ -167,7 +174,9 @@ featureStore.getAllSpecializations();
                 class="feathure__input"
                 v-model:value="disSpecSelected"
                 :options="dataSpecializationsForForm"
+                :on-update:value="(v) => getCompetencesBySpecialization(v)"
                 placeholder="Выберите специальность"
+                filterable
               />
               <n-select
                 v-if="disSpecSelected"
@@ -175,6 +184,7 @@ featureStore.getAllSpecializations();
                 :options="dataCompetenciesForForm"
                 class="feathure__input"
                 placeholder="Выберите компетенцию"
+                filterable
                 multiple
               />
               <n-button

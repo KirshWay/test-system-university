@@ -41,6 +41,12 @@ const dataSpecializationsForForm = computed(() => featureStore.specializations.m
 
 const dataCompetenciesForForm = computed(() => featureStore.competencies.map((el) => ({label: el.code, value: el.id})));
 
+const getCompetencesBySpecialization = (value: number) => {
+  featureStore.getCompetencesBySpecialization(value);
+  featureStore.responseDiscipline.specialization.id = value;
+  disciplineSelected.value = [];
+};
+
 watch(reactiveShowModal, (v) => {
   if (v) {
     disciplineSelected.value = featureStore.responseDiscipline.competences.map((el) => el.id);
@@ -77,7 +83,7 @@ watch(reactiveShowModal, (v) => {
         <n-tooltip trigger="hover">
           <template #trigger>
             <n-button
-              @click="featureStore.getOnceFeature(feature.id, typeFeature)"
+              @click="featureStore.getOnceFeature(feature.id, typeFeature, feature.specialization?.id)"
               type="warning"
             >
               <template #icon>
@@ -87,7 +93,9 @@ watch(reactiveShowModal, (v) => {
               </template>
             </n-button>
           </template>
-          Редактирование компетенции
+          {{ `Редактирование ${typeFeature === 'competence' ?
+            'компетенции' : typeFeature === 'specialization' ?
+              'специальности' : 'дисциплины'}` }}
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
@@ -124,14 +132,15 @@ watch(reactiveShowModal, (v) => {
         </template>
 
         <template v-if="featureStore.typeResponse === 'competence'">
-          <p>Код компетенции</p>
+          <p>Название компетенции</p>
           <n-input v-model:value="featureStore.responseCompetence.code" />
           <p>Выбранная специальность</p>
           <n-select
             v-model:value="featureStore.responseCompetence.specialization.id"
+            :options="dataSpecializationsForForm"
             class="feathure__input"
             placeholder="Изменить специальность"
-            :options="dataSpecializationsForForm"
+            filterable
           />
         </template>
 
@@ -141,15 +150,18 @@ watch(reactiveShowModal, (v) => {
           Специальность
           <n-select
             v-model:value="featureStore.responseDiscipline.specialization.id"
-            placeholder="Выберите компетенцию"
+            :on-update:value="(v) => getCompetencesBySpecialization(v)"
             :options="dataSpecializationsForForm"
+            placeholder="Выберите cпециальность"
+            filterable
           />
           Компетенции
           <n-select
             v-model:value="disciplineSelected"
             :options="dataCompetenciesForForm"
-            placeholder="Выберите компетенцию"
+            placeholder="Выберите компетенции"
             multiple
+            filterable
           />
         </template>
 

@@ -104,7 +104,12 @@ const createdSortedSelectUsers = computed(() => TYPES_USERS_SELECT.filter((el) =
     <n-card title="Поиск пользователя" style="margin-bottom: 3%">
       <n-input-group>
         <n-input v-model:value="search" placeholder="Пользователь" />
-        <n-select v-model:value="searchType" :options="TYPES_USERS_SELECT" style="width: 200px" />
+        <n-select
+          v-model:value="searchType"
+          :options="TYPES_USERS_SELECT"
+          style="width: 200px"
+          filterable
+        />
       </n-input-group>
     </n-card>
     <div style="display: flex; flex-direction: column; gap: 10px">
@@ -124,10 +129,10 @@ const createdSortedSelectUsers = computed(() => TYPES_USERS_SELECT.filter((el) =
         <n-space vertical>
           Выберите тип создаваемого пользователя
           <n-select
-            placeholder="Тип пользователя"
-            filterable
             v-model:value="selectedType"
             :options="createdSortedSelectUsers"
+            placeholder="Тип пользователя"
+            filterable
           />
           Имя пользователя
           <n-input v-model:value="firstName" placeholder="Имя" />

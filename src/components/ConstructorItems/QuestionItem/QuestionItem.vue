@@ -28,7 +28,11 @@ const {question} = defineProps<{ question: Question }>();
       :on-blur="() => testStore.updateQuestion(question.text, question.uuidQuestion, question.typeAnswerQuestion)"
       style="max-width: 100%; margin-bottom: 2%"
     />
-    <n-select placeholder="Выбирите компетенцию" style="margin-bottom: 2%;" />
+    <n-select
+      style="margin-bottom: 2%;"
+      placeholder="Выбирите компетенцию"
+      filterable
+    />
     <AnswerConstructor
       v-for="answer in question.answers"
       :key="answer.uuidAnswer"
@@ -57,11 +61,6 @@ const {question} = defineProps<{ question: Question }>();
       />
       <n-p>Несколько правильных ответов</n-p>
     </n-space>
-    <!--    <n-alert-->
-    <!--      style="margin-bottom: 2%"-->
-    <!--      :title="checkAnswerStatus"-->
-    <!--      type="warning"-->
-    <!--    />-->
     <n-button
       @click="testStore.deleteQuestion(question.uuidQuestion)"
       dashed

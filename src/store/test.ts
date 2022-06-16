@@ -1,9 +1,13 @@
 import {defineStore} from 'pinia';
 
+import Features from '~/api/features';
 import Tests from '~/api/tests';
 import {useUser} from '~/store/user';
+import {Specialization} from '~/types/feature';
 import {
-  Answer, Question, Test,
+  Answer,
+  Question,
+  Test,
 } from '~/types/test';
 
 export const useTestStore = defineStore('tests', {
@@ -11,6 +15,7 @@ export const useTestStore = defineStore('tests', {
     tests: [] as Test[],
     test: {} as Test,
     showBankMenu: false as boolean,
+    specializations: [] as Specialization[],
   }),
   actions: {
     createTest() {
@@ -30,6 +35,9 @@ export const useTestStore = defineStore('tests', {
           storeUser.router.push(`/constructor-test/${this.test.uuidTesting}`);
         })
         .catch(() => storeUser.message.error('Нет полного доступа для создания'));
+
+      Features.getAllSpecializations()
+        .then(({data}) => this.specializations = data);
     },
 
     deleteOnceTest(uuid_testing: string) {
@@ -46,6 +54,9 @@ export const useTestStore = defineStore('tests', {
       Tests.getTest(idTest, mode)
         .then(({data}) => this.test = data)
         .catch(() => storeUser.message.error('Тест не найден'));
+
+      Features.getAllSpecializations()
+        .then(({data}) => this.specializations = data);
     },
 
     updateTitleTest() {
@@ -82,7 +93,7 @@ export const useTestStore = defineStore('tests', {
     deleteQuestion(uuidQuestion: string) {
       const storeUser = useUser();
 
-      Tests.deleteQuestion(uuidQuestion)
+      Tests.deleteQuestion(this.test.uuidTesting, uuidQuestion)
         .then(() => this.test.questions = this.test.questions!.filter((el) => el.uuidQuestion !== uuidQuestion))
         .catch(() => storeUser.message.error('Возникла ошибка при удалении вопроса'));
     },

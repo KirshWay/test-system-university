@@ -9,6 +9,7 @@ import {
   NSelect,
   NSpace,
 } from 'naive-ui';
+import {computed, ref} from 'vue';
 import {useRoute} from 'vue-router';
 
 import QuestionConstructor from '~/components/ConstructorItems/QuestionItem/QuestionItem.vue';
@@ -17,6 +18,10 @@ import {useTestStore} from '~/store/test';
 
 const testStore = useTestStore();
 const route = useRoute();
+
+const specialization = ref<number | null>(null);
+
+const dataSpecializationsForForm = computed(() => testStore.specializations.map((el) => ({label: el.title, value: el.id})));
 
 testStore.getTest(route.params.id as string, '1');
 </script>
@@ -30,7 +35,12 @@ testStore.getTest(route.params.id as string, '1');
         :on-blur="testStore.updateTitleTest"
         style="margin-bottom: 2%"
       />
-      <n-select placeholder="Выбирите специальность" />
+      <n-select
+        v-model:value="specialization"
+        :options="dataSpecializationsForForm"
+        placeholder="Выбирите специальность"
+        filterable
+      />
       <n-divider />
       <n-card
         v-for="question in testStore.test.questions"

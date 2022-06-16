@@ -25,7 +25,7 @@ export const useFeaturesStore = defineStore('features', {
         .then(({data}) => this.specializations = data);
     },
 
-    getOnceFeature(idFeature: number, typeFeature: string) {
+    getOnceFeature(idFeature: number, typeFeature: string, specId: number) {
       const storeUser = useUser();
 
       this.typeResponse = typeFeature;
@@ -48,6 +48,8 @@ export const useFeaturesStore = defineStore('features', {
         return Features.getOnceDisciplines(idFeature)
           .then(({data}) => {
             this.responseDiscipline = data;
+            Features.getCompetencesBySpecialization(specId)
+              .then(({data}) => this.competencies = data);
             this.showModal = true;
           })
           .catch(() => storeUser.message.error('Не получилось получить дисциплину'));
@@ -96,6 +98,11 @@ export const useFeaturesStore = defineStore('features', {
       }
     },
 
+    getCompetencesBySpecialization(id: number) {
+      Features.getCompetencesBySpecialization(id)
+        .then(({data}) => this.competencies = data);
+    },
+
     deleteFeature(featureId: number, typeFeature: string) {
       const storeUser = useUser();
 
@@ -103,15 +110,15 @@ export const useFeaturesStore = defineStore('features', {
       switch (this.typeResponse) {
       case 'competence':
         return Features.deleteCompetence(featureId)
-          .then(({data}) => this.competencies = this.competencies.filter((el) => el.id !== featureId))
+          .then(() => this.competencies = this.competencies.filter((el) => el.id !== featureId))
           .catch(() => storeUser.message.error('Не получилось удалить компетенцию'));
       case 'specialization':
         return Features.deleteSpecialization(featureId)
-          .then(({data}) => this.specializations = this.specializations.filter((el) => el.id !== featureId))
+          .then(() => this.specializations = this.specializations.filter((el) => el.id !== featureId))
           .catch(() => storeUser.message.error('Не получилось удалить специальность'));
       case 'discipline':
         return Features.deleteDisciplines(featureId)
-          .then(({data}) => this.disciplines = this.disciplines.filter((el) => el.id !== featureId))
+          .then(() => this.disciplines = this.disciplines.filter((el) => el.id !== featureId))
           .catch(() => storeUser.message.error('Не получилось удалить дисциплину'));
       }
     },

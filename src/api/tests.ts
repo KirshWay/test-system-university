@@ -2,7 +2,7 @@ import $axios from './index';
 
 const Tests = {
   getAllTest: () => $axios.get(`/test/list_test/`),
-  getTest: (uuid_testing: string, mode: '0' | '1') => $axios.get(`/test/get_test/${uuid_testing}/${mode}`),
+  getTest: (uuidTesting: string, mode: '0' | '1') => $axios.get(`/test/get_test/${uuidTesting}/${mode}`),
   createTest: (title: string, answerTime: number, specializationId: number, disciplineId: number) => $axios.post(`/test/create_test/`, {
     title,
     answerTime,
@@ -20,7 +20,7 @@ const Tests = {
   updateQuestion: (text: string, uuidQuestion: string, typeAnswerQuestion?: boolean) => $axios.put(`/test/update_question/`, {
     text, uuidQuestion, typeAnswerQuestion,
   }),
-  deleteQuestion: (uuidQuestion: string) => $axios.post(`/test/delete_question/`, {uuidQuestion}),
+  deleteQuestion: (uuidTesting: string, uuidQuestion: string) => $axios.post(`/test/delete_question/`, {uuidTesting, uuidQuestion}),
   createAnswer: (text: string, uuidQuestion: string, correctAnswer: boolean) => $axios.post(`/test/create_answer/`, {
     text, uuidQuestion, correctAnswer,
   }),

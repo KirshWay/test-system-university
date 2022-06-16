@@ -10,15 +10,24 @@ import {
   NSpace,
   NSwitch,
 } from 'naive-ui';
-import {ref} from 'vue';
+import {computed, ref} from 'vue';
 
+import Features from '~/api/features';
+import ListCompetence from '~/components/ConstructorItems/СompetenceItem/ListCompetence.vue';
 import {useTestStore} from '~/store/test';
+import {Competence} from '~/types/feature';
 const testStore = useTestStore();
 
-const numberСompetence = ref<number>(0);
-const numberDiscipline = ref<number>(0);
+const selectedCompetence = ref<null | number>(null);
+const allCompetence = ref<Competence[]>([]);
 
-const switcherСompetenceChoice = ref<boolean>(false);
+const numberCompetence = ref<number>(0);
+
+const switcherCompetenceChoice = ref<boolean>(false);
+
+Features.getAllCompetencies().then(({data}) => allCompetence.value = data);
+
+const dataCompetenciesForForm = computed(() => allCompetence.value.map((el) => ({label: el.code, value: el.id})));
 </script>
 
 <template>
@@ -27,7 +36,7 @@ const switcherСompetenceChoice = ref<boolean>(false);
       <p class="competence__title">
         Создать по
       </p>
-      <n-switch v-model:value="switcherСompetenceChoice">
+      <n-switch v-model:value="switcherCompetenceChoice">
         <template #checked>
           дисциплине
         </template>
@@ -36,11 +45,16 @@ const switcherСompetenceChoice = ref<boolean>(false);
         </template>
       </n-switch>
     </n-space>
-    <template v-if="!switcherСompetenceChoice">
+    <template v-if="!switcherCompetenceChoice">
       <n-input-group style="margin-bottom: 1%;">
-        <n-select placeholder="Выберите компетенцию" />
+        <n-select
+          v-model:value="selectedCompetence"
+          :options="dataCompetenciesForForm"
+          placeholder="Выберите компетенцию"
+          filterable
+        />
         <n-input-number
-          v-model:value="numberСompetence"
+          v-model:value="numberCompetence"
           placeholder="Колличество"
           clearable
         />
@@ -60,15 +74,11 @@ const switcherСompetenceChoice = ref<boolean>(false);
     <template v-else>
       <n-collapse arrow-placement="right" style="margin-bottom: 3%">
         <n-collapse-item title="Дисциплина">
-          <n-card title="Компетенция">
-            <template #header-extra>
-              <n-input-number
-                v-model:value="numberDiscipline"
-                placeholder="Колличество"
-                clearable
-              />
-            </template>
-          </n-card>
+          <ListCompetence
+            v-for="competence in dataCompetenciesForForm"
+            :key="competence.value"
+            :competence="competence"
+          />
         </n-collapse-item>
       </n-collapse>
       <n-space justify="space-between">

@@ -22,6 +22,7 @@ const Features = {
     specializationId,
     competencesIds,
   }),
+  getCompetencesBySpecialization: (id: number) => $axios.get(`/features/get_competences_by_specialization/${id}`),
   updateDisciplines: (id: number, title: string, specializationId: number, competencesIds: number[]) => $axios.put(`/features/discipline/${id}/`, {
     title,
     specializationId,
