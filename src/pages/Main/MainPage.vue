@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PlusCircle} from '@vicons/fa';
+import {PlusCircle, Question} from '@vicons/fa';
 import {
   NButton,
   NCard,

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import {Buffer, Question} from '@vicons/fa';
 import {
   NButton,
@@ -9,19 +10,31 @@ import {
   NSelect,
   NSpace,
 } from 'naive-ui';
-import {computed, ref} from 'vue';
+import {
+  computed,
+  ref,
+} from 'vue';
 import {useRoute} from 'vue-router';
 
+import Tests from '~/api/tests';
 import QuestionConstructor from '~/components/ConstructorItems/QuestionItem/QuestionItem.vue';
 import Competence from '~/components/ConstructorItems/СompetenceItem/СompetenceItem.vue';
 import {useTestStore} from '~/store/test';
-
-const testStore = useTestStore();
-const route = useRoute();
+import {useUser} from '~/store/user';
 
 const specialization = ref<number | null>(null);
 
-const dataSpecializationsForForm = computed(() => testStore.specializations.map((el) => ({label: el.title, value: el.id})));
+const testStore = useTestStore();
+const storeUser = useUser();
+const route = useRoute();
+
+const specializationChecked = computed(() => testStore.test.specialization && (specialization.value = testStore.test.specialization.id));
+
+const choseSpecialization = (value: number) => {
+  testStore.test.specialization = value;
+  storeUser.message.info('При изменении специальности, вопросы будут удалены');
+  Tests.updateTest(testStore.test.title, testStore.test.uuidTesting, value);
+};
 
 testStore.getTest(route.params.id as string, '1');
 </script>
@@ -36,8 +49,9 @@ testStore.getTest(route.params.id as string, '1');
         style="margin-bottom: 2%"
       />
       <n-select
-        v-model:value="specialization"
-        :options="dataSpecializationsForForm"
+        v-model:value="specializationChecked"
+        :options="testStore.dataSpecializationsForForm"
+        :on-update:value="(v) => choseSpecialization(v)"
         placeholder="Выбирите специальность"
         filterable
       />
@@ -52,7 +66,8 @@ testStore.getTest(route.params.id as string, '1');
         </n-space>
       </n-card>
       <n-button
-        @click="testStore.addQuestion(testStore.test.uuidTesting)"
+        @click="testStore.addQuestion(testStore.test.uuidTesting, specializationChecked)"
+        :disabled="testStore.specialization === null || testStore.showBankMenu"
         class="constructor__button"
         style="margin-bottom: 1%"
         dashed
@@ -67,7 +82,7 @@ testStore.getTest(route.params.id as string, '1');
       <n-button
         v-if="!testStore.showBankMenu"
         @click="testStore.showBankMenu = !testStore.showBankMenu"
-        :disabled="testStore.test.questions?.length > 0"
+        :disabled="testStore.test.questions?.length > 0 || testStore.specialization === null"
         class="constructor__button"
         type="info"
         dashed
@@ -79,7 +94,7 @@ testStore.getTest(route.params.id as string, '1');
         </template>
         Добавить вопрос из банка
       </n-button>
-      <Competence />
+      <!--      <Competence />-->
     </n-card>
   </div>
 </template>
@@ -88,11 +103,6 @@ testStore.getTest(route.params.id as string, '1');
 .constructor {
   &__button {
     width: 100%;
-  }
-
-  &__marker {
-    display: flex;
-    align-items: center;
   }
 }
 </style>

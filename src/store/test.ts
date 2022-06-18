@@ -25,11 +25,11 @@ export const useTestStore = defineStore('tests', {
         title: '',
         answer_time: 240,
         questions: [],
-        specialization: 1,
+        specialization: null,
         discipline: 1,
       };
 
-      Tests.createTest(this.test.title, this.test.answer_time, this.test.specialization, this.test.specialization)
+      Tests.createTest(this.test.title, this.test.answer_time)
         .then(({data}) => {
           this.test.uuidTesting = data.uuid;
           storeUser.router.push(`/constructor-test/${this.test.uuidTesting}`);
@@ -69,24 +69,32 @@ export const useTestStore = defineStore('tests', {
         }).catch(() => storeUser.message.error('Не найден id теста'));
     },
 
-    addQuestion(uuidTesting: string) {
+    addQuestion(uuidTesting: string, specializationChecked: number) {
       const storeUser = useUser();
 
       this.test.questions!.push({
         text: '',
         typeAnswerQuestion: false,
         answers: [],
+        competence: {
+          code: '',
+          id: 0,
+        },
+        competences: [],
       });
 
-      Tests.createQuestion('', uuidTesting, 1, false)
-        .then(({data}) => this.test.questions![this.test.questions!.length - 1] = data.question)
+      Tests.createQuestion('', uuidTesting, specializationChecked, false)
+        .then(({data}) => {
+          this.test.questions![this.test.questions!.length - 1] = data.question;
+          this.test.questions![this.test.questions!.length - 1].competences = data.competences;
+        })
         .catch(() => storeUser.message.error('Не получилось создать вопрос'));
     },
 
-    updateQuestion(text: string, uuidQuestion: string, typeAnswerQuestion: boolean) {
+    updateQuestion(text: string, uuidQuestion: string, typeAnswerQuestion: boolean, competenceId?: number) {
       const storeUser = useUser();
 
-      Tests.updateQuestion(text, uuidQuestion, typeAnswerQuestion)
+      Tests.updateQuestion(text, uuidQuestion, typeAnswerQuestion, competenceId)
         .catch(() => storeUser.message.error('Не получилось обновить заголовок вопроса'));
     },
 
@@ -149,5 +157,13 @@ export const useTestStore = defineStore('tests', {
           }
         });
     },
+  },
+  getters: {
+    dataSpecializationsForForm(state) {
+      return state.specializations.map((el) => ({label: el.title, value: el.id}));
+    },
+    // dataCompetenciesForForm(state) {
+    //   return state.test.questions!.forEach((el) => el.competences.map((el) => ({label: el.code, value: el.id})));
+    // },
   },
 });

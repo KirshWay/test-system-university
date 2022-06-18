@@ -23,8 +23,8 @@ export const useUser = defineStore('main', {
 
     getAllUsers() {
       const students = Users.getAllStudents().then(({data}) => data);
-      const teachers = Users.getAllTeachers().then(({data}) => data);
-      return Promise.all([students, teachers])
+      const developerTests = Users.getAllTeachers().then(({data}) => data);
+      return Promise.all([students, developerTests])
         .then((users) => this.users = ([] as UsersModel[]).concat(...users))
         .catch(this.loader.error)
         .finally(this.loader.finish);

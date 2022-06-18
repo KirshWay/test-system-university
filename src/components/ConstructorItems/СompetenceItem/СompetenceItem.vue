@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import {
   NButton,
   NCard,
@@ -12,22 +13,32 @@ import {
 } from 'naive-ui';
 import {computed, ref} from 'vue';
 
+import Bank from '~/api/bank';
 import Features from '~/api/features';
+import Tests from '~/api/tests';
 import ListCompetence from '~/components/ConstructorItems/СompetenceItem/ListCompetence.vue';
 import {useTestStore} from '~/store/test';
 import {Competence} from '~/types/feature';
 const testStore = useTestStore();
 
-const selectedCompetence = ref<null | number>(null);
 const allCompetence = ref<Competence[]>([]);
 
+const selectedCompetence = ref<null | number>(null);
 const numberCompetence = ref<number>(0);
 
 const switcherCompetenceChoice = ref<boolean>(false);
 
 Features.getAllCompetencies().then(({data}) => allCompetence.value = data);
 
-const dataCompetenciesForForm = computed(() => allCompetence.value.map((el) => ({label: el.code, value: el.id})));
+const dataCompetenciesForForm = computed(() => testStore.responseCompetences.map((el) => ({label: el.code, value: el.id})));
+
+const sendToBankByCompetence = (competence: number, quantityCompetences: number ) => {
+  console.log(testStore.test.uuidTesting);
+  Bank.addQuestionsBankByCompetence(competence, quantityCompetences, testStore.test.uuidTesting)
+    .then(() => Tests.getTest(testStore.test.uuidTesting, '1'));
+  selectedCompetence.value = null;
+  numberCompetence.value = 0;
+};
 </script>
 
 <template>
@@ -66,7 +77,11 @@ const dataCompetenciesForForm = computed(() => allCompetence.value.map((el) => (
         >
           Отмена
         </n-button>
-        <n-button type="success">
+        <n-button
+          @click="sendToBankByCompetence(selectedCompetence, numberCompetence)"
+          :disabled="!selectedCompetence || !numberCompetence"
+          type="success"
+        >
           Выбрать
         </n-button>
       </n-space>

@@ -10,6 +10,7 @@ import {
   NSpace,
   NSwitch,
 } from 'naive-ui';
+import {computed, ref} from 'vue';
 
 import AnswerConstructor from '~/components/ConstructorItems/AnswerItem/AnswerItem.vue';
 import {useTestStore} from '~/store/test';
@@ -17,18 +18,32 @@ import {Question} from '~/types/test';
 
 const testStore = useTestStore();
 
+const competence = ref<number | null>(null);
+
+const dataCompetenciesForForm = computed(() => question.competences?.map((el) => ({label: el.code, value: el.id})));
+
+const specializationChecked = computed(() => question.competence && (competence.value = question.competence.id));
+
+const choseCompetence = (value: number) => {
+  question.competence = value;
+  testStore.updateQuestion(question.text, question.uuidQuestion, question.typeAnswerQuestion, value);
+};
+
 const {question} = defineProps<{ question: Question }>();
 </script>
 
 <template>
   <div>
     <n-input
-      placeholder="Заголовок вопроса"
       v-model:value="question.text"
       :on-blur="() => testStore.updateQuestion(question.text, question.uuidQuestion, question.typeAnswerQuestion)"
       style="max-width: 100%; margin-bottom: 2%"
+      placeholder="Заголовок вопроса"
     />
     <n-select
+      v-model:value="specializationChecked"
+      :options="dataCompetenciesForForm"
+      :on-update:value="(v) => choseCompetence(v)"
       style="margin-bottom: 2%;"
       placeholder="Выбирите компетенцию"
       filterable
