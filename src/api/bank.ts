@@ -7,10 +7,10 @@ const Bank = {
     uuidTesting,
   }),
   addQuestionsBankByDiscipline: (uuidTesting: string, queryByCompetence:
-    [{
+    {
       competenceId: number,
       queryCount: number
-    }]) => $axios.post(`/add_questions_from_bank_by_discipline/`),
+    }[]) => $axios.post(`/test/add_questions_from_bank_by_discipline/`, {uuidTesting, queryByCompetence}),
 };
 
 

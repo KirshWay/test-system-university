@@ -1,9 +1,12 @@
 import {defineStore} from 'pinia';
+import {computed} from 'vue';
 
 import Features from '~/api/features';
 import Tests from '~/api/tests';
 import {useUser} from '~/store/user';
-import {Specialization} from '~/types/feature';
+import {
+  Competence, Discipline, Specialization,
+} from '~/types/feature';
 import {
   Answer,
   Question,
@@ -16,6 +19,13 @@ export const useTestStore = defineStore('tests', {
     test: {} as Test,
     showBankMenu: false as boolean,
     specializations: [] as Specialization[],
+    responseCompetences: [] as Competence[],
+    responseDisciplines: [] as Discipline[],
+    questionsBankByDiscipline: [] as {
+      code: string,
+      competence_id: number,
+      query_count: number,
+    }[],
   }),
   actions: {
     createTest() {
@@ -86,7 +96,6 @@ export const useTestStore = defineStore('tests', {
       Tests.createQuestion('', uuidTesting, specializationChecked, false)
         .then(({data}) => {
           this.test.questions![this.test.questions!.length - 1] = data.question;
-          this.test.questions![this.test.questions!.length - 1].competences = data.competences;
         })
         .catch(() => storeUser.message.error('Не получилось создать вопрос'));
     },
@@ -162,8 +171,5 @@ export const useTestStore = defineStore('tests', {
     dataSpecializationsForForm(state) {
       return state.specializations.map((el) => ({label: el.title, value: el.id}));
     },
-    // dataCompetenciesForForm(state) {
-    //   return state.test.questions!.forEach((el) => el.competences.map((el) => ({label: el.code, value: el.id})));
-    // },
   },
 });

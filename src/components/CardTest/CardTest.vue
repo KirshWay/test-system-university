@@ -12,8 +12,9 @@ import {
   NIcon,
   NP,
   NSpace,
-  NTooltip,
+  NTooltip, useLoadingBar, useMessage,
 } from 'naive-ui';
+import {ref} from 'vue';
 
 import PassingTest from '~/api/passingTest';
 import {usePassingTest} from '~/store/passingTest';
@@ -22,10 +23,33 @@ import {useUser} from '~/store/user';
 import {Test} from '~/types/test';
 
 const {test} = defineProps<{ test: Test }>();
+const statusLoading = ref<boolean>(true);
+const loader = useLoadingBar();
+const message = useMessage();
 
 const testStore = useTestStore();
 const storeUser = useUser();
 const passingTestStore = usePassingTest();
+
+const downloadResults = (uuidTesting: string) => {
+  statusLoading.value = false;
+  loader.start();
+  PassingTest.downloadExcel(uuidTesting)
+    .then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${test.title}.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      statusLoading.value = false;
+    })
+    .catch(() => {
+      loader.error();
+      message.error('Не получилось скачать файл результатов');
+    })
+    .finally(loader.finish);
+};
 </script>
 
 <template>
@@ -81,7 +105,11 @@ const passingTestStore = usePassingTest();
         </router-link>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button type="info">
+            <n-button
+              @click="downloadResults(test.uuidTesting)"
+              :disabled="!statusLoading"
+              type="info"
+            >
               <template #icon>
                 <n-icon>
                   <Table />

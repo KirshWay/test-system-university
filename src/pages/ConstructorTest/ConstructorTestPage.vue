@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// @ts-nocheck
 import {Buffer, Question} from '@vicons/fa';
 import {
   NButton,
@@ -10,10 +9,7 @@ import {
   NSelect,
   NSpace,
 } from 'naive-ui';
-import {
-  computed,
-  ref,
-} from 'vue';
+import {computed, ref} from 'vue';
 import {useRoute} from 'vue-router';
 
 import Tests from '~/api/tests';
@@ -34,6 +30,7 @@ const choseSpecialization = (value: number) => {
   testStore.test.specialization = value;
   storeUser.message.info('При изменении специальности, вопросы будут удалены');
   Tests.updateTest(testStore.test.title, testStore.test.uuidTesting, value);
+  testStore.getTest(route.params.id as string, '1');
 };
 
 testStore.getTest(route.params.id as string, '1');
@@ -43,9 +40,9 @@ testStore.getTest(route.params.id as string, '1');
   <div>
     <n-card style="margin-bottom: 2%">
       <n-input
-        placeholder="Заголовок теста"
         v-model:value="testStore.test.title"
         :on-blur="testStore.updateTitleTest"
+        placeholder="Заголовок теста"
         style="margin-bottom: 2%"
       />
       <n-select
@@ -67,7 +64,7 @@ testStore.getTest(route.params.id as string, '1');
       </n-card>
       <n-button
         @click="testStore.addQuestion(testStore.test.uuidTesting, specializationChecked)"
-        :disabled="testStore.specialization === null || testStore.showBankMenu"
+        :disabled="specialization === null || testStore.showBankMenu"
         class="constructor__button"
         style="margin-bottom: 1%"
         dashed
@@ -82,7 +79,6 @@ testStore.getTest(route.params.id as string, '1');
       <n-button
         v-if="!testStore.showBankMenu"
         @click="testStore.showBankMenu = !testStore.showBankMenu"
-        :disabled="testStore.test.questions?.length > 0 || testStore.specialization === null"
         class="constructor__button"
         type="info"
         dashed
@@ -94,7 +90,7 @@ testStore.getTest(route.params.id as string, '1');
         </template>
         Добавить вопрос из банка
       </n-button>
-      <!--      <Competence />-->
+      <Competence v-if="testStore.showBankMenu" />
     </n-card>
   </div>
 </template>

@@ -16,6 +16,7 @@ export type Question = {
   typeAnswerQuestion: boolean,
   uuidQuestion?: any,
   competence: any,
+  editable?: boolean,
   competences: Competence[],
   answers: Answer[]
 }
@@ -24,4 +25,5 @@ export type Answer = {
   text: string,
   uuidAnswer?: any,
   correctAnswer: boolean
+  editable?: boolean,
 }

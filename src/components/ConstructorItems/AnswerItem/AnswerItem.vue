@@ -1,24 +1,28 @@
 <script setup lang="ts">
-import {Trash} from '@vicons/fa';
+import {Check, Trash} from '@vicons/fa';
 import {
   NButton,
   NCheckbox,
   NIcon,
   NInput,
+  NLi,
   NRadio,
   NSpace,
+  NUl,
 } from 'naive-ui';
 
 import {useTestStore} from '~/store/test';
 import {Answer, Question} from '~/types/test';
 
 const {
-  answer, typeAnswerQuestion, question,
+  answer,
+  typeAnswerQuestion,
+  question,
 } = defineProps<{
   answer: Answer,
   answers: Answer[],
   question: Question,
-  typeAnswerQuestion?: boolean
+  typeAnswerQuestion?: boolean,
 }>();
 
 const testStore = useTestStore();

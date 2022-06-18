@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PlusCircle, Question} from '@vicons/fa';
+import {PlusCircle} from '@vicons/fa';
 import {
   NButton,
   NCard,
@@ -11,7 +11,9 @@ import {
 } from 'naive-ui';
 import {
   computed,
-  ComputedRef, inject, ref,
+  ComputedRef,
+  inject,
+  ref,
 } from 'vue';
 
 import Tests from '~/api/tests';
