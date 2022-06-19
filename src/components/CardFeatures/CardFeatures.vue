@@ -125,16 +125,25 @@ watch(reactiveShowModal, (v) => {
     >
       <n-space vertical>
         <template v-if="featureStore.typeResponse === 'specialization'">
-          Специальность
-          <n-input v-model:value="featureStore.responseSpecializations.title" />
+          Название специальности
+          <n-input
+            v-model:value="featureStore.responseSpecializations.title"
+            placeholder="Специальность"
+          />
           Код специальности
-          <n-input v-model:value="featureStore.responseSpecializations.code" />
+          <n-input
+            v-model:value="featureStore.responseSpecializations.code"
+            placeholder="Код специальности"
+          />
         </template>
 
         <template v-if="featureStore.typeResponse === 'competence'">
-          <p>Название компетенции</p>
-          <n-input v-model:value="featureStore.responseCompetence.code" />
-          <p>Выбранная специальность</p>
+          Название компетенции
+          <n-input
+            v-model:value="featureStore.responseCompetence.code"
+            placeholder="Компетенция"
+          />
+          Выбранная специальность
           <n-select
             v-model:value="featureStore.responseCompetence.specialization.id"
             :options="dataSpecializationsForForm"
@@ -145,17 +154,20 @@ watch(reactiveShowModal, (v) => {
         </template>
 
         <template v-if="featureStore.typeResponse === 'discipline'">
-          Дисциплина
-          <n-input v-model:value="featureStore.responseDiscipline.title" />
-          Специальность
+          Название дисциплины
+          <n-input
+            v-model:value="featureStore.responseDiscipline.title"
+            placeholder="Дисциплина"
+          />
+          Выбранная специальность
           <n-select
             v-model:value="featureStore.responseDiscipline.specialization.id"
             :on-update:value="(v) => getCompetencesBySpecialization(v)"
             :options="dataSpecializationsForForm"
-            placeholder="Выберите cпециальность"
+            placeholder="Выберите специальность"
             filterable
           />
-          Компетенции
+          Выбранные компетенции
           <n-select
             v-model:value="disciplineSelected"
             :options="dataCompetenciesForForm"

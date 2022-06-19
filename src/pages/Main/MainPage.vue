@@ -61,7 +61,7 @@ const filteredListTests = computed( () => testStore.tests.filter((el) => el.titl
     <template v-if="['TEACHER', 'DEAN'].includes(storeUser.user.status)">
       <n-card title="Поиск теста" style="margin-bottom: 24px">
         <n-space vertical>
-          <n-input v-model:value="search" placeholder="Поиск теста" />
+          <n-input v-model:value="search" placeholder="Тест" />
         </n-space>
       </n-card>
       <CardTest

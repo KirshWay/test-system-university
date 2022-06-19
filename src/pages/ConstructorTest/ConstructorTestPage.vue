@@ -27,8 +27,8 @@ const route = useRoute();
 const specializationChecked = computed(() => testStore.test.specialization && (specialization.value = testStore.test.specialization.id));
 
 const choseSpecialization = (value: number) => {
+  storeUser.message.info('При изменении специальности на другую, вопросы будут удалены');
   testStore.test.specialization = value;
-  storeUser.message.info('При изменении специальности, вопросы будут удалены');
   Tests.updateTest(testStore.test.title, testStore.test.uuidTesting, value);
   testStore.getTest(route.params.id as string, '1');
 };
@@ -49,7 +49,7 @@ testStore.getTest(route.params.id as string, '1');
         v-model:value="specializationChecked"
         :options="testStore.dataSpecializationsForForm"
         :on-update:value="(v) => choseSpecialization(v)"
-        placeholder="Выбирите специальность"
+        placeholder="Выберите специальность"
         filterable
       />
       <n-divider />
@@ -79,6 +79,7 @@ testStore.getTest(route.params.id as string, '1');
       <n-button
         v-if="!testStore.showBankMenu"
         @click="testStore.showBankMenu = !testStore.showBankMenu"
+        :disabled="!specialization"
         class="constructor__button"
         type="info"
         dashed

@@ -56,7 +56,7 @@ const downloadResults = (uuidTesting: string) => {
   <n-card style="margin-bottom: 2%" hoverable>
     <n-space align="center" justify="space-between">
       <n-p style="margin: 0">
-        <strong>Название: </strong> {{ test.title }}
+        <strong>Название теста: </strong> {{ test.title }}
       </n-p>
       <n-button-group v-if="storeUser.user.status === 'STUDENT'">
         <router-link :to="`/test/${test.uuidTesting}`">

@@ -46,7 +46,7 @@ const {question} = defineProps<{ question: Question }>();
         :options="dataCompetenciesForForm"
         :on-update:value="(v) => choseCompetence(v)"
         style="margin-bottom: 2%;"
-        placeholder="Выбирите компетенцию"
+        placeholder="Выберите компетенцию"
         filterable
       />
       <AnswerConstructor
