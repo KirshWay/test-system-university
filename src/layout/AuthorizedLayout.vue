@@ -74,7 +74,7 @@ const filteredButtons = computed(() =>
   storeUser.user.status === 'DEAN' ?
     LINKS.filter((button) => route.path !== '/' || button.key !== 'main') :
     storeUser.user.status === 'TEACHER' ?
-      LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') && button.key === 'test-constructor') :
+      LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users'].includes(button.key))) :
       storeUser.user.status === 'STUDENT' ?
         LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users', 'test-constructor', 'features'].includes(button.key))) :
         null!,
