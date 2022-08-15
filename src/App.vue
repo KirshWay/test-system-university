@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {
-  darkTheme,
   NConfigProvider,
   NDialogProvider,
   NLayout,
@@ -12,6 +11,11 @@ import {
   computed, provide, ref,
 } from 'vue';
 
+import {useUser} from '~/store/user';
+
+const storeUser = useUser();
+
+
 const screenWidth = ref<number>(window.innerWidth);
 
 provide('screenWidth', computed(() => screenWidth.value));
@@ -22,7 +26,7 @@ window.addEventListener('resize', () => {
 </script>
 
 <template>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider :theme="storeUser.themeData" :theme-overrides="storeUser.themeOverrides">
     <n-loading-bar-provider>
       <n-dialog-provider>
         <n-notification-provider>

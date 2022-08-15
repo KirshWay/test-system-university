@@ -29,6 +29,7 @@ import {
 } from 'vue-router';
 
 import Users from '~/api/users';
+import ThemeToggle from '~/components/ThemeToggle/ThemeToggle.vue';
 import {LINKS, OPTIONS} from '~/constans/header';
 import {useUser} from '~/store/user';
 
@@ -114,6 +115,9 @@ const filteredButtons = computed(() =>
           :on-update:value="onSelectDropdownOption"
           :options="OPTIONS"
         />
+        <template #footer>
+          <ThemeToggle />
+        </template>
       </n-drawer-content>
     </n-drawer>
 
@@ -134,23 +138,26 @@ const filteredButtons = computed(() =>
               </n-button>
             </router-link>
           </n-button-group>
-          <n-dropdown
-            :options="OPTIONS"
-            @select="onSelectDropdownOption"
-            placement="bottom-end"
-          >
-            <n-button :bordered="false">
-              <span style="margin-right: 16px">
-                {{ storeUser.user.firstName }} {{ storeUser.user.lastName }}
-              </span>
-              <n-avatar
-                round
-                object-fit="cover"
-                size="medium"
-                :src="storeUser.avatar"
-              />
-            </n-button>
-          </n-dropdown>
+          <div style="display: flex; align-items: center">
+            <ThemeToggle style="margin-right: 10px" />
+            <n-dropdown
+              :options="OPTIONS"
+              @select="onSelectDropdownOption"
+              placement="bottom-end"
+            >
+              <n-button :bordered="false">
+                <span style="margin-right: 16px">
+                  {{ storeUser.user.firstName }} {{ storeUser.user.lastName }}
+                </span>
+                <n-avatar
+                  round
+                  object-fit="cover"
+                  size="medium"
+                  :src="storeUser.avatar"
+                />
+              </n-button>
+            </n-dropdown>
+          </div>
         </template>
         <n-button
           v-else
