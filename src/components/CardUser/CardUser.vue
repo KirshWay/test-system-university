@@ -10,11 +10,11 @@ import {
   NTooltip,
 } from 'naive-ui';
 
-import {useUser} from '~/store/user';
+import {useMainStore} from '~/store/main';
 import {UsersModel} from '~/types/user';
 import {generateStatus} from '~/utils/status';
 
-const storeUser = useUser();
+const mainStore = useMainStore();
 
 const {user} = defineProps<{ user: UsersModel }>();
 </script>
@@ -30,7 +30,7 @@ const {user} = defineProps<{ user: UsersModel }>();
         <n-button-group align="center">
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button @click="storeUser.deleteUser(user.uuid)" type="error">
+              <n-button @click="mainStore.deleteUser(user.uuid)" type="error">
                 <template #icon>
                   <n-icon>
                     <Trash />

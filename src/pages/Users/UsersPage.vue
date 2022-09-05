@@ -24,15 +24,15 @@ import {useRouter} from 'vue-router';
 import Users from '~/api/users';
 import CardUser from '~/components/CardUser/CardUser.vue';
 import {TYPES_USERS_SELECT} from '~/constans/usersSelect';
-import {useUser} from '~/store/user';
+import {useMainStore} from '~/store/main';
 
 const message = useMessage();
 const loader = useLoadingBar();
 
 const router = useRouter();
-const storeUser = useUser();
+const mainStore = useMainStore();
 
-if (storeUser.user.status === 'STUDENT') {
+if (mainStore.user.status === 'STUDENT') {
   router.push('/');
 }
 
@@ -63,7 +63,7 @@ const submit = () => {
   )
     .then(() => {
       showModal.value = false;
-      storeUser.getAllUsers();
+      mainStore.getAllUsers();
     })
     .catch(loader.error)
     .finally(() => {
@@ -72,10 +72,10 @@ const submit = () => {
     });
 };
 
-storeUser.getAllUsers();
+mainStore.getAllUsers();
 
 const filteredListUsers = computed(() =>
-  storeUser.users.filter((el) =>
+  mainStore.users.filter((el) =>
     (searchType.value === 'all' || el.status === searchType.value) &&
         (el.email?.toLowerCase().includes(search.value.toLowerCase()) ||
             el.lastName?.toLowerCase().includes(search.value.toLowerCase()) ||

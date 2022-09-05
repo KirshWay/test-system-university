@@ -14,7 +14,7 @@ import {
 } from 'vue';
 
 import Users from '~/api/users';
-import {useUser} from '~/store/user';
+import {useMainStore} from '~/store/main';
 import {createFormData} from '~/utils/common';
 import {generateStatus} from '~/utils/status';
 
@@ -22,7 +22,7 @@ const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
 const message = useMessage();
 
-const storeUser = useUser();
+const mainStore = useMainStore();
 
 const password = ref<string>('');
 const avatar = ref<{
@@ -43,18 +43,18 @@ const saveAvatar = (e: Event) => {
 
 const submit = () => {
   const result = createFormData(!avatar.value.file ? {
-    'first_name': storeUser.user.firstName,
-    'last_name': storeUser.user.lastName,
-    'patronymic': storeUser.user.patronymic,
+    'first_name': mainStore.user.firstName,
+    'last_name': mainStore.user.lastName,
+    'patronymic': mainStore.user.patronymic,
   } : {
-    'first_name': storeUser.user.firstName,
-    'last_name': storeUser.user.lastName,
-    'patronymic': storeUser.user.patronymic,
+    'first_name': mainStore.user.firstName,
+    'last_name': mainStore.user.lastName,
+    'patronymic': mainStore.user.patronymic,
     'Avatar': avatar.value.file,
   });
   return Users.updateUser(result)
     .then(({data}) => {
-      storeUser.user = data;
+      mainStore.user = data;
     })
     .catch(() => message.error('Не получилось изменить данные профиля'))
     .finally(() => message.success('Данные изменены'));
@@ -69,7 +69,7 @@ const submit = () => {
           round
           object-fit="cover"
           :size="160"
-          :src="avatar.data || storeUser.avatar"
+          :src="avatar.data || mainStore.avatar"
         />
         <n-button
           style="position: relative;"
@@ -77,7 +77,7 @@ const submit = () => {
           type="info"
         >
           <input
-            class="setting__avatar"
+            class="setImageInput"
             accept="image/*"
             type="file"
             @change="saveAvatar"
@@ -86,16 +86,16 @@ const submit = () => {
         </n-button>
       </div>
       <div>
-        <n-h3><strong>Статус пользователя: </strong>{{ generateStatus(storeUser.user.status) }}</n-h3>
+        <n-h3><strong>Статус пользователя: </strong>{{ generateStatus(mainStore.user.status) }}</n-h3>
         <form @submit.prevent="submit">
           Редактирование имени
-          <n-input v-model:value="storeUser.user.firstName" placeholder="Имя" />
+          <n-input v-model:value="mainStore.user.firstName" placeholder="Имя" />
           Редактирование фамилии
-          <n-input v-model:value="storeUser.user.lastName" placeholder="Фамилия" />
+          <n-input v-model:value="mainStore.user.lastName" placeholder="Фамилия" />
           Редактирование отчества
-          <n-input v-model:value="storeUser.user.patronymic" placeholder="Отчество" />
+          <n-input v-model:value="mainStore.user.patronymic" placeholder="Отчество" />
           Редактирование почты
-          <n-input v-model:value="storeUser.user.email" />
+          <n-input v-model:value="mainStore.user.email" />
           Редактирование пароля
           <n-input v-model:value="password" type="password" placeholder="Пароль" />
           <n-button
@@ -130,16 +130,6 @@ const submit = () => {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-  }
-
-  &__avatar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer
   }
 }
 </style>

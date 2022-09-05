@@ -1,7 +1,9 @@
 import {
-  darkTheme, LoadingBarApi, MessageApi,
+  darkTheme,
+  lightTheme,
+  LoadingBarApi,
+  MessageApi,
 } from 'naive-ui';
-import {lightTheme} from 'naive-ui/es/themes/light';
 import {defineStore} from 'pinia';
 import {RouteLocationNormalizedLoaded, Router} from 'vue-router';
 
@@ -16,7 +18,7 @@ export enum ThemeEnum {
 
 const tightThemeOverrides = {Layout: {color: '#f7f8fb'}};
 
-export const useUser = defineStore('main', {
+export const useMainStore = defineStore('main', {
   state: () => {
     const theme: ThemeEnum = localStorage.theme || ThemeEnum.Dark;
 

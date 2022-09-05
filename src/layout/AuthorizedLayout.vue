@@ -31,16 +31,16 @@ import {
 import Users from '~/api/users';
 import ThemeToggle from '~/components/ThemeToggle/ThemeToggle.vue';
 import {LINKS, OPTIONS} from '~/constans/header';
-import {useUser} from '~/store/user';
+import {useMainStore} from '~/store/main';
 
 const router = useRouter();
 const route = useRoute();
-const storeUser = useUser();
+const mainStore = useMainStore();
 
-storeUser.message = useMessage();
-storeUser.loader = useLoadingBar();
-storeUser.router = router;
-storeUser.route = route;
+mainStore.message = useMessage();
+mainStore.loader = useLoadingBar();
+mainStore.router = router;
+mainStore.route = route;
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
@@ -51,7 +51,7 @@ if (!localStorage.getItem('Authorization')) {
 }
 
 if (localStorage.getItem('Authorization')) {
-  Users.getProfile().then(({data}) => storeUser.setUser(data));
+  Users.getProfile().then(({data}) => mainStore.setUser(data));
 }
 
 const onSelectDropdownOption = (key: string) => {
@@ -72,11 +72,11 @@ const onSelectDropdownOption = (key: string) => {
 };
 
 const filteredButtons = computed(() =>
-  storeUser.user.status === 'DEAN' ?
+  mainStore.user.status === 'DEAN' ?
     LINKS.filter((button) => route.path !== '/' || button.key !== 'main') :
-    storeUser.user.status === 'TEACHER' ?
+    mainStore.user.status === 'TEACHER' ?
       LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users'].includes(button.key))) :
-      storeUser.user.status === 'STUDENT' ?
+      mainStore.user.status === 'STUDENT' ?
         LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users', 'test-constructor', 'features'].includes(button.key))) :
         null!,
 );
@@ -97,13 +97,13 @@ const filteredButtons = computed(() =>
               round
               object-fit="cover"
               :size="88"
-              :src="storeUser.avatar"
+              :src="mainStore.avatar"
             />
             <n-h2>
-              {{ storeUser.user.firstName }} {{ storeUser.user.lastName }} {{ storeUser.user.patronymic }}
+              {{ mainStore.user.firstName }} {{ mainStore.user.lastName }} {{ mainStore.user.patronymic }}
             </n-h2>
             <n-p depth="3">
-              {{ storeUser.user.email }}
+              {{ mainStore.user.email }}
             </n-p>
           </div>
         </template>
@@ -147,13 +147,13 @@ const filteredButtons = computed(() =>
             >
               <n-button :bordered="false">
                 <span style="margin-right: 16px">
-                  {{ storeUser.user.firstName }} {{ storeUser.user.lastName }}
+                  {{ mainStore.user.firstName }} {{ mainStore.user.lastName }}
                 </span>
                 <n-avatar
                   round
                   object-fit="cover"
                   size="medium"
-                  :src="storeUser.avatar"
+                  :src="mainStore.avatar"
                 />
               </n-button>
             </n-dropdown>

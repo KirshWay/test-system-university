@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 
 import Features from '~/api/features';
-import {useUser} from '~/store/user';
+import {useMainStore} from '~/store/main';
 import {
   Competence,
   Discipline,
@@ -26,7 +26,7 @@ export const useFeaturesStore = defineStore('features', {
     },
 
     getOnceFeature(idFeature: number, typeFeature: string, specId: number | null) {
-      const storeUser = useUser();
+      const mainStore = useMainStore();
 
       this.typeResponse = typeFeature;
       switch (this.typeResponse) {
@@ -36,14 +36,14 @@ export const useFeaturesStore = defineStore('features', {
             this.responseCompetence = data;
             this.showModal = true;
           })
-          .catch(() => storeUser.message.error('Не получилось получить компетенцию'));
+          .catch(() => mainStore.message.error('Не получилось получить компетенцию'));
       case 'specialization':
         return Features.getOnceSpecialization(idFeature)
           .then(({data}) => {
             this.responseSpecializations = data;
             this.showModal = true;
           })
-          .catch(() => storeUser.message.error('Не получилось получить специальность'));
+          .catch(() => mainStore.message.error('Не получилось получить специальность'));
       case 'discipline':
         return Features.getOnceDisciplines(idFeature)
           .then(({data}) => {
@@ -52,12 +52,12 @@ export const useFeaturesStore = defineStore('features', {
               .then(({data}) => this.competencies = data);
             this.showModal = true;
           })
-          .catch(() => storeUser.message.error('Не получилось получить дисциплину'));
+          .catch(() => mainStore.message.error('Не получилось получить дисциплину'));
       }
     },
 
     updateFeature(typeFeature: string, disciplineOptions: number[]) {
-      const storeUser = useUser();
+      const mainStore = useMainStore();
 
       this.typeResponse = typeFeature;
       switch (this.typeResponse) {
@@ -70,7 +70,7 @@ export const useFeaturesStore = defineStore('features', {
             });
             this.showModal = false;
           })
-          .catch(() => storeUser.message.error('Не получилось получить компетенцию'));
+          .catch(() => mainStore.message.error('Не получилось получить компетенцию'));
       case 'specialization':
         return Features.updateSpecialization(this.responseSpecializations.id, this.responseSpecializations.title, this.responseSpecializations.code)
           .then(({data}) => {
@@ -83,7 +83,7 @@ export const useFeaturesStore = defineStore('features', {
             });
             this.showModal = false;
           })
-          .catch(() => storeUser.message.error('Не получилось получить специальность'));
+          .catch(() => mainStore.message.error('Не получилось получить специальность'));
       case 'discipline':
         return Features.updateDisciplines(this.responseDiscipline.id, this.responseDiscipline.title, this.responseDiscipline.specialization.id, disciplineOptions)
           .then(({data}) => {
@@ -94,7 +94,7 @@ export const useFeaturesStore = defineStore('features', {
             });
             this.showModal = false;
           })
-          .catch(() => storeUser.message.error('Не получилось получить дисциплину'));
+          .catch(() => mainStore.message.error('Не получилось получить дисциплину'));
       }
     },
 
@@ -104,22 +104,22 @@ export const useFeaturesStore = defineStore('features', {
     },
 
     deleteFeature(featureId: number, typeFeature: string) {
-      const storeUser = useUser();
+      const mainStore = useMainStore();
 
       this.typeResponse = typeFeature;
       switch (this.typeResponse) {
       case 'competence':
         return Features.deleteCompetence(featureId)
           .then(() => this.competencies = this.competencies.filter((el) => el.id !== featureId))
-          .catch(() => storeUser.message.error('Не получилось удалить компетенцию'));
+          .catch(() => mainStore.message.error('Не получилось удалить компетенцию'));
       case 'specialization':
         return Features.deleteSpecialization(featureId)
           .then(() => this.specializations = this.specializations.filter((el) => el.id !== featureId))
-          .catch(() => storeUser.message.error('Не получилось удалить специальность'));
+          .catch(() => mainStore.message.error('Не получилось удалить специальность'));
       case 'discipline':
         return Features.deleteDisciplines(featureId)
           .then(() => this.disciplines = this.disciplines.filter((el) => el.id !== featureId))
-          .catch(() => storeUser.message.error('Не получилось удалить дисциплину'));
+          .catch(() => mainStore.message.error('Не получилось удалить дисциплину'));
       }
     },
 

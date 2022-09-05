@@ -17,9 +17,9 @@ import {
 import {ref} from 'vue';
 
 import PassingTest from '~/api/passingTest';
+import {useMainStore} from '~/store/main';
 import {usePassingTest} from '~/store/passingTest';
 import {useTestStore} from '~/store/test';
-import {useUser} from '~/store/user';
 import {Test} from '~/types/test';
 
 const {test} = defineProps<{ test: Test }>();
@@ -28,7 +28,7 @@ const loader = useLoadingBar();
 const message = useMessage();
 
 const testStore = useTestStore();
-const storeUser = useUser();
+const mainStore = useMainStore();
 const passingTestStore = usePassingTest();
 
 const downloadResults = (uuidTesting: string) => {
@@ -58,7 +58,7 @@ const downloadResults = (uuidTesting: string) => {
       <n-p style="margin: 0">
         <strong>Название теста: </strong> {{ test.title }}
       </n-p>
-      <n-button-group v-if="storeUser.user.status === 'STUDENT'">
+      <n-button-group v-if="mainStore.user.status === 'STUDENT'">
         <router-link :to="`/test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>
