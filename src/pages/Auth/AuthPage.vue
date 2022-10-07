@@ -13,7 +13,7 @@ import {useRouter} from 'vue-router';
 import Users from '~/api/users';
 
 const loader = useLoadingBar();
-const router= useRouter();
+const router = useRouter();
 
 if (localStorage.getItem('Authorization')) router.push('/');
 
@@ -24,10 +24,12 @@ const submit = () => {
     .then(({data}) => {
       localStorage.setItem('Authorization', data.token);
       router.push('/');
-    }).catch(() => {
+    })
+    .catch(() => {
       message.error('Введён неправильный логин или пароль');
       loader.error;
-    }).finally(loader.finish);
+    })
+    .finally(loader.finish);
 };
 
 const email = ref<string>('');
