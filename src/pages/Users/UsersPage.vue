@@ -23,7 +23,7 @@ import {useRouter} from 'vue-router';
 
 import Users from '~/api/users';
 import CardUser from '~/components/CardUser/CardUser.vue';
-import {TYPES_USERS_SELECT} from '~/constans/usersSelect';
+import {USERS_SELECT} from '~/constans';
 import {useMainStore} from '~/store/main';
 
 const message = useMessage();
@@ -81,7 +81,7 @@ const filteredListUsers = computed(() =>
             el.lastName?.toLowerCase().includes(search.value.toLowerCase()) ||
             el.username?.toLowerCase().includes(search.value.toLowerCase()))));
 
-const createdSortedSelectUsers = computed(() => TYPES_USERS_SELECT.filter((el) => el.value !== 'all'));
+const createdSortedSelectUsers = computed(() => USERS_SELECT.filter((el) => el.value !== 'all'));
 </script>
 
 <template>
@@ -106,7 +106,7 @@ const createdSortedSelectUsers = computed(() => TYPES_USERS_SELECT.filter((el) =
         <n-input v-model:value="search" placeholder="Пользователь" />
         <n-select
           v-model:value="searchType"
-          :options="TYPES_USERS_SELECT"
+          :options="USERS_SELECT"
           style="width: 200px"
           filterable
         />

@@ -30,7 +30,7 @@ import {
 
 import Users from '~/api/users';
 import ThemeToggle from '~/components/ThemeToggle/ThemeToggle.vue';
-import {LINKS, OPTIONS} from '~/constans/header';
+import {LINKS, OPTIONS} from '~/constans';
 import {useMainStore} from '~/store/main';
 
 const router = useRouter();

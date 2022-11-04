@@ -1,4 +1,4 @@
-export const TYPES_USERS_SELECT = [
+export const USERS_SELECT = [
   {
     label: 'Все',
     value: 'all',

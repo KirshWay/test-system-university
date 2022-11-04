@@ -12,7 +12,7 @@ import {
 
 import {useMainStore} from '~/store/main';
 import {UsersModel} from '~/types/user';
-import {generateStatus} from '~/utils/status';
+import {generateStatus} from '~/utils/generate-status';
 
 const mainStore = useMainStore();
 
