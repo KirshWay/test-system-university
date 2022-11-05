@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 
-import Features from '~/api/features';
-import Tests from '~/api/tests';
+import FeaturesService from '~/api/features.service';
+import TestsService from '~/api/tests.service';
 import {useMainStore} from '~/store/main';
 import {
   Competence, Discipline, Specialization,
@@ -38,21 +38,21 @@ export const useTestStore = defineStore('tests', {
         discipline: 1,
       };
 
-      Tests.createTest(this.test.title, this.test.answer_time)
+      TestsService.createTest(this.test.title, this.test.answer_time)
         .then(({data}) => {
           this.test.uuidTesting = data.uuid;
           mainStore.router.push(`/constructor-test/${this.test.uuidTesting}`);
         })
         .catch(() => mainStore.message.error('Нет полного доступа для создания'));
 
-      Features.getAllSpecializations()
+      FeaturesService.getAllSpecializations()
         .then(({data}) => this.specializations = data);
     },
 
     deleteOnceTest(uuid_testing: string) {
       const mainStore = useMainStore();
 
-      Tests.deleteTest(uuid_testing)
+      TestsService.deleteTest(uuid_testing)
         .then(() => this.tests = this.tests.filter((el) => el.uuidTesting !== uuid_testing))
         .catch(() => mainStore.message.error('Тест не найден'));
     },
@@ -60,17 +60,17 @@ export const useTestStore = defineStore('tests', {
     getTest(idTest: string, mode: '0' | '1') {
       const mainStore = useMainStore();
 
-      Tests.getTest(idTest, mode)
+      TestsService.getTest(idTest, mode)
         .then(({data}) => this.test = data)
         .catch(() => mainStore.message.error('Тест не найден'));
 
-      Features.getAllSpecializations()
+      FeaturesService.getAllSpecializations()
         .then(({data}) => this.specializations = data);
     },
 
     updateTitleTest() {
       const mainStore = useMainStore();
-      Tests.updateTest(this.test.title, this.test.uuidTesting!)
+      TestsService.updateTest(this.test.title, this.test.uuidTesting!)
         .then(({data}) => {
           this.test.title = data.title;
           this.test.subtitle = data.subtitle;
@@ -92,7 +92,7 @@ export const useTestStore = defineStore('tests', {
         competences: [],
       });
 
-      Tests.createQuestion('', uuidTesting, specializationChecked, false)
+      TestsService.createQuestion('', uuidTesting, specializationChecked, false)
         .then(({data}) => {
           this.test.questions![this.test.questions!.length - 1] = data.question;
         })
@@ -102,14 +102,14 @@ export const useTestStore = defineStore('tests', {
     updateQuestion(text: string, uuidQuestion: string, typeAnswerQuestion: boolean, competenceId?: number) {
       const mainStore = useMainStore();
 
-      Tests.updateQuestion(text, uuidQuestion, typeAnswerQuestion, competenceId)
+      TestsService.updateQuestion(text, uuidQuestion, typeAnswerQuestion, competenceId)
         .catch(() => mainStore.message.error('Не получилось обновить заголовок вопроса'));
     },
 
     deleteQuestion(uuidQuestion: string) {
       const mainStore = useMainStore();
 
-      Tests.deleteQuestion(this.test.uuidTesting, uuidQuestion)
+      TestsService.deleteQuestion(this.test.uuidTesting, uuidQuestion)
         .then(() => this.test.questions = this.test.questions!.filter((el) => el.uuidQuestion !== uuidQuestion))
         .catch(() => mainStore.message.error('Возникла ошибка при удалении вопроса'));
     },
@@ -120,7 +120,7 @@ export const useTestStore = defineStore('tests', {
           text: '',
           correctAnswer: false,
         });
-        return Tests.createAnswer('', uuidQuestion, false)
+        return TestsService.createAnswer('', uuidQuestion, false)
           .then(({data}) => el.answers![el.answers!.length - 1] = data.answer);
       });
     },
@@ -130,11 +130,11 @@ export const useTestStore = defineStore('tests', {
         question!.answers!.forEach((el) => {
           if (el.uuidAnswer === uuidAnswer) {
             el.correctAnswer = !el.correctAnswer;
-            Tests.updateAnswerStatus(uuidAnswer, el.correctAnswer)
+            TestsService.updateAnswerStatus(uuidAnswer, el.correctAnswer)
               .catch(() => mainStore.message.error('Не получилось обновить ответ'));
           } else if (!question!.typeAnswerQuestion && el.uuidAnswer !== uuidAnswer) {
             el.correctAnswer = false;
-            Tests.updateAnswerStatus(el.uuidAnswer, el.correctAnswer)
+            TestsService.updateAnswerStatus(el.uuidAnswer, el.correctAnswer)
               .catch(() => mainStore.message.error('Не получилось обновить ответ'));
           }
         });
@@ -143,13 +143,13 @@ export const useTestStore = defineStore('tests', {
     updateAnswerText(text: string, uuidAnswer: string) {
       const mainStore = useMainStore();
 
-      Tests.updateAnswerText(text, uuidAnswer)
+      TestsService.updateAnswerText(text, uuidAnswer)
         .catch(() => mainStore.message.error('Текст ответа не получилось обновить'));
     },
 
     deleteAnswer(uuidAnswer: string, answers: Answer[]) {
       const mainStore = useMainStore();
-      Tests.deleteAnswer(uuidAnswer)
+      TestsService.deleteAnswer(uuidAnswer)
         .then(() => this.test.questions!.forEach((el) =>
           el.answers = answers.filter((el) => el.uuidAnswer !== uuidAnswer)))
         .catch(() => mainStore.message.error('Не получилось удалить ответ'));

@@ -28,7 +28,7 @@ import {
   useRouter,
 } from 'vue-router';
 
-import Users from '~/api/users';
+import UsersService from '~/api/users.service';
 import ThemeToggle from '~/components/ThemeToggle/ThemeToggle.vue';
 import {LINKS, OPTIONS} from '~/constans';
 import {useMainStore} from '~/store/main';
@@ -51,7 +51,7 @@ if (!localStorage.getItem('Authorization')) {
 }
 
 if (localStorage.getItem('Authorization')) {
-  Users.getProfile().then(({data}) => mainStore.setUser(data));
+  UsersService.getProfile().then(({data}) => mainStore.setUser(data));
 }
 
 const onSelectDropdownOption = (key: string) => {
@@ -75,9 +75,11 @@ const filteredButtons = computed(() =>
   mainStore.user.status === 'DEAN' ?
     LINKS.filter((button) => route.path !== '/' || button.key !== 'main') :
     mainStore.user.status === 'TEACHER' ?
-      LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users'].includes(button.key))) :
+      LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') &&
+          !(['users'].includes(button.key))) :
       mainStore.user.status === 'STUDENT' ?
-        LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') && !(['users', 'test-constructor', 'features'].includes(button.key))) :
+        LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') &&
+            !(['users', 'test-constructor', 'features'].includes(button.key))) :
         null!,
 );
 </script>

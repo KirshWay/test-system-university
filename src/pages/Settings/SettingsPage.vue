@@ -13,7 +13,7 @@ import {
   ref,
 } from 'vue';
 
-import Users from '~/api/users';
+import UsersService from '~/api/users.service';
 import {useMainStore} from '~/store/main';
 import {createFormData, generateStatus} from '~/utils';
 
@@ -51,7 +51,7 @@ const submit = () => {
     'patronymic': mainStore.user.patronymic,
     'Avatar': avatar.value.file,
   });
-  return Users.updateUser(result)
+  return UsersService.updateUser(result)
     .then(({data}) => {
       mainStore.user = data;
     })

@@ -9,6 +9,7 @@ import {
   NSpace,
   NTooltip,
 } from 'naive-ui';
+import {computed} from 'vue';
 
 import {useMainStore} from '~/store/main';
 import {UsersModel} from '~/types/user';
@@ -17,14 +18,16 @@ import {generateStatus} from '~/utils/generate-status';
 const mainStore = useMainStore();
 
 const {user} = defineProps<{ user: UsersModel }>();
+
+const titleCard = computed(() => user.lastName && user.firstName ?
+  `${user.lastName} ${user.firstName} ${!user.patronymic ? '' : user.patronymic}` :
+  `Неизвестно полное ФИО`);
 </script>
 
 <template>
   <div>
     <n-card
-      :title="user.lastName && user.firstName ?
-        `${user.lastName} ${user.firstName} ${!user.patronymic ? '' : user.patronymic}`
-        : `Неизвестно полное ФИО`"
+      :title="titleCard"
     >
       <template #header-extra>
         <n-button-group align="center">

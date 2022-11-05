@@ -13,7 +13,7 @@ import {
 } from 'naive-ui';
 import {computed, ref} from 'vue';
 
-import Features from '~/api/features';
+import FeaturesService from '~/api/features.service';
 import CardFeatures from '~/components/CardFeatures/CardFeatures.vue';
 import {useFeaturesStore} from '~/store/features';
 
@@ -32,7 +32,7 @@ const disSpecSelected = ref<null | number>(null);
 const disciplineSelected = ref<number[]>([]);
 
 const createSpecialization = () => {
-  Features.createSpecialization(specializationText.value, specializationCodeText.value)
+  FeaturesService.createSpecialization(specializationText.value, specializationCodeText.value)
     .then(({data}) => {
       featureStore.specializations.push(data);
       specializationText.value = '';
@@ -43,7 +43,7 @@ const createSpecialization = () => {
 };
 
 const createCompetence = () => {
-  Features.createCompetence(competenceCodeText.value, comSpecSelected.value!)
+  FeaturesService.createCompetence(competenceCodeText.value, comSpecSelected.value!)
     .then(({data}) => {
       featureStore.competencies.push(data);
       competenceCodeText.value = '';
@@ -54,7 +54,7 @@ const createCompetence = () => {
 };
 
 const createDiscipline = () => {
-  Features.createDisciplines(disciplineText.value, disSpecSelected.value!, disciplineSelected.value)
+  FeaturesService.createDisciplines(disciplineText.value, disSpecSelected.value!, disciplineSelected.value)
     .then(({data}) => {
       featureStore.disciplines.push(data);
       disciplineText.value = '';

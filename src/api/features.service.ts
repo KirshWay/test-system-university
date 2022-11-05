@@ -2,9 +2,9 @@ import {
   Competence, Discipline, Specialization,
 } from '~/types/feature';
 
-import $axios from './index';
+import $axios from './main-util';
 
-const Features = {
+const FeaturesService = {
   getAllSpecializations: () => $axios.get<Specialization[]>(`/features/specialization/`),
   getOnceSpecialization: (id: number) => $axios.get<Specialization>(`/features/specialization/${id}`),
   createSpecialization: (title: string, code: string) => $axios.post(`/features/specialization/`, {title, code}),
@@ -32,4 +32,4 @@ const Features = {
   deleteDisciplines: (id: number) => $axios.delete(`/features/discipline/${id}`),
 };
 
-export default Features;
+export default FeaturesService;

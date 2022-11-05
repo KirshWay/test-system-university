@@ -21,7 +21,7 @@ import {
 } from 'vue';
 import {useRouter} from 'vue-router';
 
-import Users from '~/api/users';
+import UsersService from '~/api/users.service';
 import CardUser from '~/components/CardUser/CardUser.vue';
 import {USERS_SELECT} from '~/constans';
 import {useMainStore} from '~/store/main';
@@ -52,7 +52,7 @@ const email = ref<string>('');
 const password = ref<string>('');
 
 const submit = () => {
-  Users.createUser(
+  UsersService.createUser(
     username.value,
     email.value,
     firstName.value,

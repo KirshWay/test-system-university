@@ -12,20 +12,24 @@ const testStore = useTestStore();
 const changeCount = (eventValue: number | null, id: number) => {
   if (eventValue === count.value) {
     count.value += 1;
-    return testStore.questionsBankByDiscipline.forEach((el) => el.competence_id === id && (el.query_count += 1));
+    return testStore.questionsBankByDiscipline.forEach((el) =>
+      el.competence_id === id && (el.query_count += 1));
   }
   if (eventValue === null) {
     count.value = 0;
-    return testStore.questionsBankByDiscipline.forEach((el) => el.competence_id === id && (el.query_count = 0));
+    return testStore.questionsBankByDiscipline.forEach((el) =>
+      el.competence_id === id && (el.query_count = 0));
   }
   if (eventValue < count.value) {
     if (count.value > 0) {
       count.value -= 1;
-      return testStore.questionsBankByDiscipline.forEach((el) => el.competence_id === id && (el.query_count -= 1));
+      return testStore.questionsBankByDiscipline.forEach((el) =>
+        el.competence_id === id && (el.query_count -= 1));
     }
   }
   count.value += 1;
-  testStore.questionsBankByDiscipline.forEach((el) => el.competence_id === id && (el.query_count += 1));
+  testStore.questionsBankByDiscipline.forEach((el) =>
+    el.competence_id === id && (el.query_count += 1));
 };
 </script>
 

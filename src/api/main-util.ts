@@ -2,11 +2,6 @@ import axios from 'axios';
 
 import Router from '~/routes';
 
-export const toFormData = (data: Record<string, string | File>) => Object.entries(data).reduce((acc, el) => {
-  acc.set(el[0], el[1]);
-  return acc;
-}, new FormData());
-
 const isObject = (o: any) => o === Object(o) && !Array.isArray(o) && typeof o !== 'function';
 
 export const toCamelCase = (s: string) => s.replace(/([-_][a-z])/ig, ($1) => $1.toUpperCase()

@@ -7,7 +7,7 @@ import {
 import {defineStore} from 'pinia';
 import {RouteLocationNormalizedLoaded, Router} from 'vue-router';
 
-import Users from '~/api/users';
+import UsersService from '~/api/users.service';
 import {UsersModel} from '~/types/user';
 
 /* eslint-disable no-unused-vars */
@@ -39,8 +39,8 @@ export const useMainStore = defineStore('main', {
     },
 
     getAllUsers() {
-      const students = Users.getAllStudents().then(({data}) => data);
-      const developerTests = Users.getAllTeachers().then(({data}) => data);
+      const students = UsersService.getAllStudents().then(({data}) => data);
+      const developerTests = UsersService.getAllTeachers().then(({data}) => data);
       return Promise.all([students, developerTests])
         .then((users) => this.users = ([] as UsersModel[]).concat(...users))
         .catch(this.loader.error)
@@ -48,7 +48,7 @@ export const useMainStore = defineStore('main', {
     },
 
     deleteUser(user_uuid: string) {
-      Users.deleteUser(user_uuid)
+      UsersService.deleteUser(user_uuid)
         .then(() => this.users = this.users.filter((el) => el.uuid !== user_uuid))
         .catch(() => this.message.info('Пользователь удалён'));
     },

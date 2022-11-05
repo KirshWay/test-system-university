@@ -16,7 +16,7 @@ import {
   ref,
 } from 'vue';
 
-import Tests from '~/api/tests';
+import TestsService from '~/api/tests.service';
 import CardTest from '~/components/CardTest/CardTest.vue';
 import {useMainStore} from '~/store/main';
 import {useTestStore} from '~/store/test';
@@ -28,7 +28,7 @@ const testStore = useTestStore();
 
 const search = ref<string>('');
 
-Tests.getAllTest().then(({data}) => testStore.tests = data);
+TestsService.getAllTest().then(({data}) => testStore.tests = data);
 
 const filteredListTests = computed( () => testStore.tests.filter((el) => el.title.toLowerCase().includes(search.value.toLowerCase())));
 </script>

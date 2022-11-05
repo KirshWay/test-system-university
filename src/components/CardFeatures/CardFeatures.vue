@@ -41,14 +41,22 @@ const dataSpecializationsForForm = computed(() => featureStore.specializations.m
 
 const dataCompetenciesForForm = computed(() => featureStore.competencies.map((el) => ({label: el.code, value: el.id})));
 
+const textTooltip = computed(() => `Редактирование ${typeFeature === 'competence' ?
+  'компетенции' : typeFeature === 'specialization' ?
+    'специальности' : 'дисциплины'}`);
+
+const titleChangeFeature = computed(() => `Изменение ${typeFeature === 'competence' ?
+  'компетенции' : typeFeature === 'specialization' ?
+    'специальности' : 'дисциплины'}`);
+
 const getCompetencesBySpecialization = (value: number) => {
   featureStore.getCompetencesBySpecialization(value);
   featureStore.responseDiscipline.specialization.id = value;
   disciplineSelected.value = [];
 };
 
-watch(reactiveShowModal, (v) => {
-  if (v) {
+watch(reactiveShowModal, (view) => {
+  if (view) {
     disciplineSelected.value = featureStore.responseDiscipline.competences.map((el) => el.id);
   }
 });
@@ -93,9 +101,7 @@ watch(reactiveShowModal, (v) => {
               </template>
             </n-button>
           </template>
-          {{ `Редактирование ${typeFeature === 'competence' ?
-            'компетенции' : typeFeature === 'specialization' ?
-              'специальности' : 'дисциплины'}` }}
+          {{ textTooltip }}
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
@@ -118,9 +124,7 @@ watch(reactiveShowModal, (v) => {
     <n-modal
       v-model:show="featureStore.showModal"
       preset="card"
-      :title="`Изменение ${typeFeature === 'competence' ?
-        'компетенции' : typeFeature === 'specialization' ?
-          'специальности' : 'дисциплины'}`"
+      :title="titleChangeFeature"
       style="max-width: 500px"
     >
       <n-space vertical>

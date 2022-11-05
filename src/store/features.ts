@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 
-import Features from '~/api/features';
+import FeaturesService from '~/api/features.service';
 import {useMainStore} from '~/store/main';
 import {
   Competence,
@@ -21,7 +21,7 @@ export const useFeaturesStore = defineStore('features', {
   }),
   actions: {
     getAllSpecializations() {
-      Features.getAllSpecializations()
+      FeaturesService.getAllSpecializations()
         .then(({data}) => this.specializations = data);
     },
 
@@ -31,24 +31,24 @@ export const useFeaturesStore = defineStore('features', {
       this.typeResponse = typeFeature;
       switch (this.typeResponse) {
       case 'competence':
-        return Features.getOnceCompetence(idFeature)
+        return FeaturesService.getOnceCompetence(idFeature)
           .then(({data}) => {
             this.responseCompetence = data;
             this.showModal = true;
           })
           .catch(() => mainStore.message.error('Не получилось получить компетенцию'));
       case 'specialization':
-        return Features.getOnceSpecialization(idFeature)
+        return FeaturesService.getOnceSpecialization(idFeature)
           .then(({data}) => {
             this.responseSpecializations = data;
             this.showModal = true;
           })
           .catch(() => mainStore.message.error('Не получилось получить специальность'));
       case 'discipline':
-        return Features.getOnceDisciplines(idFeature)
+        return FeaturesService.getOnceDisciplines(idFeature)
           .then(({data}) => {
             this.responseDiscipline = data;
-            Features.getCompetencesBySpecialization(specId!)
+            FeaturesService.getCompetencesBySpecialization(specId!)
               .then(({data}) => this.competencies = data);
             this.showModal = true;
           })
@@ -62,7 +62,7 @@ export const useFeaturesStore = defineStore('features', {
       this.typeResponse = typeFeature;
       switch (this.typeResponse) {
       case 'competence':
-        return Features.updateCompetence(this.responseCompetence.id, this.responseCompetence.code, this.responseCompetence.specialization.id)
+        return FeaturesService.updateCompetence(this.responseCompetence.id, this.responseCompetence.code, this.responseCompetence.specialization.id)
           .then(({data}) => {
             this.responseCompetence = data;
             this.competencies.forEach((el) => {
@@ -72,7 +72,7 @@ export const useFeaturesStore = defineStore('features', {
           })
           .catch(() => mainStore.message.error('Не получилось получить компетенцию'));
       case 'specialization':
-        return Features.updateSpecialization(this.responseSpecializations.id, this.responseSpecializations.title, this.responseSpecializations.code)
+        return FeaturesService.updateSpecialization(this.responseSpecializations.id, this.responseSpecializations.title, this.responseSpecializations.code)
           .then(({data}) => {
             this.responseSpecializations = data;
             this.specializations.forEach((el) => {
@@ -85,7 +85,7 @@ export const useFeaturesStore = defineStore('features', {
           })
           .catch(() => mainStore.message.error('Не получилось получить специальность'));
       case 'discipline':
-        return Features.updateDisciplines(this.responseDiscipline.id, this.responseDiscipline.title, this.responseDiscipline.specialization.id, disciplineOptions)
+        return FeaturesService.updateDisciplines(this.responseDiscipline.id, this.responseDiscipline.title, this.responseDiscipline.specialization.id, disciplineOptions)
           .then(({data}) => {
             this.disciplines.forEach((el) => {
               if (el.id === data.id) {
@@ -99,7 +99,7 @@ export const useFeaturesStore = defineStore('features', {
     },
 
     getCompetencesBySpecialization(id: number) {
-      Features.getCompetencesBySpecialization(id)
+      FeaturesService.getCompetencesBySpecialization(id)
         .then(({data}) => this.competencies = data);
     },
 
@@ -109,27 +109,27 @@ export const useFeaturesStore = defineStore('features', {
       this.typeResponse = typeFeature;
       switch (this.typeResponse) {
       case 'competence':
-        return Features.deleteCompetence(featureId)
+        return FeaturesService.deleteCompetence(featureId)
           .then(() => this.competencies = this.competencies.filter((el) => el.id !== featureId))
           .catch(() => mainStore.message.error('Не получилось удалить компетенцию'));
       case 'specialization':
-        return Features.deleteSpecialization(featureId)
+        return FeaturesService.deleteSpecialization(featureId)
           .then(() => this.specializations = this.specializations.filter((el) => el.id !== featureId))
           .catch(() => mainStore.message.error('Не получилось удалить специальность'));
       case 'discipline':
-        return Features.deleteDisciplines(featureId)
+        return FeaturesService.deleteDisciplines(featureId)
           .then(() => this.disciplines = this.disciplines.filter((el) => el.id !== featureId))
           .catch(() => mainStore.message.error('Не получилось удалить дисциплину'));
       }
     },
 
     getAllCompetencies() {
-      Features.getAllCompetencies()
+      FeaturesService.getAllCompetencies()
         .then(({data}) => this.competencies = data);
     },
 
     getAllDisciplines() {
-      Features.getAllDisciplines()
+      FeaturesService.getAllDisciplines()
         .then(({data}) => this.disciplines = data);
     },
 

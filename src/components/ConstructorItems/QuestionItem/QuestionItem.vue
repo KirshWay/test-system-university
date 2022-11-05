@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import {
-  FileImage,
   Plus,
   Trash,
 } from '@vicons/fa';
 import {
   NButton,
   NIcon,
-  NImage,
   NInput,
   NP,
   NSelect,
@@ -39,27 +37,6 @@ const {question} = defineProps<{ question: Question }>();
 <template>
   <div>
     <template v-if="question.editable">
-      <n-image
-        width="100"
-        :src="question.image ? question.image : ''"
-      />
-      <n-button
-        class="constructor__button"
-        type="info"
-        dashed
-      >
-        <input
-          class="setImageInput"
-          accept="image/*"
-          type="file"
-        >
-        <template #icon>
-          <n-icon>
-            <FileImage />
-          </n-icon>
-        </template>
-        Добавить картнку для вопроса
-      </n-button>
       <n-input
         v-model:value="question.text"
         :on-blur="() => testStore.updateQuestion(question.text, question.uuidQuestion, question.typeAnswerQuestion)"

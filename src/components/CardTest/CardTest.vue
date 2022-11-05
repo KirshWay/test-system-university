@@ -16,9 +16,9 @@ import {
 } from 'naive-ui';
 import {ref} from 'vue';
 
-import PassingTest from '~/api/passingTest';
+import PassingTestService from '~/api/passingTest.service';
 import {useMainStore} from '~/store/main';
-import {usePassingTest} from '~/store/passingTest';
+import {usePassingTest} from '~/store/passing-Test';
 import {useTestStore} from '~/store/test';
 import {Test} from '~/types/test';
 
@@ -34,7 +34,7 @@ const passingTestStore = usePassingTest();
 const downloadResults = (uuidTesting: string) => {
   statusLoading.value = false;
   loader.start();
-  PassingTest.downloadExcel(uuidTesting)
+  PassingTestService.downloadExcel(uuidTesting)
     .then((response) => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');

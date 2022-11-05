@@ -10,7 +10,7 @@ import {
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 
-import Users from '~/api/users';
+import UsersService from '~/api/users.service';
 
 const loader = useLoadingBar();
 const router = useRouter();
@@ -20,7 +20,7 @@ if (localStorage.getItem('Authorization')) router.push('/');
 const message = useMessage();
 
 const submit = () => {
-  Users.signIn(email.value, password.value)
+  UsersService.signIn(email.value, password.value)
     .then(({data}) => {
       localStorage.setItem('Authorization', data.token);
       router.push('/');

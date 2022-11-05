@@ -12,7 +12,7 @@ import {
 import {computed, ref} from 'vue';
 import {useRoute} from 'vue-router';
 
-import Tests from '~/api/tests';
+import TestsService from '~/api/tests.service';
 import QuestionConstructor from '~/components/ConstructorItems/QuestionItem/QuestionItem.vue';
 import Competence from '~/components/ConstructorItems/СompetenceItem/СompetenceItem.vue';
 import {useMainStore} from '~/store/main';
@@ -29,7 +29,7 @@ const specializationChecked = computed(() => testStore.test.specialization && (s
 const choseSpecialization = (value: number) => {
   mainStore.message.info('При изменении специальности на другую, вопросы будут удалены');
   testStore.test.specialization = value;
-  Tests.updateTest(testStore.test.title, testStore.test.uuidTesting, value);
+  TestsService.updateTest(testStore.test.title, testStore.test.uuidTesting, value);
   testStore.getTest(route.params.id as string, '1');
 };
 

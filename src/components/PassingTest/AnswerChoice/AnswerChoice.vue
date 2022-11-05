@@ -5,7 +5,7 @@ import {
   NSpace,
 } from 'naive-ui';
 
-import {usePassingTest} from '~/store/passingTest';
+import {usePassingTest} from '~/store/passing-Test';
 import {Answer, Question} from '~/types/test';
 
 const {answer, question} = defineProps<{ answer: Answer, question: Question }>();
