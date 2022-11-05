@@ -11,10 +11,9 @@ import {
   computed, provide, ref,
 } from 'vue';
 
-import {useUser} from '~/store/user';
+import {useMainStore} from '~/store/main';
 
-const storeUser = useUser();
-
+const mainStore = useMainStore();
 
 const screenWidth = ref<number>(window.innerWidth);
 
@@ -26,7 +25,7 @@ window.addEventListener('resize', () => {
 </script>
 
 <template>
-  <n-config-provider :theme="storeUser.themeData" :theme-overrides="storeUser.themeOverrides">
+  <n-config-provider :theme="mainStore.themeData" :theme-overrides="mainStore.themeOverrides">
     <n-loading-bar-provider>
       <n-dialog-provider>
         <n-notification-provider>
@@ -88,5 +87,15 @@ a {
 .scale-enter-from,
 .scale-leave-to {
   opacity: 0;
+}
+
+.setImageInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer
 }
 </style>

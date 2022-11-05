@@ -16,19 +16,19 @@ import {
   ref,
 } from 'vue';
 
-import Tests from '~/api/tests';
+import TestsService from '~/api/tests.service';
 import CardTest from '~/components/CardTest/CardTest.vue';
+import {useMainStore} from '~/store/main';
 import {useTestStore} from '~/store/test';
-import {useUser} from '~/store/user';
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
-const storeUser = useUser();
+const mainStore = useMainStore();
 const testStore = useTestStore();
 
 const search = ref<string>('');
 
-Tests.getAllTest().then(({data}) => testStore.tests = data);
+TestsService.getAllTest().then(({data}) => testStore.tests = data);
 
 const filteredListTests = computed( () => testStore.tests.filter((el) => el.title.toLowerCase().includes(search.value.toLowerCase())));
 </script>
@@ -40,7 +40,7 @@ const filteredListTests = computed( () => testStore.tests.filter((el) => el.titl
         Тесты
       </n-h1>
       <n-button
-        v-if="['TEACHER', 'DEAN'].includes(storeUser.user.status)"
+        v-if="['TEACHER', 'DEAN'].includes(mainStore.user.status)"
         @click="testStore.createTest"
         type="success"
         secondary
@@ -58,7 +58,7 @@ const filteredListTests = computed( () => testStore.tests.filter((el) => el.titl
         </n-tooltip>
       </n-button>
     </n-space>
-    <template v-if="['TEACHER', 'DEAN'].includes(storeUser.user.status)">
+    <template v-if="['TEACHER', 'DEAN'].includes(mainStore.user.status)">
       <n-card title="Поиск теста" style="margin-bottom: 24px">
         <n-space vertical>
           <n-input v-model:value="search" placeholder="Тест" />
@@ -70,7 +70,7 @@ const filteredListTests = computed( () => testStore.tests.filter((el) => el.titl
         :test="test"
       />
     </template>
-    <template v-if="storeUser.user.status === 'STUDENT'">
+    <template v-if="mainStore.user.status === 'STUDENT'">
       <CardTest
         v-for="test in filteredListTests"
         :key="test.uuidTesting"

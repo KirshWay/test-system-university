@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 
-import PassingTest from '~/api/passingTest';
-import {useUser} from '~/store/user';
+import PassingTestService from '~/api/passingTest.service';
+import {useMainStore} from '~/store/main';
 import {Question, Test} from '~/types/test';
 
 export const usePassingTest = defineStore('usePassingTest', {
@@ -15,15 +15,15 @@ export const usePassingTest = defineStore('usePassingTest', {
   }),
   actions: {
     getTest(id: string, mode: '0' | '1') {
-      PassingTest.getTest(id, mode).then(({data}) => this.test = data);
+      PassingTestService.getTest(id, mode).then(({data}) => this.test = data);
     },
 
     startSession(uuidTesting: string) {
-      const storeUser = useUser();
+      const mainStore = useMainStore();
 
-      PassingTest.startTestingSession(uuidTesting)
+      PassingTestService.startTestingSession(uuidTesting)
         .then(({data}) => this.sessionUuid = data.sessionUuid)
-        .catch(() => storeUser.message.error('Не найден индификатор теста'));
+        .catch(() => mainStore.message.error('Не найден индификатор теста'));
     },
 
     chooseAnswer(uuidAnswer: string, question: Question, type: 'checkbox' | 'radio') {
@@ -43,14 +43,14 @@ export const usePassingTest = defineStore('usePassingTest', {
     },
 
     sendingAnswers() {
-      const storeUser = useUser();
+      const mainStore = useMainStore();
 
       if (!this.questionType) {
-        PassingTest.answerQuestion(this.sessionUuid, this.questionUuid, this.answerRadio)
-          .catch(() => storeUser.message.error('Произошла ошибка при выборе ответа'));
+        PassingTestService.answerQuestion(this.sessionUuid, this.questionUuid, this.answerRadio)
+          .catch(() => mainStore.message.error('Произошла ошибка при выборе ответа'));
       } else {
-        PassingTest.answerQuestion(this.sessionUuid, this.questionUuid, this.answerCheckBox)
-          .catch(() => storeUser.message.error('Произошла ошибка при выборе ответа'));
+        PassingTestService.answerQuestion(this.sessionUuid, this.questionUuid, this.answerCheckBox)
+          .catch(() => mainStore.message.error('Произошла ошибка при выборе ответа'));
       }
     },
   },

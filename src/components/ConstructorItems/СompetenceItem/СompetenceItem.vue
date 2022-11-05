@@ -12,8 +12,8 @@ import {
 } from 'naive-ui';
 import {computed, ref} from 'vue';
 
-import Bank from '~/api/bank';
-import Features from '~/api/features';
+import BankService from '~/api/bank.service';
+import FeaturesService from '~/api/features.service';
 import ListCompetence from '~/components/ConstructorItems/СompetenceItem/ListCompetence.vue';
 import {useTestStore} from '~/store/test';
 const testStore = useTestStore();
@@ -25,7 +25,7 @@ const numberCompetence = ref<number>(0);
 const switcherCompetenceChoice = ref<boolean>(false);
 
 const sendToBankByCompetence = (competence: number, quantityCompetences: number ) => {
-  Bank.addQuestionsBankByCompetence(competence, quantityCompetences, testStore.test.uuidTesting)
+  BankService.addQuestionsBankByCompetence(competence, quantityCompetences, testStore.test.uuidTesting)
     .then(() => testStore.getTest(testStore.test.uuidTesting, '1'));
   selectedCompetence.value = null;
   numberCompetence.value = 0;
@@ -34,14 +34,14 @@ const sendToBankByCompetence = (competence: number, quantityCompetences: number 
 
 const sentToBankDiscipline = () => {
   const result = testStore.questionsBankByDiscipline.map((el) => ({competenceId: el.competence_id, queryCount: el.query_count}));
-  Bank.addQuestionsBankByDiscipline(testStore.test.uuidTesting, result)
+  BankService.addQuestionsBankByDiscipline(testStore.test.uuidTesting, result)
     .then(() => testStore.getTest(testStore.test.uuidTesting, '1'));
   testStore.showBankMenu = !testStore.showBankMenu;
 };
 
-const competences = Features.getCompetencesBySpecialization(testStore.test.specialization.id)
+const competences = FeaturesService.getCompetencesBySpecialization(testStore.test.specialization.id)
   .then(({data}) => testStore.responseCompetences = data);
-const disciplines = Features.getDisciplinesBySpecialization(testStore.test.specialization.id)
+const disciplines = FeaturesService.getDisciplinesBySpecialization(testStore.test.specialization.id)
   .then(({data}) => testStore.responseDisciplines = data);
 
 Promise.all([competences, disciplines]);

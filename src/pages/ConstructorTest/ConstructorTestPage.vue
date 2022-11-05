@@ -12,24 +12,24 @@ import {
 import {computed, ref} from 'vue';
 import {useRoute} from 'vue-router';
 
-import Tests from '~/api/tests';
+import TestsService from '~/api/tests.service';
 import QuestionConstructor from '~/components/ConstructorItems/QuestionItem/QuestionItem.vue';
 import Competence from '~/components/ConstructorItems/СompetenceItem/СompetenceItem.vue';
+import {useMainStore} from '~/store/main';
 import {useTestStore} from '~/store/test';
-import {useUser} from '~/store/user';
 
 const specialization = ref<number | null>(null);
 
 const testStore = useTestStore();
-const storeUser = useUser();
+const mainStore = useMainStore();
 const route = useRoute();
 
 const specializationChecked = computed(() => testStore.test.specialization && (specialization.value = testStore.test.specialization.id));
 
 const choseSpecialization = (value: number) => {
-  storeUser.message.info('При изменении специальности на другую, вопросы будут удалены');
+  mainStore.message.info('При изменении специальности на другую, вопросы будут удалены');
   testStore.test.specialization = value;
-  Tests.updateTest(testStore.test.title, testStore.test.uuidTesting, value);
+  TestsService.updateTest(testStore.test.title, testStore.test.uuidTesting, value);
   testStore.getTest(route.params.id as string, '1');
 };
 

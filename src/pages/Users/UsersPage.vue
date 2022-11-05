@@ -21,18 +21,18 @@ import {
 } from 'vue';
 import {useRouter} from 'vue-router';
 
-import Users from '~/api/users';
+import UsersService from '~/api/users.service';
 import CardUser from '~/components/CardUser/CardUser.vue';
-import {TYPES_USERS_SELECT} from '~/constans/usersSelect';
-import {useUser} from '~/store/user';
+import {USERS_SELECT} from '~/constans';
+import {useMainStore} from '~/store/main';
 
 const message = useMessage();
 const loader = useLoadingBar();
 
 const router = useRouter();
-const storeUser = useUser();
+const mainStore = useMainStore();
 
-if (storeUser.user.status === 'STUDENT') {
+if (mainStore.user.status === 'STUDENT') {
   router.push('/');
 }
 
@@ -52,7 +52,7 @@ const email = ref<string>('');
 const password = ref<string>('');
 
 const submit = () => {
-  Users.createUser(
+  UsersService.createUser(
     username.value,
     email.value,
     firstName.value,
@@ -63,7 +63,7 @@ const submit = () => {
   )
     .then(() => {
       showModal.value = false;
-      storeUser.getAllUsers();
+      mainStore.getAllUsers();
     })
     .catch(loader.error)
     .finally(() => {
@@ -72,16 +72,16 @@ const submit = () => {
     });
 };
 
-storeUser.getAllUsers();
+mainStore.getAllUsers();
 
 const filteredListUsers = computed(() =>
-  storeUser.users.filter((el) =>
+  mainStore.users.filter((el) =>
     (searchType.value === 'all' || el.status === searchType.value) &&
         (el.email?.toLowerCase().includes(search.value.toLowerCase()) ||
             el.lastName?.toLowerCase().includes(search.value.toLowerCase()) ||
             el.username?.toLowerCase().includes(search.value.toLowerCase()))));
 
-const createdSortedSelectUsers = computed(() => TYPES_USERS_SELECT.filter((el) => el.value !== 'all'));
+const createdSortedSelectUsers = computed(() => USERS_SELECT.filter((el) => el.value !== 'all'));
 </script>
 
 <template>
@@ -106,7 +106,7 @@ const createdSortedSelectUsers = computed(() => TYPES_USERS_SELECT.filter((el) =
         <n-input v-model:value="search" placeholder="Пользователь" />
         <n-select
           v-model:value="searchType"
-          :options="TYPES_USERS_SELECT"
+          :options="USERS_SELECT"
           style="width: 200px"
           filterable
         />

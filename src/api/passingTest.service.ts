@@ -1,6 +1,6 @@
-import $axios from './index';
+import $axios from './main-util';
 
-const PassingTest = {
+const PassingTestService = {
   getTest: (uuidTesting: string, mode: '0' | '1') => $axios.get(`/test/get_test/${uuidTesting}/${mode}`),
   startTestingSession: (testUuid: string) => $axios.post(`/results/start_testing_session/`, {testUuid} ),
   finishTestingSession: (sessionUuid: string) => $axios.post(`/results/finish_testing_session/`, {sessionUuid} ),
@@ -13,4 +13,4 @@ const PassingTest = {
   }),
 };
 
-export default PassingTest;
+export default PassingTestService;

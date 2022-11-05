@@ -9,28 +9,31 @@ import {
   NSpace,
   NTooltip,
 } from 'naive-ui';
+import {computed} from 'vue';
 
-import {useUser} from '~/store/user';
+import {useMainStore} from '~/store/main';
 import {UsersModel} from '~/types/user';
-import {generateStatus} from '~/utils/status';
+import {generateStatus} from '~/utils/generate-status';
 
-const storeUser = useUser();
+const mainStore = useMainStore();
 
 const {user} = defineProps<{ user: UsersModel }>();
+
+const titleCard = computed(() => user.lastName && user.firstName ?
+  `${user.lastName} ${user.firstName} ${!user.patronymic ? '' : user.patronymic}` :
+  `Неизвестно полное ФИО`);
 </script>
 
 <template>
   <div>
     <n-card
-      :title="user.lastName && user.firstName ?
-        `${user.lastName} ${user.firstName} ${!user.patronymic ? '' : user.patronymic}`
-        : `Неизвестно полное ФИО`"
+      :title="titleCard"
     >
       <template #header-extra>
         <n-button-group align="center">
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button @click="storeUser.deleteUser(user.uuid)" type="error">
+              <n-button @click="mainStore.deleteUser(user.uuid)" type="error">
                 <template #icon>
                   <n-icon>
                     <Trash />

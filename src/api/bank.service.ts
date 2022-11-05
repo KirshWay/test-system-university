@@ -1,6 +1,6 @@
-import $axios from './index';
+import $axios from './main-util';
 
-const Bank = {
+const BankService = {
   addQuestionsBankByCompetence: (competenceId: number, questionsCount: number, uuidTesting: string ) => $axios.post(`/test/add_questions_from_bank_by_competence/`, {
     competenceId,
     questionsCount,
@@ -14,4 +14,4 @@ const Bank = {
 };
 
 
-export default Bank;
+export default BankService;

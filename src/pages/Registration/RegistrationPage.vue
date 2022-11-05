@@ -9,7 +9,7 @@ import {
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 
-import Users from '~/api/users';
+import UsersService from '~/api/users.service';
 
 const loader = useLoadingBar();
 const router = useRouter();
@@ -27,7 +27,7 @@ const accessCode = ref<string>('');
 
 const submit = () => {
   loader.start();
-  Users.signUpDean(email.value, firstName.value, lastName.value, patronymiс.value, password.value, accessCode.value).
+  UsersService.signUpDean(email.value, firstName.value, lastName.value, patronymiс.value, password.value, accessCode.value).
     then(() => {
       router.push('/');
     }).catch(loader.error).finally(loader.finish);

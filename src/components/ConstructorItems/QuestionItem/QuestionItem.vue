@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import {Trash} from '@vicons/fa';
-import {Plus} from '@vicons/fa';
+import {
+  Plus,
+  Trash,
+} from '@vicons/fa';
 import {
   NButton,
   NIcon,

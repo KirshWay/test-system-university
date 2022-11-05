@@ -16,10 +16,10 @@ import {
 } from 'naive-ui';
 import {ref} from 'vue';
 
-import PassingTest from '~/api/passingTest';
-import {usePassingTest} from '~/store/passingTest';
+import PassingTestService from '~/api/passingTest.service';
+import {useMainStore} from '~/store/main';
+import {usePassingTest} from '~/store/passing-Test';
 import {useTestStore} from '~/store/test';
-import {useUser} from '~/store/user';
 import {Test} from '~/types/test';
 
 const {test} = defineProps<{ test: Test }>();
@@ -28,13 +28,13 @@ const loader = useLoadingBar();
 const message = useMessage();
 
 const testStore = useTestStore();
-const storeUser = useUser();
+const mainStore = useMainStore();
 const passingTestStore = usePassingTest();
 
 const downloadResults = (uuidTesting: string) => {
   statusLoading.value = false;
   loader.start();
-  PassingTest.downloadExcel(uuidTesting)
+  PassingTestService.downloadExcel(uuidTesting)
     .then((response) => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
@@ -58,7 +58,7 @@ const downloadResults = (uuidTesting: string) => {
       <n-p style="margin: 0">
         <strong>Название теста: </strong> {{ test.title }}
       </n-p>
-      <n-button-group v-if="storeUser.user.status === 'STUDENT'">
+      <n-button-group v-if="mainStore.user.status === 'STUDENT'">
         <router-link :to="`/test/${test.uuidTesting}`">
           <n-tooltip trigger="hover">
             <template #trigger>
