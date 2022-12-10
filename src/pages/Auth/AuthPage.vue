@@ -19,7 +19,7 @@ if (localStorage.getItem('Authorization')) router.push('/');
 
 const message = useMessage();
 
-const submit = () => {
+const handleSubmit = () => {
   UsersService.signIn(email.value, password.value)
     .then(({data}) => {
       localStorage.setItem('Authorization', data.token);
@@ -39,7 +39,7 @@ const password = ref<string>('');
 <template>
   <div class="authPage">
     <n-card title="Система тестирования ГМУ Ушакова">
-      <form @submit.prevent="submit">
+      <form @submit.prevent="handleSubmit">
         <n-space vertical>
           Введите почту
           <n-input placeholder="Почта" name="email" v-model:value="email" />

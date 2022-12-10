@@ -65,9 +65,11 @@ const createDiscipline = () => {
     .catch(() => message.error('Не получилось создать дисциплину'));
 };
 
-const dataSpecializationsForForm = computed(() => featureStore.specializations.map((el) => ({label: el.title, value: el.id})));
+const dataSpecializationsForForm = computed(() => featureStore
+  .specializations.map((el) => ({label: el.title, value: el.id})));
 
-const dataCompetenciesForForm = computed(() => featureStore.competencies.map((el) => ({label: el.code, value: el.id})));
+const dataCompetenciesForForm = computed(() => featureStore
+  .competencies.map((el) => ({label: el.code, value: el.id})));
 
 const getCompetencesBySpecialization = (value: number) => {
   featureStore.getCompetencesBySpecialization(value);
