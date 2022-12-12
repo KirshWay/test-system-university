@@ -8,5 +8,5 @@ export type User = {
     lastName: string,
     patronymic: string,
     status: StatusUser,
-    uuid?: string
+    uuid?: any
 };
