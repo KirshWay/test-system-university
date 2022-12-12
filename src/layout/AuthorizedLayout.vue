@@ -71,23 +71,17 @@ const onSelectDropdownOption = (key: string) => {
   }
 };
 
-const filteredButtons = computed(() => {
-  if (mainStore.user.status === 'DEAN') {
-    return LINKS.filter((button) => route.path !== '/' || button.key !== 'main');
-  }
-
-  if (mainStore.user.status === 'TEACHER') {
-    return LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') &&
-      !(['users'].includes(button.key)));
-  }
-
-  if (mainStore.user.status === 'STUDENT') {
-    return LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') &&
-      !(['users', 'test-constructor', 'features'].includes(button.key)));
-  }
-
-  return null;
-});
+const filteredButtons = computed(() =>
+  mainStore.user.status === 'DEAN' ?
+    LINKS.filter((button) => route.path !== '/' || button.key !== 'main') :
+    mainStore.user.status === 'TEACHER' ?
+      LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') &&
+        !(['users'].includes(button.key))) :
+      mainStore.user.status === 'STUDENT' ?
+        LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') &&
+          !(['users', 'test-constructor', 'features'].includes(button.key))) :
+          null!,
+);
 </script>
 
 <template>
