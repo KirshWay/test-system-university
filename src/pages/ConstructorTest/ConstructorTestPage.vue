@@ -12,7 +12,7 @@ import {
 import {computed, ref} from 'vue';
 import {useRoute} from 'vue-router';
 
-import TestsService from '~/api/tests.service';
+import TestsService from '~/api/testsService';
 import QuestionConstructor from '~/components/ConstructorItems/QuestionItem/QuestionItem.vue';
 import Competence from '~/components/ConstructorItems/СompetenceItem/СompetenceItem.vue';
 import {useMainStore} from '~/store/main';

@@ -1,15 +1,15 @@
 import {createRouter, createWebHistory} from 'vue-router';
 
-import AuthorizedLayout from './layout/AuthorizedLayout.vue';
-import AuthPage from './pages/Auth/AuthPage.vue';
-import ConstructorTestPage from './pages/ConstructorTest/ConstructorTestPage.vue';
-import FeaturesPage from './pages/Features/FeaturesPage.vue';
-import MainPage from './pages/Main/MainPage.vue';
-import NotFoundPage from './pages/NotFound/NotFoundPage.vue';
-import RegistrationPage from './pages/Registration/RegistrationPage.vue';
-import SettingsPage from './pages/Settings/SettingsPage.vue';
-import TestPage from './pages/Test/TestPage.vue';
-import UsersPage from './pages/Users/UsersPage.vue';
+import AuthorizedLayout from '~/layout/AuthorizedLayout.vue';
+import AuthPage from '~/pages/Auth/AuthPage.vue';
+import ConstructorTestPage from '~/pages/ConstructorTest/ConstructorTestPage.vue';
+import FeaturesPage from '~/pages/Features/FeaturesPage.vue';
+import MainPage from '~/pages/Main/MainPage.vue';
+import NotFoundPage from '~/pages/NotFound/NotFoundPage.vue';
+import RegistrationPage from '~/pages/Registration/RegistrationPage.vue';
+import SettingsPage from '~/pages/Settings/SettingsPage.vue';
+import TestPage from '~/pages/Test/TestPage.vue';
+import UsersPage from '~/pages/Users/UsersPage.vue';
 
 const routes = [
   {

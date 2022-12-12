@@ -1,4 +1,4 @@
-import $axios from './main-util';
+import $axios from '~/utils/api/get-instance';
 
 const TestsService = {
   getAllTest: () => $axios.get(`/test/list_test/`),

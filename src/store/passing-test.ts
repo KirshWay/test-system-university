@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 
-import PassingTestService from '~/api/passingTest.service';
+import PassingTestService from '~/api/passingTestService';
 import {useMainStore} from '~/store/main';
 import {Question, Test} from '~/types/test';
 

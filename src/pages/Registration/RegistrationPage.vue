@@ -9,7 +9,7 @@ import {
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 
-import UsersService from '~/api/users.service';
+import UsersService from '~/api/usersService';
 
 const loader = useLoadingBar();
 const router = useRouter();
@@ -18,7 +18,7 @@ if (localStorage.getItem('Authorization')) router.push('/');
 
 const firstName = ref<string>('');
 const lastName = ref<string>('');
-const patronymiс = ref<string>('');
+const patronymic = ref<string>('');
 
 const email = ref<string>('');
 const password = ref<string>('');
@@ -27,10 +27,12 @@ const accessCode = ref<string>('');
 
 const submit = () => {
   loader.start();
-  UsersService.signUpDean(email.value, firstName.value, lastName.value, patronymiс.value, password.value, accessCode.value).
+  UsersService.signUpDean(email.value, firstName.value, lastName.value, patronymic.value, password.value, accessCode.value).
     then(() => {
       router.push('/');
-    }).catch(loader.error).finally(loader.finish);
+    })
+    .catch(loader.error)
+    .finally(loader.finish);
 };
 </script>
 
@@ -44,7 +46,7 @@ const submit = () => {
           Фамилия
           <n-input placeholder="Имя" name="name" v-model:value="lastName" />
           Отчество
-          <n-input placeholder="Имя" name="name" v-model:value="patronymiс" />
+          <n-input placeholder="Имя" name="name" v-model:value="patronymic" />
           Почта
           <n-input placeholder="Почта" name="email" v-model:value="email" />
           Пароль

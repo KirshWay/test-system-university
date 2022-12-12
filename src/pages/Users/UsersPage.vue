@@ -21,9 +21,9 @@ import {
 } from 'vue';
 import {useRouter} from 'vue-router';
 
-import UsersService from '~/api/users.service';
+import UsersService from '~/api/usersService';
 import CardUser from '~/components/CardUser/CardUser.vue';
-import {USERS_SELECT} from '~/constans';
+import {USERS_SELECT} from '~/constans/ui';
 import {useMainStore} from '~/store/main';
 
 const message = useMessage();

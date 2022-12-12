@@ -12,8 +12,8 @@ import {
 } from 'naive-ui';
 import {computed, ref} from 'vue';
 
-import BankService from '~/api/bank.service';
-import FeaturesService from '~/api/features.service';
+import BankService from '~/api/bankService';
+import FeaturesService from '~/api/featuresService';
 import ListCompetence from '~/components/ConstructorItems/СompetenceItem/ListCompetence.vue';
 import {useTestStore} from '~/store/test';
 const testStore = useTestStore();

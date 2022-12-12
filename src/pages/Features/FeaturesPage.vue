@@ -13,7 +13,7 @@ import {
 } from 'naive-ui';
 import {computed, ref} from 'vue';
 
-import FeaturesService from '~/api/features.service';
+import FeaturesService from '~/api/featuresService';
 import CardFeatures from '~/components/CardFeatures/CardFeatures.vue';
 import {useFeaturesStore} from '~/store/features';
 

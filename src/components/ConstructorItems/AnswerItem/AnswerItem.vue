@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import {Check, Trash} from '@vicons/fa';
+import {Trash} from '@vicons/fa';
 import {
   NButton,
   NCheckbox,
   NIcon,
   NInput,
-  NLi,
   NRadio,
   NSpace,
-  NUl,
 } from 'naive-ui';
 
 import {useTestStore} from '~/store/test';

@@ -1,4 +1,4 @@
-import $axios from './main-util';
+import $axios from '~/utils/api/get-instance';
 
 const PassingTestService = {
   getTest: (uuidTesting: string, mode: '0' | '1') => $axios.get(`/test/get_test/${uuidTesting}/${mode}`),

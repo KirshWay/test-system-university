@@ -10,10 +10,12 @@ import {
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 
-import UsersService from '~/api/users.service';
+import UsersService from '~/api/usersService';
 
 const loader = useLoadingBar();
 const router = useRouter();
+const email = ref<string>('');
+const password = ref<string>('');
 
 if (localStorage.getItem('Authorization')) router.push('/');
 
@@ -31,9 +33,6 @@ const handleSubmit = () => {
     })
     .finally(loader.finish);
 };
-
-const email = ref<string>('');
-const password = ref<string>('');
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 
-import FeaturesService from '~/api/features.service';
-import TestsService from '~/api/tests.service';
+import FeaturesService from '~/api/featuresService';
+import TestsService from '~/api/testsService';
 import {useMainStore} from '~/store/main';
 import {
   Competence, Discipline, Specialization,
