@@ -13,7 +13,7 @@ import {
 } from 'naive-ui';
 import {computed, ref} from 'vue';
 
-import FeaturesService from '~/api/features.service';
+import FeaturesService from '~/api/featuresService';
 import CardFeatures from '~/components/CardFeatures/CardFeatures.vue';
 import {useFeaturesStore} from '~/store/features';
 
@@ -65,9 +65,11 @@ const createDiscipline = () => {
     .catch(() => message.error('Не получилось создать дисциплину'));
 };
 
-const dataSpecializationsForForm = computed(() => featureStore.specializations.map((el) => ({label: el.title, value: el.id})));
+const dataSpecializationsForForm = computed(() => featureStore
+  .specializations.map((el) => ({label: el.title, value: el.id})));
 
-const dataCompetenciesForForm = computed(() => featureStore.competencies.map((el) => ({label: el.code, value: el.id})));
+const dataCompetenciesForForm = computed(() => featureStore
+  .competencies.map((el) => ({label: el.code, value: el.id})));
 
 const getCompetencesBySpecialization = (value: number) => {
   featureStore.getCompetencesBySpecialization(value);

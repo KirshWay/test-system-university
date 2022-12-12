@@ -1,10 +1,12 @@
-export type UsersModel = {
+type StatusUser = 'TEACHER' | 'STUDENT' | 'DEAN'
+
+export type User = {
     avatar?: string,
     username: string,
     email: string,
     firstName: string,
     lastName: string,
     patronymic: string,
-    status: string,
-    uuid?: any
+    status: StatusUser,
+    uuid?: string
 };

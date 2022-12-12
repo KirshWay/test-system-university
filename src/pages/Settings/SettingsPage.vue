@@ -13,9 +13,9 @@ import {
   ref,
 } from 'vue';
 
-import UsersService from '~/api/users.service';
+import UsersService from '~/api/usersService';
 import {useMainStore} from '~/store/main';
-import {createFormData, generateStatus} from '~/utils';
+import {createFormData, generateStatus} from '~/utils/helpers';
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 

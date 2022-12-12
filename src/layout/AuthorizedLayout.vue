@@ -28,9 +28,9 @@ import {
   useRouter,
 } from 'vue-router';
 
-import UsersService from '~/api/users.service';
+import UsersService from '~/api/usersService';
 import ThemeToggle from '~/components/ThemeToggle/ThemeToggle.vue';
-import {LINKS, OPTIONS} from '~/constans';
+import {LINKS, OPTIONS} from '~/constans/ui';
 import {useMainStore} from '~/store/main';
 
 const router = useRouter();
@@ -71,17 +71,23 @@ const onSelectDropdownOption = (key: string) => {
   }
 };
 
-const filteredButtons = computed(() =>
-  mainStore.user.status === 'DEAN' ?
-    LINKS.filter((button) => route.path !== '/' || button.key !== 'main') :
-    mainStore.user.status === 'TEACHER' ?
-      LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') &&
-          !(['users'].includes(button.key))) :
-      mainStore.user.status === 'STUDENT' ?
-        LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') &&
-            !(['users', 'test-constructor', 'features'].includes(button.key))) :
-        null!,
-);
+const filteredButtons = computed(() => {
+  if (mainStore.user.status === 'DEAN') {
+    return LINKS.filter((button) => route.path !== '/' || button.key !== 'main');
+  }
+
+  if (mainStore.user.status === 'TEACHER') {
+    return LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') &&
+      !(['users'].includes(button.key)));
+  }
+
+  if (mainStore.user.status === 'STUDENT') {
+    return LINKS.filter((button) => (route.path !== '/' || button.key !== 'main') &&
+      !(['users', 'test-constructor', 'features'].includes(button.key)));
+  }
+
+  return null;
+});
 </script>
 
 <template>

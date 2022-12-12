@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 
-import FeaturesService from '~/api/features.service';
+import FeaturesService from '~/api/featuresService';
 import {useMainStore} from '~/store/main';
 import {
   Competence,

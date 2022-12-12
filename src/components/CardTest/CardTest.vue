@@ -16,9 +16,9 @@ import {
 } from 'naive-ui';
 import {ref} from 'vue';
 
-import PassingTestService from '~/api/passingTest.service';
+import PassingTestService from '~/api/passingTestService';
 import {useMainStore} from '~/store/main';
-import {usePassingTest} from '~/store/passing-Test';
+import {usePassingTest} from '~/store/passing-test';
 import {useTestStore} from '~/store/test';
 import {Test} from '~/types/test';
 

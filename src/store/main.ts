@@ -7,8 +7,8 @@ import {
 import {defineStore} from 'pinia';
 import {RouteLocationNormalizedLoaded, Router} from 'vue-router';
 
-import UsersService from '~/api/users.service';
-import {UsersModel} from '~/types/user';
+import UsersService from '~/api/usersService';
+import {User} from '~/types/user';
 
 /* eslint-disable no-unused-vars */
 export enum ThemeEnum {
@@ -23,8 +23,8 @@ export const useMainStore = defineStore('main', {
     const theme: ThemeEnum = localStorage.theme || ThemeEnum.Dark;
 
     return {
-      user: {} as UsersModel,
-      users: [] as UsersModel[],
+      user: {} as User,
+      users: [] as User[],
       loader: {} as LoadingBarApi,
       message: {} as MessageApi,
       route: {} as RouteLocationNormalizedLoaded,
@@ -34,7 +34,7 @@ export const useMainStore = defineStore('main', {
     };
   },
   actions: {
-    setUser(value: UsersModel) {
+    setUser(value: User) {
       this.user = value;
     },
 
@@ -42,7 +42,7 @@ export const useMainStore = defineStore('main', {
       const students = UsersService.getAllStudents().then(({data}) => data);
       const developerTests = UsersService.getAllTeachers().then(({data}) => data);
       return Promise.all([students, developerTests])
-        .then((users) => this.users = ([] as UsersModel[]).concat(...users))
+        .then((users) => this.users = ([] as User[]).concat(...users))
         .catch(this.loader.error)
         .finally(this.loader.finish);
     },

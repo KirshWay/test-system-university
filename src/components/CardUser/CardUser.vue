@@ -12,12 +12,12 @@ import {
 import {computed} from 'vue';
 
 import {useMainStore} from '~/store/main';
-import {UsersModel} from '~/types/user';
-import {generateStatus} from '~/utils/generate-status';
+import {User} from '~/types/user';
+import {generateStatus} from '~/utils/helpers/generate-status';
 
 const mainStore = useMainStore();
 
-const {user} = defineProps<{ user: UsersModel }>();
+const {user} = defineProps<{ user: User }>();
 
 const titleCard = computed(() => user.lastName && user.firstName ?
   `${user.lastName} ${user.firstName} ${!user.patronymic ? '' : user.patronymic}` :

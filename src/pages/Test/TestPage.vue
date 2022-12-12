@@ -11,15 +11,13 @@ import {
 } from 'vue';
 import {useRoute} from 'vue-router';
 
-import PassingTestService from '~/api/passingTest.service';
+import PassingTestService from '~/api/passingTestService';
 import QuestionCard from '~/components/PassingTest/QuestionCard/QuestionCard.vue';
-import {usePassingTest} from '~/store/passing-Test';
+import {usePassingTest} from '~/store/passing-test';
 
 const route = useRoute();
 
 const passingTestStore = usePassingTest();
-
-passingTestStore.getTest(route.params.id as string, '0');
 
 const indexActiveQuestion = ref<number>(0);
 
@@ -27,6 +25,8 @@ const activeQuestion = computed(() => passingTestStore.test.questions?.[indexAct
 
 const checkStatusСhoice = computed(() => passingTestStore.test
   .questions?.[indexActiveQuestion.value]?.answers.some((statusEl) => statusEl.correctAnswer));
+
+passingTestStore.getTest(route.params.id as string, '0');
 
 watch(indexActiveQuestion, () => {
   if (indexActiveQuestion.value + 1 > passingTestStore.test.questions?.length) {

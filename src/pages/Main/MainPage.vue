@@ -16,17 +16,17 @@ import {
   ref,
 } from 'vue';
 
-import TestsService from '~/api/tests.service';
+import TestsService from '~/api/testsService';
 import CardTest from '~/components/CardTest/CardTest.vue';
 import {useMainStore} from '~/store/main';
 import {useTestStore} from '~/store/test';
+
+const search = ref<string>('');
 
 const screenWidth = inject<ComputedRef<number>>('screenWidth')!;
 
 const mainStore = useMainStore();
 const testStore = useTestStore();
-
-const search = ref<string>('');
 
 TestsService.getAllTest().then(({data}) => testStore.tests = data);
 

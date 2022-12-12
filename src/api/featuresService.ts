@@ -1,8 +1,7 @@
 import {
   Competence, Discipline, Specialization,
 } from '~/types/feature';
-
-import $axios from './main-util';
+import $axios from '~/utils/api/get-instance';
 
 const FeaturesService = {
   getAllSpecializations: () => $axios.get<Specialization[]>(`/features/specialization/`),
