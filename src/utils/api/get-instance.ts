@@ -42,10 +42,7 @@ $axios.interceptors.response.use((response) => {
 
 $axios.interceptors.request.use((request) => {
   if (localStorage.Authorization) {
-    request.headers = {
-      ...(request.headers || {}),
-      Authorization: `JWT ${localStorage.Authorization}`,
-    };
+    request.headers.set('Authorization', `JWT ${localStorage.Authorization}`);
   }
   if (!(request.data instanceof FormData)) request.data = caseTransfer(request.data, 'Snake');
   return request;
